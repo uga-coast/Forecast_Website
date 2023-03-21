@@ -1,1 +1,24 @@
 # Forecast_Website
+## How to Host the Site
+### First Time
+Change to the correct directory
+```
+cd map
+```
+Install
+```
+npm install react react-dom leaflet
+```
+```
+npm install react-leaflet
+```
+That is the end of the install process.
+### Host Site
+Change to the correct directory
+```
+cd map
+```
+Host the site
+```
+npm start
+```

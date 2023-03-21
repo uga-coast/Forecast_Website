@@ -1,0 +1,19 @@
+#sidebar {
+    width: 100%;
+
+    overflow-y: auto;
+}
+
+#credits {
+    margin-top: auto;
+    margin-bottom: 0px;
+    width: 100%;
+
+    color: white;
+    background-color: black;
+
+    padding: 5px;
+}
+img {
+    width: 100%;
+}

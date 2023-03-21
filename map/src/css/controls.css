@@ -1,0 +1,20 @@
+#controls {
+    padding: 5px;
+}
+
+.overLayer {
+    width: 100%;
+    margin-top: 10px;
+}
+.overLayerTitle {
+    padding-left: 3%;
+}
+.controlButton {
+    cursor: pointer;
+    float: right;
+}
+
+.optionButtons {
+    float: right;
+    margin-left: auto;
+}
