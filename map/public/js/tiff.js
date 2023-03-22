@@ -1,7 +1,5 @@
-function Tiff(name, url, description, min, max) {
+function Tiff(name, url, description) {
     this.name = name;
     this.url = url;
     this.description = description;
-    this.min = min;
-    this.max = max;
 }

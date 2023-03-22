@@ -16,8 +16,6 @@ function makeOverLayerControl(layer) {
             map.removeLayer(layer.layer);
         } else {
             layer.layer.addTo(map);
-            document.getElementById("minDepth").innerHTML = layer.min + "m";
-            document.getElementById("maxDepth").innerHTML = layer.max + "m";
         }
         layer.showing = !layer.showing;
     });
