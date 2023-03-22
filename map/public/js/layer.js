@@ -1,8 +1,7 @@
-function Layer(name, type, layer, description) {
-    this.name = name;
+function Layer(tiff, type, layer) {
+    this.tiff = tiff;
     this.type = type;
     this.layer = layer;
-    this.description = description;
 
     this.showing = false;
 }
