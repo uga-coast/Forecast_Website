@@ -41,14 +41,16 @@ function addTifLayers() {
                 return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
             }
             function doColors(input) {
+                var min = tiffList[i].min;
+                var max = tiffList[i].max;
                 var eval;
-                if (MIN < MAX) {
-                    eval = (input > MIN);
+                if (min < max) {
+                    eval = (input > min);
                 } else {
-                    eval = (input < MIN);
+                    eval = (input < min);
                 }
                 if (eval) {
-                    var scale = (input - MIN)/(MAX - MIN);
+                    var scale = (input - min)/(max - min);
                     return colorScale(scale);
                 }
             }
@@ -64,7 +66,7 @@ function addTifLayers() {
             });
 
             // Add layer to the list for sorting
-            overLayers.push(new Layer(tiffList[i].name, "overlay", tifLayer, tiffList[i].description));
+            overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
         }));
     }
     return promiseList;
