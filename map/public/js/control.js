@@ -1,36 +1,36 @@
 // Overlay layer control with checkbox function
-function makeOverLayerControl(layer) {
+function makeOverLayerControl(input) {
     // Base
     var base = document.createElement("div");
     base.classList.add("overLayer");
 
     // The checkbox
     var button = document.createElement("input");
-    button.id = layer.name;
-    button.value = layer.name;
+    button.id = input.tiff.name;
+    button.value = input.tiff.name;
     button.type = "checkbox";
     //button.name = "topLayer";
     base.appendChild(button);
     button.addEventListener("change", function() {
-        if (layer.showing) {
-            map.removeLayer(layer.layer);
+        if (input.showing) {
+            map.removeLayer(input.layer);
         } else {
-            layer.layer.addTo(map);
-            document.getElementById("minDepth").innerHTML = layer.min + "m";
-            document.getElementById("maxDepth").innerHTML = layer.max + "m";
+            input.layer.addTo(map);
+            document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
+            document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
         }
-        layer.showing = !layer.showing;
+        input.showing = !input.showing;
     });
 
     // Label
     var title = document.createElement("label");
-    title.for = layer.name;
+    title.for = input.tiff.name;
     title.classList.add("overLayerTitle");
     base.appendChild(title);
 
     // Name
     var name = document.createElement("text");
-    name.innerHTML = layer.name;
+    name.innerHTML = input.tiff.name;
     title.appendChild(name);
 
     // Controls
@@ -42,7 +42,7 @@ function makeOverLayerControl(layer) {
     var description = document.createElement("div");
     base.appendChild(description);
     description.style.display = "none";
-    description.innerHTML = layer.description;
+    description.innerHTML = input.tiff.description;
 
     // Details button
     var beep = document.createElement("span");
@@ -67,8 +67,8 @@ function makeOverLayerControl(layer) {
     boop.innerHTML = "zoom_in";
     control.appendChild(boop);
     boop.addEventListener("click", function() {
-        if (layer.showing) {
-            var bounds = layer.layer.getBounds();
+        if (input.showing) {
+            var bounds = input.layer.getBounds();
             var boundSet = [
                 [bounds._northEast.lat, bounds._northEast.lng],
                 [bounds._southWest.lat, bounds._southWest.lng]
