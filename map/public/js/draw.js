@@ -72,8 +72,25 @@ function addTifLayers() {
     return promiseList;
 }
 
+function sortBy(sort) {
+    for (let i = 0; i < overLayers.length - 1; i++) {
+        for (let j = i + 1; j < overLayers.length; j++) {
+            if (sort(overLayers[i], overLayers[j]) > 0) {
+                var temp = overLayers[i];
+                overLayers[i] = overLayers[j];
+                overLayers[j] = temp;
+            }
+        }
+    }
+}
 // Creates the control panel for layer display
 function makeControl() {
+    var sort = function(inputa, inputb) {
+        var itema = inputa.tiff.name;
+        var itemb = inputb.tiff.name;
+        return itema.localeCompare(itemb);
+    }
+    sortBy(sort);
     for (let i = 0; i < overLayers.length; i++) {
         var base = document.getElementById("overLayers");
         var element = makeOverLayerControl(overLayers[i]);
