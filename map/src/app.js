@@ -23,9 +23,12 @@ export default function App() {
 			<div id="sidebar">
 				<div id="controls">
 					<div>
-						<select>
+						<select id="ModelType">
 							<option>Forecast</option>
 							<option>Hurricane</option>
+						</select>
+						<select id="SortType">
+							<option>Alphabetical</option>
 						</select>
 					</div>
 					<hr></hr>

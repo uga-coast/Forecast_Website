@@ -85,16 +85,27 @@ function sortBy(sort) {
 }
 // Creates the control panel for layer display
 function makeControl() {
-    var sort = function(inputa, inputb) {
-        var itema = inputa.tiff.name;
-        var itemb = inputb.tiff.name;
-        return itema.localeCompare(itemb);
+    var sort;
+    var SortType = document.getElementById("SortType").value;
+    if (SortType == "Alphabetical") {
+        sort = function(inputa, inputb) {
+            var itema = inputa.tiff.name;
+            var itemb = inputb.tiff.name;
+            return itema.localeCompare(itemb);
+        }
     }
+
     sortBy(sort);
+    var base = document.getElementById("overLayers");
+    while (base.firstChild) {
+        base.removeChild(base.firstChild);
+    }
+    var ModelType = document.getElementById("ModelType").value;
     for (let i = 0; i < overLayers.length; i++) {
-        var base = document.getElementById("overLayers");
-        var element = makeOverLayerControl(overLayers[i]);
-        base.appendChild(element);
+        if (overLayers[i].tiff.type == ModelType) {
+            var element = makeOverLayerControl(overLayers[i]);
+            base.appendChild(element);
+        }
     }
 }
 
@@ -106,4 +117,6 @@ function drawLayers() {
     // Make the Tif layers
     // Then add the control sidebar
     Promise.all(addTifLayers()).then(makeControl);
+    document.getElementById("ModelType").addEventListener("change", makeControl);
+    document.getElementById("SortType").addEventListener("change", makeControl);
 }
