@@ -8,6 +8,30 @@ function addTifLayers() {
     map.createPane("overlay");
     map.getPane("overlay").style.zIndex = 2;
 
+    // Make custom button
+    var fullscreen = L.Control.extend({
+        options: {
+            position: "topleft"
+        },
+        onAdd: function (map) {
+            var button = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom material-symbols-outlined fullscreen-button');
+    
+            button.innerHTML = "fullscreen";
+    
+            button.onclick = function(){
+                document.getElementsByClassName("container")[0].classList.toggle("fullscreen");
+                if (button.innerHTML == "fullscreen") {
+                    button.innerHTML = "fullscreen_exit";
+                } else if (button.innerHTML == "fullscreen_exit") {
+                    button.innerHTML = "fullscreen";
+                }
+            }
+    
+            return button;
+        }
+    })
+    map.addControl(new fullscreen());
+
     var promiseList = [];
     for (let i = 0; i < tiffList.length; i++) {
         var url_to_geotiff_file = tiffList[i].url;
