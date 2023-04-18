@@ -1,10 +1,15 @@
-var tiffList = [
-    new Tiff("Savannah", "https://uga-coast.s3.us-east-2.amazonaws.com/test/ian_cog.tif", "This is a bit glitchy.", 0, 4, "Forecast"),
-    new Tiff("Tiny Savannah", "https://uga-coast.s3.us-east-2.amazonaws.com/test/GA_COG_Test2.tif", "I use this one for testing. Like, a lot.", 0, 4, "Forecast"),
-    new Tiff("Michael 1", "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/NGOM_Michael_GAHM_NAM_maxele_cog.tif", "This is a messed up michael.", 0, 6, "Hurricane"),
-    new Tiff("Michael 2", "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/NGOM_Michael_GAHM_NAM_HS_max_cog.tif", "This is another messed up michael.", 0, 6, "Hurricane"),
-    new Tiff("Michael 3", "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/EGOM_Ian_tau04_maxele_cog.tif", "This is a bit bad Ian.", 0, 6, "Hurricane"),
-    new Tiff("Bathymetry", "https://uga-coast.s3.us-east-2.amazonaws.com/test/WNAT_bathymetry_example_COG.tif", "This is something I think.", 0, 20, "Forecast"),
-    new Tiff("Michael Surge", "https://uga-coast-cog.s3.us-east-2.amazonaws.com/test/NGOM_Michael_GAHM_NAM_maxele_test_cog.tif", "This is a big boy.", 0, 6, "Hurricane"),
-    new Tiff("Michael Max", "https://uga-coast-cog.s3.us-east-2.amazonaws.com/test/NGOM_Michael_GAHM_NAM_maxHS_test_cog.tif", "Also a big boy but he is pretty.", 0, 10, "Hurricane"),
-];
+var tiffList = [];
+async function makeTiffList() {
+    const response = await fetch("./js/tiffList.json");
+    const jsonData = await response.json();
+    tiffList = jsonData;
+
+    const bucket = new XMLHttpRequest();
+    bucket.open("GET", "https://uga-coast.s3.us-east-2.amazonaws.com/");
+    bucket.send();
+    bucket.onload = function() {
+        var xml = bucket.responseXML;
+        console.log(xml);
+        console.log(xml.getElementsByTagName("ListBucketResult")[0])
+    }
+}

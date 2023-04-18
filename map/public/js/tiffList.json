@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Savannah",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/test/ian_cog.tif",
+        "description": "This is a bit glitchy.",
+        "min": 0,
+        "max": 4,
+        "type": "Forecast"
+    },
+    {
+        "name": "Tiny Savannah",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/test/GA_COG_Test2.tif",
+        "description": "I use this one for testing. Like, a lot.",
+        "min": 0,
+        "max": 4,
+        "type": "Forecast"
+    },
+    {
+        "name": "Michael 1",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/NGOM_Michael_GAHM_NAM_maxele_cog.tif",
+        "description": "This is a messed up michael.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Michael 2",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/NGOM_Michael_GAHM_NAM_HS_max_cog.tif",
+        "description": "This is another messed up michael.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Michael 3",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/example_cog/EGOM_Ian_tau04_maxele_cog.tif",
+        "description": "This is a bit bad Ian.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Bathymetry",
+        "url": "https://uga-coast.s3.us-east-2.amazonaws.com/test/WNAT_bathymetry_example_COG.tif",
+        "description": "This is something I think.",
+        "min": 0,
+        "max": 20,
+        "type": "Forecast"
+    },
+    {
+        "name": "Michael Surge",
+        "url": "https://uga-coast-cog.s3.us-east-2.amazonaws.com/test/NGOM_Michael_GAHM_NAM_maxele_test_cog.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Michael Max",
+        "url": "https://uga-coast-cog.s3.us-east-2.amazonaws.com/test/NGOM_Michael_GAHM_NAM_maxHS_test_cog.tif",
+        "description": "Also a big boy but he is pretty.",
+        "min": 0,
+        "max": 10,
+        "type": "Hurricane"
+    }
+]

@@ -1,7 +1,8 @@
 var started = false;
-function doAll() {
+async function doAll() {
     if (!started) {
         started = true;
+        await makeTiffList();
         drawLegend();
         drawLayers();
     }
