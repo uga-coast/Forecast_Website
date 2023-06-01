@@ -62,5 +62,13 @@
         "min": 0,
         "max": 10,
         "type": "Hurricane"
+    },
+    {
+        "name": "test",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/53k/gfs/2023/05/15/12/forecast/base/maxele.tif",
+        "description": "test of this method",
+        "min": 0,
+        "max": 10,
+        "type": "Forecast"
     }
 ]
