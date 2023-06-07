@@ -1,6 +1,6 @@
 var tiffList = [];
 async function makeTiffList() {
-    const response = await fetch("./js/tiffList.json", { mode: 'no-cors'});
+    const response = await fetch("./js/tiffList.json");
     const jsonData = await response.json();
     tiffList = jsonData;
 
