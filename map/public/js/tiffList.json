@@ -64,11 +64,27 @@
         "type": "Hurricane"
     },
     {
-        "name": "test",
+        "name": "test1",
         "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/53k/gfs/2023/05/15/12/forecast/base/maxele.tif",
         "description": "test of this method",
         "min": 0,
-        "max": 10,
+        "max": 3,
+        "type": "Forecast"
+    },
+    {
+        "name": "test2",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/wnat_53k_v1.0/gfs/2023/06/01/12/forecast/base/maxele.tif",
+        "description": "test of this method",
+        "min": 0,
+        "max": 3,
+        "type": "Forecast"
+    },
+    {
+        "name": "test3",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/wnat_53k_v1.0/gfs/2023/06/02/12/forecast/base/maxele.tif",
+        "description": "test of this method",
+        "min": 0,
+        "max": 3,
         "type": "Forecast"
     }
 ]

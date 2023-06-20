@@ -36,62 +36,66 @@ function addTifLayers() {
     for (let i = 0; i < tiffList.length; i++) {
         var url_to_geotiff_file = tiffList[i].url;
 
-        promiseList.push(parseGeoraster(url_to_geotiff_file).then(georaster => {
-            console.log("georaster:", georaster);
+        try {
+            promiseList.push(parseGeoraster(url_to_geotiff_file).then(georaster => {
+                console.log("georaster:", georaster);
 
-            //    GeoRasterLayer is an extension of GridLayer,
-            //    which means can use GridLayer options like opacity.
-            //    Just make sure to include the georaster option!
-            //    http://leafletjs.com/reference-1.2.0.html#gridlayer
+                //    GeoRasterLayer is an extension of GridLayer,
+                //    which means can use GridLayer options like opacity.
+                //    Just make sure to include the georaster option!
+                //    http://leafletjs.com/reference-1.2.0.html#gridlayer
 
-            // Colors height appropriately
-            function colorScale(value) {
-                var r = 0;
-                var g = 0;
-                var b = 0;
+                // Colors height appropriately
+                function colorScale(value) {
+                    var r = 0;
+                    var g = 0;
+                    var b = 0;
 
-                if (value < 0.5) { // Blue -> Green
-                    b = 1 - 2*value;
-                    g = 2 * value;
-                } else if (value < 1) { // Green -> Red
-                    g = 1 - 2*(value - 0.5);
-                    r = 2*(value - 0.5);
-                } else { // Red
-                    r = 1;
+                    if (value < 0.5) { // Blue -> Green
+                        b = 1 - 2*value;
+                        g = 2 * value;
+                    } else if (value < 1) { // Green -> Red
+                        g = 1 - 2*(value - 0.5);
+                        r = 2*(value - 0.5);
+                    } else { // Red
+                        r = 1;
+                    }
+                    function flhex(input) {
+                        return Math.floor(256*input);
+                    }
+                    return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
                 }
-                function flhex(input) {
-                    return Math.floor(256*input);
+                function doColors(input) {
+                    var min = tiffList[i].min;
+                    var max = tiffList[i].max;
+                    var eval;
+                    if (min < max) {
+                        eval = (input > min);
+                    } else {
+                        eval = (input < min);
+                    }
+                    if (eval) {
+                        var scale = (input - min)/(max - min);
+                        return colorScale(scale);
+                    }
                 }
-                return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
-            }
-            function doColors(input) {
-                var min = tiffList[i].min;
-                var max = tiffList[i].max;
-                var eval;
-                if (min < max) {
-                    eval = (input > min);
-                } else {
-                    eval = (input < min);
-                }
-                if (eval) {
-                    var scale = (input - min)/(max - min);
-                    return colorScale(scale);
-                }
-            }
 
-            // Create the layer
-            var tifLayer = new GeoRasterLayer({
-                attribution: "Planet",
-                georaster: georaster,
-                resolution: RESOLUTION,
-                opacity: 0.75,
-                pane: "overlay",
-                pixelValuesToColorFn: values => doColors(values[0])
-            });
+                // Create the layer
+                var tifLayer = new GeoRasterLayer({
+                    attribution: "Planet",
+                    georaster: georaster,
+                    resolution: RESOLUTION,
+                    opacity: 0.75,
+                    pane: "overlay",
+                    pixelValuesToColorFn: values => doColors(values[0])
+                });
 
-            // Add layer to the list for sorting
-            overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
-        }));
+                // Add layer to the list for sorting
+                overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
+            }));
+        } catch (e) {
+            console.log("owo")
+        }
     }
     return promiseList;
 }
