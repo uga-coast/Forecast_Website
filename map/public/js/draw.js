@@ -85,7 +85,6 @@ function addTifLayers() {
                     attribution: "Planet",
                     georaster: georaster,
                     resolution: RESOLUTION,
-                    opacity: 0.75,
                     pane: "overlay",
                     pixelValuesToColorFn: values => doColors(values[0])
                 });
