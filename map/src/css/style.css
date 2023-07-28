@@ -28,3 +28,6 @@ body {
 .fullscreen {
     grid-template-columns: 0% 100%;
 }
+.opacity-slider {
+    width: 100%;
+}

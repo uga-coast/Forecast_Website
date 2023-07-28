@@ -5,7 +5,7 @@
         "description": "This is a bit glitchy.",
         "min": 0,
         "max": 4,
-        "type": "Forecast"
+        "type": "Hurricane"
     },
     {
         "name": "Tiny Savannah",
@@ -13,7 +13,7 @@
         "description": "I use this one for testing. Like, a lot.",
         "min": 0,
         "max": 4,
-        "type": "Forecast"
+        "type": "Hurricane"
     },
     {
         "name": "Michael 1",
@@ -45,7 +45,7 @@
         "description": "This is something I think.",
         "min": 0,
         "max": 20,
-        "type": "Forecast"
+        "type": "Hurricane"
     },
     {
         "name": "Michael Surge",
@@ -61,6 +61,30 @@
         "description": "Also a big boy but he is pretty.",
         "min": 0,
         "max": 10,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Test 1a",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/maxele_cog.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Test 1b",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/temp.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Test 1c",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/maxele.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
         "type": "Hurricane"
     }
 ]

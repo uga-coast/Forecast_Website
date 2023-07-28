@@ -3,6 +3,7 @@ function drawLegend() {
 
     // Opacity
     var opac = document.createElement("input");
+    opac.classList.add("opacity-slider");
     opac.type = "range";
     opac.min = 0;
     opac.max = 1;
