@@ -7,7 +7,7 @@ function getPast() {
     for (let i = 0; i < 14; i++) {
         var date = d.getUTCFullYear() + "/" + MONTHS[d.getUTCMonth()] + "/";
         if (d.getUTCDate() < 10) {
-            date += MONTHS[d.getUTCDate()];
+            date += MONTHS[d.getUTCDate() - 1];
         } else {
             date += d.getUTCDate();
         }
