@@ -2,6 +2,8 @@ function getPast() {
     var output = [];
     var d = new Date();
     const MONTHS = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+    const HOURS = ["00","06","12","18"];
+    const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
     for (let i = 0; i < 14; i++) {
         var date = d.getUTCFullYear() + "/" + MONTHS[d.getUTCMonth()] + "/";
         if (d.getUTCDate() < 10) {
@@ -9,18 +11,20 @@ function getPast() {
         } else {
             date += d.getUTCDate();
         }
+        var name = DAYS[d.getDay()] + ", " + d.getUTCDate() + "th";
+        for (let j = 0; j < 4; j++) {
+            var thatDay = {
+                "name": name + ", " + j*6 + ":00",
+                "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/wnat_53k_v1.0/gfs/" + date + "/" + HOURS[j] + "/forecast/base/maxele.tif",
+                "description": "Haha",
+                "min": 0,
+                "max": 3,
+                "type": "Forecast"
+            };
 
-        var thatDay = {
-            "name": date,
-            "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/wnat_53k_v1.0/gfs/" + date + "/12/forecast/base/maxele.tif",
-            "description": "Haha",
-            "min": 0,
-            "max": 3,
-            "type": "Forecast"
-        };
-
+            output[output.length] = thatDay;
+        }
         d.setDate(d.getDate() - 1);
-        output[i] = thatDay;
     }
     return output;
 }
