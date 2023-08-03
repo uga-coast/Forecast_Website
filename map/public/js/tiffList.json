@@ -86,5 +86,29 @@
         "min": 0,
         "max": 6,
         "type": "Hurricane"
+    },
+    {
+        "name": "Flipped",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/maxele_flipped.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Another One Try",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/temp.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
+    },
+    {
+        "name": "Temp_2",
+        "url": "https://uga-coast-forecasting.s3.amazonaws.com/index.html#adcirc_gfs_53k/sapelo2/gfs/2023/08/02/12/adcirc/53k/forecast/base/maxele.tif",
+        "description": "This is a big boy.",
+        "min": 0,
+        "max": 6,
+        "type": "Hurricane"
     }
 ]
