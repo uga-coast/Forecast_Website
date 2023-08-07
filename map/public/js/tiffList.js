@@ -16,7 +16,7 @@ function getPast() {
             var thatDay = {
                 "name": name + ", " + j*6 + ":00",
                 "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/gfs/" + date + "/" + HOURS[j] + "/adcirc/53k/forecast/base/maxele.tif",
-                "description": "Haha",
+                "description": date.toString() + " " + HOURS[j] + ":00 model.",
                 "min": 0,
                 "max": 3,
                 "type": "Forecast"

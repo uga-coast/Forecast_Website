@@ -120,6 +120,12 @@ function makeControl() {
             var itemb = inputb.tiff.name;
             return itema.localeCompare(itemb);
         }
+    } else if (SortType == "Date") {
+        sort = function(inputa, inputb) {
+            var itema = inputa.tiff.description;
+            var itemb = inputb.tiff.description;
+            return itema.localeCompare(itemb);
+        }
     }
 
     sortBy(sort);

@@ -28,6 +28,7 @@ export default function App() {
 							<option>Hurricane</option>
 						</select>
 						<select id="SortType">
+							<option>Date</option>
 							<option>Alphabetical</option>
 						</select>
 					</div>
