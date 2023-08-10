@@ -5,6 +5,7 @@ async function doAll() {
         await makeTiffList();
         drawLegend();
         drawLayers();
+        addMarkers();
     }
 }
 document.body.addEventListener("beginProcess", doAll);
