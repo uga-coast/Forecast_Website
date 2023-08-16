@@ -1,26 +1,34 @@
 const MARKERS = [
-    new Marker(32.033611, -80.900556, 8670870),
-    new Marker(32, -80.900556, 8670870)
+    new Marker(8670870),
 ];
-function drawMarker(station) {
-    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=20200101&end_date=20201231&station=" + station + "&product=hourly_height&datum=MLLW&time_zone=lst&units=metric&application=DataAPI_Sample&format=json";
+function drawPopup(marker, data) {
+    marker.lat = data.metadata.lat;
+    marker.lon = data.metadata.lon;
+    marker.name = data.metadata.name;
+    console.log(marker);
 
     var base = document.createElement("div");
 
     var head = document.createElement("h3");
-    head.innerText = "Station " + station;
+    head.innerText = "Station " + marker.station;
 
     var description = document.createElement("p");
-    description.innerText = url;
+    description.innerText = marker.name;
     base.appendChild(description);
     base.appendChild(head);
 
-    return base;
+    marker.element = base;
+
+    var aM = new L.Marker([marker.lat, marker.lon]);
+    aM.bindPopup(marker.element).openPopup();
+    aM.addTo(map);
+}
+function getPopup(marker) {
+    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=20200101&end_date=20201231&station=" + marker.station + "&product=hourly_height&datum=MLLW&time_zone=lst&units=metric&application=DataAPI_Sample&format=json";
+    fetch(url).then(data => data.json().then(d => drawPopup(marker, d)));
 }
 function addMarkers() {
     for (let i = 0; i < MARKERS.length; i++) {
-        var marker = new L.Marker([MARKERS[i].lat, MARKERS[i].long]);
-        marker.bindPopup(drawMarker(MARKERS[i].station)).openPopup();
-        marker.addTo(map);
+        getPopup(MARKERS[i]);
     }
 }

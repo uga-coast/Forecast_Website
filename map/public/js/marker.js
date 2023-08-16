@@ -1,5 +1,8 @@
-function Marker(lat, long, station) {
-    this.lat = lat;
-    this.long = long;
+function Marker(station) {
     this.station = station;
+
+    this.lat;
+    this.lon;
+    this.name;
+    this.element;
 }
