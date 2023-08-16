@@ -10,10 +10,11 @@ function drawPopup(marker, data) {
     console.log(marker);
 
     var base = document.createElement("div");
+    base.style.width = "400px"
 
     var graph = document.createElement("div");
-    graph.style.width = "300px"
-    graph.style.height = "300px";
+    graph.style.width = "400px";
+    graph.style.height = "200px";
     base.appendChild(graph);
 
     var aM = new L.Marker([marker.lat, marker.lon]);
@@ -23,16 +24,18 @@ function drawPopup(marker, data) {
     // Draw Graph
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var table = [["Time", "v", "s", "f"]];
-        for (let i = data.data.length - 50; i < data.data.length; i++) {
-            var tl = [i, parseFloat(data.data[i].v), parseFloat(data.data[i].s), parseFloat(data.data[i].f)];
+        var table = [["Time", "Water Levels(m)"]];
+        for (let i = 0; i < data.data.length; i++) {
+            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v)];
             table.push(tl);
         }
         var stats = google.visualization.arrayToDataTable(table);
         var options = {
             title: marker.name,
             curveType: "function",
-            legend: { position: "bottom" }
+            legend: { position: "bottom" },
+            width: 301,
+            height: 200
         };
 
         var chart = new google.visualization.LineChart(graph);
@@ -41,7 +44,7 @@ function drawPopup(marker, data) {
     }
 }
 function getPopup(marker) {
-    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=20200101&end_date=20201231&station=" + marker.station + "&product=hourly_height&datum=MLLW&time_zone=lst&units=metric&application=DataAPI_Sample&format=json";
+    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=" + marker.station + "&product=water_level&datum=MLLW&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
     fetch(url).then(data => data.json().then(d => drawPopup(marker, d)));
 }
 function addMarkers() {
