@@ -129,6 +129,10 @@ function makeControl() {
     }
 
     sortBy(sort);
+    var activeLayers = document.getElementsByName("Overlayer");
+    for (let i = 0; i < activeLayers.length; i++) {
+        activeLayers[i].dispatchEvent(new Event("userChange"));
+    }
     var base = document.getElementById("overLayers");
     while (base.firstChild) {
         base.removeChild(base.firstChild);
@@ -152,4 +156,6 @@ function drawLayers() {
     Promise.all(addTifLayers()).then(makeControl);
     document.getElementById("ModelType").addEventListener("change", makeControl);
     document.getElementById("SortType").addEventListener("change", makeControl);
+    // LAZY METHOD. PLEASE FIX PROMISES.
+    setTimeout(makeControl, 1000); // NEEDS PERMANENT SOLUTION
 }
