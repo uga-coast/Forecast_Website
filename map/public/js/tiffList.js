@@ -28,12 +28,11 @@ function getPast() {
     }
     return output;
 }
-console.log(getPast())
+//console.log(getPast())
 var tiffList = [];
 async function makeTiffList() {
     const response = await fetch("./js/tiffList.json");
     const jsonData = await response.json();
-    console.log(jsonData);
     tiffList = jsonData.concat(getPast());
 
     const bucket = new XMLHttpRequest();
@@ -41,7 +40,7 @@ async function makeTiffList() {
     bucket.send();
     bucket.onload = function() {
         var xml = bucket.responseXML;
-        console.log(xml);
-        console.log(xml.getElementsByTagName("ListBucketResult")[0])
+        //console.log(xml);
+        //console.log(xml.getElementsByTagName("ListBucketResult")[0])
     }
 }
