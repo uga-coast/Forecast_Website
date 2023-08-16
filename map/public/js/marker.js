@@ -4,5 +4,4 @@ function Marker(station) {
     this.lat;
     this.lon;
     this.name;
-    this.element;
 }

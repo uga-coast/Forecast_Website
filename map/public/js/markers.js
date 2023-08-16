@@ -1,7 +1,9 @@
 const MARKERS = [
     new Marker(8670870),
 ];
+google.charts.load('current', {'packages':['corechart']});
 function drawPopup(marker, data) {
+    // Meta Data
     marker.lat = data.metadata.lat;
     marker.lon = data.metadata.lon;
     marker.name = data.metadata.name;
@@ -9,19 +11,34 @@ function drawPopup(marker, data) {
 
     var base = document.createElement("div");
 
-    var head = document.createElement("h3");
-    head.innerText = "Station " + marker.station;
-
-    var description = document.createElement("p");
-    description.innerText = marker.name;
-    base.appendChild(description);
-    base.appendChild(head);
-
-    marker.element = base;
+    var graph = document.createElement("div");
+    graph.style.width = "300px"
+    graph.style.height = "300px";
+    base.appendChild(graph);
 
     var aM = new L.Marker([marker.lat, marker.lon]);
-    aM.bindPopup(marker.element).openPopup();
+    aM.bindPopup(base).openPopup();
     aM.addTo(map);
+
+    // Draw Graph
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var table = [["Time", "v", "s", "f"]];
+        for (let i = data.data.length - 50; i < data.data.length; i++) {
+            var tl = [i, parseFloat(data.data[i].v), parseFloat(data.data[i].s), parseFloat(data.data[i].f)];
+            table.push(tl);
+        }
+        var stats = google.visualization.arrayToDataTable(table);
+        var options = {
+            title: marker.name,
+            curveType: "function",
+            legend: { position: "bottom" }
+        };
+
+        var chart = new google.visualization.LineChart(graph);
+
+        chart.draw(stats, options);
+    }
 }
 function getPopup(marker) {
     var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=20200101&end_date=20201231&station=" + marker.station + "&product=hourly_height&datum=MLLW&time_zone=lst&units=metric&application=DataAPI_Sample&format=json";
