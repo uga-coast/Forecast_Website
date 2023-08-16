@@ -86,6 +86,7 @@ function addTifLayers() {
                     georaster: georaster,
                     resolution: RESOLUTION,
                     pane: "overlay",
+                    opacity: 0.75,
                     pixelValuesToColorFn: values => doColors(values[0])
                 });
 

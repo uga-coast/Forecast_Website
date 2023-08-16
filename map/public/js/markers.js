@@ -1,5 +1,7 @@
 const MARKERS = [
     new Marker(8670870),
+    new Marker(8721604),
+    new Marker(8636580),
 ];
 google.charts.load('current', {'packages':['corechart']});
 function drawPopup(marker, data) {
@@ -34,6 +36,7 @@ function drawPopup(marker, data) {
             title: marker.name,
             curveType: "function",
             legend: { position: "bottom" },
+            chartArea: { width: "90%" },
             width: 301,
             height: 200
         };
