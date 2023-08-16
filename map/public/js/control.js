@@ -6,20 +6,31 @@ function makeOverLayerControl(input) {
 
     // The checkbox
     var button = document.createElement("input");
+    button.name = "Overlayer";
     button.id = input.tiff.name;
     button.value = input.tiff.name;
-    button.type = "checkbox";
+    button.type = "radio";
     //button.name = "topLayer";
     base.appendChild(button);
+    const event = new Event("userChange");
     button.addEventListener("change", function() {
+        var list = document.getElementsByName("Overlayer");
+        console.log(list.length);
+        for (let i = 0; i < list.length; i++) {
+            list[i].dispatchEvent(event);
+        }
+        input.layer.addTo(map);
+        document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
+        document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
+        input.showing = true;
+        console.log(input.tiff.name + " turned on");
+    })
+    button.addEventListener("userChange", function() {
         if (input.showing) {
             map.removeLayer(input.layer);
-        } else {
-            input.layer.addTo(map);
-            document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
-            document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
+            console.log(input.tiff.name + " turned off");
         }
-        input.showing = !input.showing;
+        input.showing = false;
     });
 
     // Label
