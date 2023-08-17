@@ -47,7 +47,7 @@ function drawPopup(marker, data) {
     }
 }
 function getPopup(marker) {
-    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=" + marker.station + "&product=water_level&datum=MLLW&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
+    var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=recent&station=" + marker.station + "&product=water_level&datum=MLLW&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
     fetch(url).then(data => data.json().then(d => drawPopup(marker, d)));
 }
 function addMarkers() {
