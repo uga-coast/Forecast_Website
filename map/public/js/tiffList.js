@@ -15,7 +15,7 @@ function getPast() {
         for (let j = 0; j < 4; j++) {
             var thatDay = {
                 "name": name + j*6 + ":00",
-                "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/gfs/" + date + "/" + HOURS[j] + "/adcirc/53k/forecast/base/maxele.tif",
+                "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/gfs/" + date + "/" + HOURS[j] + "/adcirc/wnat_53k_v1.0/forecast/base/maxele.tif",
                 "description": date.toString() + " " + HOURS[j] + ":00 model.",
                 "min": 0,
                 "max": 3,
@@ -31,9 +31,12 @@ function getPast() {
 //console.log(getPast())
 var tiffList = [];
 async function makeTiffList() {
+    /*
     const response = await fetch("./js/tiffList.json");
     const jsonData = await response.json();
     tiffList = jsonData.concat(getPast());
+    */
+    tiffList = getPast();
 
     const bucket = new XMLHttpRequest();
     bucket.open("GET", "https://uga-coast.s3.us-east-2.amazonaws.com/");
