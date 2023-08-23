@@ -37,8 +37,10 @@ export default function App() {
 					<hr></hr>
 				</div>
 				<div id="credits">
-					<h1>Credits</h1>
-					<p>List of people and stuff</p>
+					<a href="https://coast.engr.uga.edu/about/">UGA Coast Website</a>
+					<br></br>
+					<b>Version: </b><text id="version">Loading</text>
+					<hr></hr>
 					<img src="logo.png"></img>
 				</div>
 			</div>
