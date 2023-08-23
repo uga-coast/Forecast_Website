@@ -5,16 +5,19 @@ function getPast() {
     const HOURS = ["00","06","12","18"];
     const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
     for (let i = 0; i < 14; i++) {
+        var dayNum = "";
         var date = d.getUTCFullYear() + "/" + MONTHS[d.getUTCMonth()] + "/";
         if (d.getUTCDate() < 10) {
-            date += MONTHS[d.getUTCDate() - 1];
+            dayNum = MONTHS[d.getUTCDate() - 1];
         } else {
-            date += d.getUTCDate();
+            dayNum = d.getUTCDate();
         }
-        var name = DAYS[d.getDay()] + ", " + (d.getUTCMonth() + 1) + "/" + d.getUTCDate() + " ";
+        date += dayNum;
+        var name = MONTHS[d.getUTCMonth()] + "-" + dayNum + "-" + d.getUTCFullYear() + " ";
         for (let j = 0; j < 4; j++) {
+            var curName = name + j*6 + ":00 UTC";
             var thatDay = {
-                "name": name + j*6 + ":00",
+                "name": curName,
                 "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/gfs/" + date + "/" + HOURS[j] + "/adcirc/wnat_53k_v1.0/forecast/base/maxele.tif",
                 "description": date.toString() + " " + HOURS[j] + ":00 model.",
                 "min": 0,
