@@ -6,7 +6,9 @@
 
     padding: 10px;
 
-    background-color: var(--chapel-bell-white);
+    background-color: var(--creamery);
+    color: var(--creamery-font);
+    
     border: 2px solid var(--arch-black);
     z-index: 2;
 }
