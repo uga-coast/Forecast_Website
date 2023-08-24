@@ -125,7 +125,7 @@ function makeControl() {
         sort = function(inputa, inputb) {
             var itema = inputa.tiff.description;
             var itemb = inputb.tiff.description;
-            return itema.localeCompare(itemb);
+            return itemb.localeCompare(itema);
         }
     }
 
