@@ -159,4 +159,6 @@ function drawLayers() {
     document.getElementById("SortType").addEventListener("change", makeControl);
     // LAZY METHOD. PLEASE FIX PROMISES.
     setTimeout(makeControl, 1000); // NEEDS PERMANENT SOLUTION
+    setTimeout(makeControl, 2000); // NEEDS PERMANENT SOLUTION
+    setTimeout(makeControl, 4000); // NEEDS PERMANENT SOLUTION
 }
