@@ -6,6 +6,7 @@ import { LayersControl } from "react-leaflet/LayersControl";
 import { Pane } from "react-leaflet/Pane";
 import { useMap } from "react-leaflet/hooks";
 
+import "./css/ugaStyle.css";
 import "./css/style.css";
 import "./css/legend.css";
 import "./css/sidebar.css";
@@ -22,7 +23,7 @@ export default function App() {
 		<div className="container">
 			<div id="sidebar">
 				<div id="controls">
-					<div>
+					<div className="primary-serif">
 						<select id="ModelType">
 							<option>Forecast</option>
 							<option>Archive</option>
@@ -33,15 +34,14 @@ export default function App() {
 						</select>
 					</div>
 					<hr></hr>
-					<div id="overLayers"></div>
+					<div id="overLayers" className="secondary-sans-serif"></div>
 					<hr></hr>
 				</div>
-				<div id="credits">
-					<a href="https://coast.engr.uga.edu/about/">UGA Coast Website</a>
+				<div id="credits" className="secondary-serif">
+					<img src="logo.png"></img>
+					<a href="https://coast.engr.uga.edu/">UGA Coast Website</a>
 					<br></br>
 					<b>Version: </b><text id="version">Loading</text>
-					<hr></hr>
-					<img src="logo.png"></img>
 				</div>
 			</div>
 			<MapContainer id="map" center={[35, -75]} zoom={5}>
@@ -82,7 +82,7 @@ export default function App() {
 					</Pane>
 				</LayersControl>
 			</MapContainer>
-			<div id="legend">
+			<div id="legend" className="primary-sans-serif">
 				<h3>Legend</h3>
 				<div className="scale">
 					<p id="minDepth"></p>

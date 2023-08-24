@@ -1,0 +1,44 @@
+:root {
+    --arch-black: #000000;
+    --arch-black-font: #ffffff;
+    --bulldog-red: #BA0C2F;
+    --bulldog-red-font: #ffffff;
+    --chapel-bell-white: #FFFFFF;
+    --chapel-bell-white-font: #000000;
+
+    --glory-glory: #E4002B;
+    --glory-glory-font: #ffffff;
+    --lake-herrick: #00A3AD;
+    --lake-herrick-font: #000000;
+
+    --hedges: #B4BD00;
+    --hedges-font: #000000;
+    --olympic: #004E60;
+    --olympic-font: #ffffff;
+
+    --sanford: #554F47;
+    --sanford-font: #ffffff;
+    --herty-field: #594A25;
+    --herty-field-font: #ffffff;
+    --athens: #66435A;
+    --athens-font: #ffffff;
+
+    --stegeman: #9EA2A2;
+    --stegeman-font: #000000;
+    --creamery: #D6D2C4;
+    --creamery-font: #000000;
+    --odyssey: #C8D8EB;
+    --odyssey-font: #000000;
+}
+.primary-sans-serif {
+    font-family: "Oswald", sans-serif;
+}
+.primary-serif {
+    font-family: "Merriweather", serif;
+}
+.secondary-sans-serif {
+    font-family: "Merriweather Sans", sans-serif;
+}
+.secondary-serif {
+    font-family: "Georiga", serif;
+}
