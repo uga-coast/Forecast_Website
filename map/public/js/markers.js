@@ -14,33 +14,41 @@ function drawPopup(marker, data) {
     console.log(marker);
 
     var base = document.createElement("div");
-    base.style.width = "400px"
+    base.style.width = "600px"
 
     var graph = document.createElement("div");
-    graph.style.width = "400px";
-    graph.style.height = "200px";
+    graph.style.width = "600px";
+    graph.style.height = "400px";
     base.appendChild(graph);
 
     var aM = new L.Marker([marker.lat, marker.lon]);
-    aM.bindPopup(base).openPopup();
+    
+    aM.bindPopup(base, {
+        minWidth: 600
+    }).openPopup();
     aM.addTo(map);
 
     // Draw Graph
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var table = [["Time", "Water Levels(m)"]];
+        var table = [["Time", "Water Levels(m)", "Cow"]];
         for (let i = 0; i < data.data.length; i++) {
-            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v)];
+            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v), 0.5];
             table.push(tl);
         }
         var stats = google.visualization.arrayToDataTable(table);
         var options = {
-            title: marker.name,
+            title: "NOAA " + marker.station + " - " + marker.name,
             curveType: "function",
-            legend: { position: "bottom" },
+            legend: { position: "top" },
             chartArea: { width: "90%" },
-            width: 301,
-            height: 200
+            vAxis: { title: "Water Level (m, NAVD88)" },
+            hAxis: {
+                title: "Date (GMT)",
+                showTextEvery: 4
+            },
+            width: 600,
+            height: 400
         };
 
         var chart = new google.visualization.LineChart(graph);
