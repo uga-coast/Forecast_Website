@@ -19,7 +19,7 @@ body {
 }
 
 .fullscreen-button {
-    background-color: white;
+    background-color: var(--chapel-bell-white);
     padding: 4px;
     font-weight: 600;
     cursor: pointer;

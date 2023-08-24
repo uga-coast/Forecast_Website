@@ -10,10 +10,14 @@
     margin-bottom: 0px;
     width: 100%;
 
-    color: white;
-    background-color: black;
+    background-color: var(--odyssey);
+    color: var(--odyssey-font);
 
     padding: 5px;
+}
+#credits a {
+    text-decoration: none;
+    color: var(--odyssey-font)
 }
 img {
     width: 100%;

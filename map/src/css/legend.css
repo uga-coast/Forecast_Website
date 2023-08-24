@@ -6,8 +6,8 @@
 
     padding: 10px;
 
-    background-color: white;
-    border: 2px solid black;
+    background-color: var(--chapel-bell-white);
+    border: 2px solid var(--arch-black);
     z-index: 2;
 }
 #legend h3 {
@@ -29,5 +29,5 @@
 #depth {
     color: #00000000;
     background: linear-gradient(to right, #0000ff, #00ff00, #ff0000);
-    border: 1px solid black;
+    border: 1px solid var(--arch-black);
 }
