@@ -25,7 +25,7 @@ export default function App() {
 					<div>
 						<select id="ModelType">
 							<option>Forecast</option>
-							<option>Hurricane</option>
+							<option>Archive</option>
 						</select>
 						<select id="SortType">
 							<option>Date</option>
