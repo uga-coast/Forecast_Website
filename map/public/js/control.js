@@ -19,6 +19,7 @@ function makeOverLayerControl(input) {
     base.appendChild(button);
     const event = new Event("userChange");
     button.addEventListener("change", function() {
+        document.getElementById("opacity-slider").value = 1;
         this.checked = true;
         var list = document.getElementsByName("Overlayer");
         console.log(list.length);
