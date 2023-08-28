@@ -1,8 +1,12 @@
 // Overlay layer control with checkbox function
 function makeOverLayerControl(input) {
+    if (document.getElementById("base_" + input.tiff.name) != null) {
+        return document.getElementById("base_" + input.tiff.name);
+    }
     // Base
     var base = document.createElement("div");
     base.classList.add("overLayer");
+    base.id = "base_" + input.tiff.name;
 
     // The checkbox
     var button = document.createElement("input");
@@ -10,10 +14,12 @@ function makeOverLayerControl(input) {
     button.id = input.tiff.name;
     button.value = input.tiff.name;
     button.type = "radio";
+    button.classList.add("overlayer-button-here");
     //button.name = "topLayer";
     base.appendChild(button);
     const event = new Event("userChange");
     button.addEventListener("change", function() {
+        this.checked = true;
         var list = document.getElementsByName("Overlayer");
         console.log(list.length);
         for (let i = 0; i < list.length; i++) {

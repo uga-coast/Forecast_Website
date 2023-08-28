@@ -158,7 +158,25 @@ function drawLayers() {
     document.getElementById("ModelType").addEventListener("change", makeControl);
     document.getElementById("SortType").addEventListener("change", makeControl);
     // LAZY METHOD. PLEASE FIX PROMISES.
-    setTimeout(makeControl, 1000); // NEEDS PERMANENT SOLUTION
-    setTimeout(makeControl, 2000); // NEEDS PERMANENT SOLUTION
-    setTimeout(makeControl, 4000); // NEEDS PERMANENT SOLUTION
+    var currentList = 0;
+    function startMakeControl() {
+        if (overLayers.length != currentList) {
+            makeControl();
+            var list = document.getElementsByClassName("overlayer-button-here");
+            var isOn = false;
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].checked) {
+                    isOn = true;
+                }
+            }
+            if (!isOn) {
+                list[0].dispatchEvent(new Event("change"));
+            }
+            currentList = overLayers.length;
+        }
+    }
+    setTimeout(startMakeControl, 1000); // NEEDS PERMANENT SOLUTION
+    setTimeout(startMakeControl, 2000); // NEEDS PERMANENT SOLUTION
+    setTimeout(startMakeControl, 4000); // NEEDS PERMANENT SOLUTION
+    setTimeout(startMakeControl, 8000); // NEEDS PERMANENT SOLUTION
 }
