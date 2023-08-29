@@ -31,6 +31,28 @@ function getPast() {
     }
     return output;
 }
+function getIdalia() {
+    var output = [];
+    for (let i = 0; i < 30; /* NOTICE THIS. I'M PUTTING 30 AS MAX. <- RIGHT HERE */ i++) {
+        var dumCount = ["00","01","02","03","04","05","06","07","08","09"];
+        var count = "0";
+        if (i < 10) {
+            count += dumCount[i];
+        } else {
+            count += i;
+        }
+        var thisAdvisory = {
+            "name": "Advisory " + i,
+            "url": "https://uga-coast-forecasting.s3.amazonaws.com/ga_v01b_nhc_10L/sapelo2/nhc/ADVISORY_" + count + "/adcirc/GA_2023_v01b_chk/forecast/ofcl/maxele.tif",
+            "description": "Advisory",
+            "min": 0,
+            "max": 3,
+            "type": "Idalia"
+        }
+        output.push(thisAdvisory);
+    }
+    return output;
+}
 //console.log(getPast())
 var tiffList = [];
 async function makeTiffList() {
@@ -39,7 +61,8 @@ async function makeTiffList() {
     const jsonData = await response.json();
     tiffList = jsonData.concat(getPast());
     */
-    tiffList = getPast();
+    tiffList = tiffList.concat(getPast());
+    tiffList = tiffList.concat(getIdalia());
 
     const bucket = new XMLHttpRequest();
     bucket.open("GET", "https://uga-coast.s3.us-east-2.amazonaws.com/");
