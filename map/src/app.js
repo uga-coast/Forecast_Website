@@ -26,6 +26,7 @@ export default function App() {
 					<div className="primary-serif">
 						<select id="ModelType">
 							<option>Forecast</option>
+							<option>Idalia</option>
 							<option>Archive</option>
 						</select>
 						<select id="SortType">
