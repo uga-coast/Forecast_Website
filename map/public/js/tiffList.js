@@ -44,7 +44,7 @@ function getIdalia() {
         var thisAdvisory = {
             "name": "Advisory " + i,
             "url": "https://uga-coast-forecasting.s3.amazonaws.com/ga_v01b_nhc_10L/sapelo2/nhc/ADVISORY_" + count + "/adcirc/GA_2023_v01b_chk/forecast/ofcl/maxele.tif",
-            "description": "Advisory",
+            "description": "Advisory " + count,
             "min": 0,
             "max": 3,
             "type": "Idalia"
