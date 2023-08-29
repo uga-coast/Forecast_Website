@@ -25,8 +25,8 @@ export default function App() {
 				<div id="controls">
 					<div className="primary-serif">
 						<select id="ModelType">
-							<option>Forecast</option>
 							<option>Idalia</option>
+							<option>Forecast</option>
 							<option>Archive</option>
 						</select>
 						<select id="SortType">
