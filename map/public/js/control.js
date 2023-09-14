@@ -27,6 +27,11 @@ function makeOverLayerControl(input) {
             list[i].dispatchEvent(event);
         }
         input.layer.addTo(map);
+        let zoom = document.getElementById("zoom_" + input.tiff.name);
+        console.log(zoom);
+        setTimeout(function() {
+            zoom.click();
+        }, 1000);
         document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
         document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
         input.showing = true;
@@ -83,8 +88,10 @@ function makeOverLayerControl(input) {
     boop.classList.add("material-symbols-outlined");
     boop.classList.add("controlButton");
     boop.innerHTML = "zoom_in";
+    boop.id = "zoom_" + input.tiff.name;
     control.appendChild(boop);
     boop.addEventListener("click", function() {
+        console.log("uwu")
         if (input.showing) {
             var bounds = input.layer.getBounds();
             var boundSet = [
