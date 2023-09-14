@@ -138,13 +138,37 @@ function makeControl() {
     while (base.firstChild) {
         base.removeChild(base.firstChild);
     }
-    var ModelType = document.getElementById("ModelType").value;
+    let ModelType = "None";
+    var TModelType = document.getElementById("ModelType").value;
+    for (let i = 0; i < DISPLAY_TO_URL.length; i++) {
+        if (DISPLAY_TO_URL[i][0] == TModelType) {
+            ModelType = DISPLAY_TO_URL[i][1];
+        }
+    }
+    if (ModelType == "Hurricane") {
+        for (let i = 0; i < HURRICANES.length; i++) {
+            let thisH = document.createElement("div");
+            thisH.id = HURRICANES[i];
+
+            let title = document.createElement("h3");
+            title.innerText = HURRICANES[i];
+            thisH.appendChild(title);
+
+            base.appendChild(thisH);
+        }
+    }
     for (let i = 0; i < overLayers.length; i++) {
         if (overLayers[i].tiff.type == ModelType) {
             var element = makeOverLayerControl(overLayers[i]);
             base.appendChild(element);
+        } else {
+            if (HURRICANES.includes(overLayers[i].tiff.type)) {
+                var element = makeOverLayerControl(overLayers[i]);
+                document.getElementById(overLayers[i].tiff.type).appendChild(element);
+            }
         }
     }
+    document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
 }
 
 // Draws all elements

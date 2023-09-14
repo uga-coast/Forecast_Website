@@ -6,7 +6,7 @@ const MARKERS = [
     new Marker(8720030)
 ];
 google.charts.load('current', {'packages':['corechart']});
-function drawPopup(marker, data) {
+function drawPopup(marker, data, layer) {
     // Meta Data
     marker.lat = data.metadata.lat;
     marker.lon = data.metadata.lon;
@@ -26,14 +26,14 @@ function drawPopup(marker, data) {
     aM.bindPopup(base, {
         minWidth: 600
     }).openPopup();
-    aM.addTo(map);
+    aM.addTo(layer);
 
     // Draw Graph
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var table = [["Time", "Water Levels(m)", "Cow"]];
+        var table = [["Time", "Water Levels(m)"]];
         for (let i = 0; i < data.data.length; i++) {
-            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v), 0.5];
+            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v)];
             table.push(tl);
         }
         var stats = google.visualization.arrayToDataTable(table);
@@ -56,12 +56,15 @@ function drawPopup(marker, data) {
         chart.draw(stats, options);
     }
 }
-function getPopup(marker) {
+function getPopup(marker, layer) {
     var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=recent&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
-    fetch(url).then(data => data.json().then(d => drawPopup(marker, d)));
+    fetch(url).then(data => data.json().then(d => drawPopup(marker, d, layer)));
 }
 function addMarkers() {
+    let markerLayer = new L.LayerGroup().addTo(map);
+    let controlLayers = L.control.layers(map._layers[39]).addTo(map);
+    controlLayers.addOverlay(markerLayer, "Markers");
     for (let i = 0; i < MARKERS.length; i++) {
-        getPopup(MARKERS[i]);
+        getPopup(MARKERS[i], markerLayer);
     }
 }
