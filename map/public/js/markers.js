@@ -31,9 +31,9 @@ function drawPopup(marker, data) {
     // Draw Graph
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var table = [["Time", "Water Levels(m)", "Cow"]];
+        var table = [["Time", "Water Levels(m)"]];
         for (let i = 0; i < data.data.length; i++) {
-            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v), 0.5];
+            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v)];
             table.push(tl);
         }
         var stats = google.visualization.arrayToDataTable(table);

@@ -145,6 +145,7 @@ function makeControl() {
             base.appendChild(element);
         }
     }
+    document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
 }
 
 // Draws all elements
