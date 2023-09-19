@@ -22,3 +22,28 @@
 img {
     width: 100%;
 }
+
+.primary-serif {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.primary-serif > select {
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+.primary-serif > select:hover {
+    transform: scale(1.02);
+}
