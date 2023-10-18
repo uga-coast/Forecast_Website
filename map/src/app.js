@@ -10,6 +10,7 @@ import "./css/controls.css";
 import Legend from "./components/Legend";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
+import Control from "./components/Control";
 import { VERSION } from "./constants.js";
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
 		<div className="container">
 			<Sidebar VERSION={VERSION} />
 			<Map />
+			{/* <Control /> */}
 			<Legend />
 		</div>
 	);
