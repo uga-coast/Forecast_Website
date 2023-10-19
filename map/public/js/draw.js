@@ -167,13 +167,17 @@ function makeControl() {
             var element = makeOverLayerControl(overLayers[i]);
             base.appendChild(element);
         } else {
-            if (HURRICANES.includes(overLayers[i].tiff.type)) {
+            if (HURRICANES.includes(overLayers[i].tiff.type) && ModelType == "Hurricane") {
                 var element = makeOverLayerControl(overLayers[i]);
                 document.getElementById(overLayers[i].tiff.type).appendChild(element);
             }
         }
     }
-    document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
+    if (ModelType == "Hurricane") {
+        document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
+    } else {
+        base.childNodes[0].dispatchEvent(new Event("change"));
+    }
 }
 
 // Draws all elements

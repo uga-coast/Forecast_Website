@@ -14,6 +14,9 @@ npm install react react-dom leaflet
 ```
 npm install react-leaflet
 ```
+```
+npm install @aws-sdk/client-s3
+```
 That is the end of the install process.
 ### Host Site
 Change to the correct directory
