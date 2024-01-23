@@ -3,10 +3,13 @@ async function doAll() {
     if (!started) {
         started = true;
         document.getElementById("version").innerText = VERSION;
-        await makeTiffList();
-        drawLegend();
-        drawLayers();
-        addMarkers();
+        getAllTifs();
     }
+}
+function doNextStep() {
+    drawLegend();
+    drawLayers();
+    addMarkers();
+    // drawHurricane();
 }
 document.body.addEventListener("beginProcess", doAll);

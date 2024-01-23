@@ -5,20 +5,21 @@ const MARKERS = [
     new Marker(8679598),
     new Marker(8720030)
 ];
-google.charts.load('current', {'packages':['corechart']});
 function drawPopup(marker, data, layer) {
     // Meta Data
     marker.lat = data.metadata.lat;
     marker.lon = data.metadata.lon;
     marker.name = data.metadata.name;
-    console.log(marker);
 
     var base = document.createElement("div");
-    base.style.width = "600px"
 
-    var graph = document.createElement("div");
-    graph.style.width = "600px";
-    graph.style.height = "400px";
+    let label = document.createElement("h3");
+    label.innerText = marker.name + ", Station ID: " + marker.station;
+    base.appendChild(label);
+
+    var graph = document.createElement("canvas");
+    graph.width = 300;
+    graph.height = 200;
     base.appendChild(graph);
 
     var aM = new L.Marker([marker.lat, marker.lon]);
@@ -29,32 +30,39 @@ function drawPopup(marker, data, layer) {
     aM.addTo(layer);
 
     // Draw Graph
-    google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var table = [["Time", "Water Levels(m)"]];
+        let dates = [];
+        let hts = [];
         for (let i = 0; i < data.data.length; i++) {
-            var tl = [new Date(data.data[i].t), parseFloat(data.data[i].v)];
-            table.push(tl);
+            dates.push(new Date(data.data[i].t));
+            hts.push(data.data[i].v);
         }
-        var stats = google.visualization.arrayToDataTable(table);
-        var options = {
-            title: "NOAA " + marker.station + " - " + marker.name,
-            curveType: "function",
-            legend: { position: "top" },
-            chartArea: { width: "90%" },
-            vAxis: { title: "Water Level (m, NAVD88)" },
-            hAxis: {
-                title: "Date (GMT)",
-                showTextEvery: 4
+        new Chart(graph, {
+            type: "line",
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: "day"
+                        }
+                    }]
+                }
             },
-            width: 600,
-            height: 400
-        };
-
-        var chart = new google.visualization.LineChart(graph);
-
-        chart.draw(stats, options);
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: "Water Levels(m)",
+                    data: hts,
+                    fill: false,
+                    borderColor: "#0088ff",
+                    pointRadius: 1,
+                    tension: 0,
+                }]
+            }
+        });
     }
+    drawChart();
 }
 function getPopup(marker, layer) {
     var url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=recent&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";

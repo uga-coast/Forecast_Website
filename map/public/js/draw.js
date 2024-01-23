@@ -1,6 +1,7 @@
 // Global Variables
 var map;
 var overLayers = [];
+let count = 0;
 
 // Adds a geotiff object as a layer
 function addTifLayers() {
@@ -31,71 +32,75 @@ function addTifLayers() {
         }
     })
     map.addControl(new fullscreen());
+    let promiseList = [];
 
-    var promiseList = [];
     for (let i = 0; i < tiffList.length; i++) {
-        var url_to_geotiff_file = tiffList[i].url;
+        let url_to_geotiff_file = tiffList[i].url;
 
-        try {
-            promiseList.push(parseGeoraster(url_to_geotiff_file).then(georaster => {
-                console.log("georaster:", georaster);
-
-                //    GeoRasterLayer is an extension of GridLayer,
-                //    which means can use GridLayer options like opacity.
-                //    Just make sure to include the georaster option!
-                //    http://leafletjs.com/reference-1.2.0.html#gridlayer
-
-                // Colors height appropriately
-                function colorScale(value) {
-                    var r = 0;
-                    var g = 0;
-                    var b = 0;
-
-                    if (value < 0.5) { // Blue -> Green
-                        b = 1 - 2*value;
-                        g = 2 * value;
-                    } else if (value < 1) { // Green -> Red
-                        g = 1 - 2*(value - 0.5);
-                        r = 2*(value - 0.5);
-                    } else { // Red
-                        r = 1;
+        function rasterize(link) {
+            try {
+                promiseList.push(parseGeoraster(link).then(georaster => {
+                    console.log("georaster:", georaster);
+    
+                    //    GeoRasterLayer is an extension of GridLayer,
+                    //    which means can use GridLayer options like opacity.
+                    //    Just make sure to include the georaster option!
+                    //    http://leafletjs.com/reference-1.2.0.html#gridlayer
+    
+                    // Colors height appropriately
+                    function colorScale(value) {
+                        var r = 0;
+                        var g = 0;
+                        var b = 0;
+    
+                        if (value < 0.5) { // Blue -> Green
+                            b = 1 - 2*value;
+                            g = 2 * value;
+                        } else if (value < 1) { // Green -> Red
+                            g = 1 - 2*(value - 0.5);
+                            r = 2*(value - 0.5);
+                        } else { // Red
+                            r = 1;
+                        }
+                        function flhex(input) {
+                            return Math.floor(256*input);
+                        }
+                        return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
                     }
-                    function flhex(input) {
-                        return Math.floor(256*input);
+                    function doColors(input) {
+                        var min = tiffList[i].min;
+                        var max = tiffList[i].max;
+                        var eval;
+                        if (min < max) {
+                            eval = (input > min);
+                        } else {
+                            eval = (input < min);
+                        }
+                        if (eval) {
+                            var scale = (input - min)/(max - min);
+                            return colorScale(scale);
+                        }
                     }
-                    return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
-                }
-                function doColors(input) {
-                    var min = tiffList[i].min;
-                    var max = tiffList[i].max;
-                    var eval;
-                    if (min < max) {
-                        eval = (input > min);
-                    } else {
-                        eval = (input < min);
-                    }
-                    if (eval) {
-                        var scale = (input - min)/(max - min);
-                        return colorScale(scale);
-                    }
-                }
-
-                // Create the layer
-                var tifLayer = new GeoRasterLayer({
-                    attribution: "Planet",
-                    georaster: georaster,
-                    resolution: RESOLUTION,
-                    pane: "overlay",
-                    opacity: 0.75,
-                    pixelValuesToColorFn: values => doColors(values[0])
-                });
-
-                // Add layer to the list for sorting
-                overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
-            }));
-        } catch (e) {
-            console.log("owo")
+    
+                    // Create the layer
+                    var tifLayer = new GeoRasterLayer({
+                        attribution: "Planet",
+                        georaster: georaster,
+                        resolution: RESOLUTION,
+                        pane: "overlay",
+                        opacity: 0.75,
+                        pixelValuesToColorFn: values => doColors(values[0])
+                    });
+    
+                    // Add layer to the list for sorting
+                    overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
+                }).catch((err) => {
+                }));
+            } catch(e) {
+                console.log("owo")
+            }
         }
+        rasterize(url_to_geotiff_file);
     }
     return promiseList;
 }
@@ -162,13 +167,17 @@ function makeControl() {
             var element = makeOverLayerControl(overLayers[i]);
             base.appendChild(element);
         } else {
-            if (HURRICANES.includes(overLayers[i].tiff.type)) {
+            if (HURRICANES.includes(overLayers[i].tiff.type) && ModelType == "Hurricane") {
                 var element = makeOverLayerControl(overLayers[i]);
                 document.getElementById(overLayers[i].tiff.type).appendChild(element);
             }
         }
     }
-    document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
+    if (ModelType == "Hurricane") {
+        document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
+    } else {
+        base.childNodes[0].dispatchEvent(new Event("change"));
+    }
 }
 
 // Draws all elements
@@ -199,8 +208,4 @@ function drawLayers() {
             currentList = overLayers.length;
         }
     }
-    setTimeout(startMakeControl, 1000); // NEEDS PERMANENT SOLUTION
-    setTimeout(startMakeControl, 2000); // NEEDS PERMANENT SOLUTION
-    setTimeout(startMakeControl, 4000); // NEEDS PERMANENT SOLUTION
-    setTimeout(startMakeControl, 8000); // NEEDS PERMANENT SOLUTION
 }
