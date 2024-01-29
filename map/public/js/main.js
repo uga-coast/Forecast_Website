@@ -10,6 +10,6 @@ function doNextStep() {
     drawLegend();
     drawLayers();
     addMarkers();
-    // drawHurricane();
+    drawHurricane();
 }
 document.body.addEventListener("beginProcess", doAll);
