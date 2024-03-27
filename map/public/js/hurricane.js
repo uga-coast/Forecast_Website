@@ -10,7 +10,7 @@ function drawCenter(lat, lon, time) {
     }
 
     let output = {
-        "lattitude": nlat,
+        "latitude": nlat,
         "longitude": nlon,
         "time": Math.floor(time)
     };
@@ -58,6 +58,13 @@ for (let i = 0; i < 20; i++) {
         HURRICANEERROR[i] = HURRICANEERROR[i - 1] + 30;
     }
 }
+function radSize(time) {
+    let out = 0;
+    if (Math.floor(time/12) < HURRICANEERROR.length) {
+        out = HURRICANEERROR[time/12];
+    }
+    return out;
+}
 
 let hurrIcon = L.icon({
     iconUrl: "hurricane.png",
@@ -71,29 +78,48 @@ let hurrIcon = L.icon({
 });
 function addHurricaneLayer(item) {
     let points = item.hurricanePoints;
-    // console.log(item.name)
-    // console.log(item.hurricanePoints.length)
+
     let hurrLayer = new L.layerGroup();
     let linePoints = [];
-    let circles = [];
     for (let i = 0; i < points.length; i++) {
         // console.log(i)
         // Add marker
-        let marker = new L.marker([points[i].lattitude, points[i].longitude], {icon: hurrIcon});
+        let marker = new L.marker([points[i].latitude, points[i].longitude], {icon: hurrIcon});
         marker.addTo(hurrLayer);
 
-        linePoints.push([points[i].lattitude, points[i].longitude]);
-
-        // Add circle
-        let circle = L.circle([points[i].lattitude, points[i].longitude], {radius: 1852*HURRICANEERROR[points[i].time/12]});
-        circles.push(circle);
+        linePoints.push([points[i].latitude, points[i].longitude]);
     }
-    let line = L.polyline(linePoints, {color: 'red'});
+    let line = L.polyline(linePoints, {color: 'blue'});
+
+    // Get all the points on the circle with a predefined step size
+    function getAllInCircle(lat, lon, rad) {
+        const COUNT = 360;
+        let out = [];
+        for (let i = 0; i < COUNT; i++) {
+            out.push([lat + rad*Math.cos(Math.PI*2*(i/COUNT)), lon + rad*Math.sin(Math.PI*2*(i/COUNT))])
+        }
+        return out;
+    }
+    let hulls = [];
+    for (let i = 0; i < points.length - 1; i++) {
+        let cira = getAllInCircle(points[i].latitude, points[i].longitude, (1/60)*radSize(points[i].time));
+        let cirb = getAllInCircle(points[i + 1].latitude, points[i + 1].longitude, (1/60)*radSize(points[i + 1].time));
+        let both = convexHull(cira.concat(cirb));
+
+        hulls.push(both);
+    }
+
+    let bull = L.polygon(hulls, {
+        color: '#ff0000',
+        stroke: false,
+        fillOpacity: 0.4,
+        fillRule: "nonzero",
+    });
 
     let output = {
         "layer": hurrLayer,
         "line": line,
-        "circles": circles
+        "hulls": bull,
     };
     return output;
 }

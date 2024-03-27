@@ -30,9 +30,7 @@ function makeOverLayerControl(input) {
 
         input.hurricaneLayer.layer.addTo(map);
         input.hurricaneLayer.line.addTo(map);
-        for (let i = 0; i < input.hurricaneLayer.circles.length; i++) {
-            input.hurricaneLayer.circles[i].addTo(map);
-        }
+        input.hurricaneLayer.hulls.addTo(map);
         
         let zoom = document.getElementById("zoom_" + input.tiff.name);
         // console.log(zoom);
@@ -49,9 +47,7 @@ function makeOverLayerControl(input) {
             map.removeLayer(input.layer);
             map.removeLayer(input.hurricaneLayer.layer);
             map.removeLayer(input.hurricaneLayer.line);
-            for (let i = 0; i < input.hurricaneLayer.circles.length; i++) {
-                map.removeLayer(input.hurricaneLayer.circles[i]);
-            }
+            map.removeLayer(input.hurricaneLayer.hulls);
             console.log(input.tiff.name + " turned off");
         }
         input.showing = false;
