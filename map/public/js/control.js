@@ -27,8 +27,13 @@ function makeOverLayerControl(input) {
             list[i].dispatchEvent(event);
         }
         input.layer.addTo(map);
+
+        input.hurricaneLayer.layer.addTo(map);
+        input.hurricaneLayer.line.addTo(map);
+        input.hurricaneLayer.hulls.addTo(map);
+        
         let zoom = document.getElementById("zoom_" + input.tiff.name);
-        console.log(zoom);
+        // console.log(zoom);
         setTimeout(function() {
             zoom.click();
         }, 1000);
@@ -40,6 +45,9 @@ function makeOverLayerControl(input) {
     button.addEventListener("userChange", function() {
         if (input.showing) {
             map.removeLayer(input.layer);
+            map.removeLayer(input.hurricaneLayer.layer);
+            map.removeLayer(input.hurricaneLayer.line);
+            map.removeLayer(input.hurricaneLayer.hulls);
             console.log(input.tiff.name + " turned off");
         }
         input.showing = false;
@@ -91,7 +99,6 @@ function makeOverLayerControl(input) {
     boop.id = "zoom_" + input.tiff.name;
     control.appendChild(boop);
     boop.addEventListener("click", function() {
-        console.log("uwu")
         if (input.showing) {
             var bounds = input.layer.getBounds();
             var boundSet = [

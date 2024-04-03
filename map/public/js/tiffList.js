@@ -1,4 +1,4 @@
-var tiffList = [];
+let tiffList = [];
 
 // Changes XML to JSON
 function xmlToJson(xml) {
@@ -44,18 +44,23 @@ function addTifToList(url) {
     let thisAdvisory = {
         "name": "Default",
         "url": baseUrl + url,
+        "hurricaneUrl": "Blank",
         "description": "Default",
         "min": 0,
         "max": 3,
         "type": "Default"
     }
+
+    thisAdvisory.hurricaneUrl = baseUrl + url.substring(0, url.indexOf("maxele.tif")) + "fort.22";
+    addHurricanePoints(thisAdvisory);
+
+    // console.log(thisAdvisory.hurricaneUrl);
     if (url.indexOf("adcirc_gfs_53k/sapelo2/gfs/") != -1) {
         thisAdvisory.type = "Forecast";
         let pos = url.indexOf("gfs/") + 4;
         thisAdvisory.name = url.substring(pos + 5, pos + 7) + "-" + url.substring(pos + 8, pos + 10) + "-" + url.substring(pos, pos + 4) +
         " " + url.substring(pos + 11, pos + 13) + ":00 UTC";
         thisAdvisory.description = thisAdvisory.name;
-
     } else if (url.indexOf("ga_v01b_nhc_10L/sapelo2/nhc/ADVISORY_") != -1) {
         thisAdvisory.type = "Idalia";
         let lookup = "ADVISORY_";
@@ -77,12 +82,10 @@ function getAllTifs() {
     let s3 = new AWS.S3({ region: '' });
 
     s3.makeUnauthenticatedRequest('getObject', params, function(err, data) {
-        if (err)
-        {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             let parser = new DOMParser();
             let strout = data.Body.toString('utf-8');
             let xmlDoc = parser.parseFromString(strout, "text/xml");
@@ -97,60 +100,4 @@ function getAllTifs() {
             doNextStep();
         }
     });
-}
-
-function getPast() {
-    var output = [];
-    var d = new Date();
-    const MONTHS = ["01","02","03","04","05","06","07","08","09","10","11","12"];
-    const HOURS = ["00","06","12","18"];
-    const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-    for (let i = 0; i < 14; i++) {
-        var dayNum = "";
-        var date = d.getUTCFullYear() + "/" + MONTHS[d.getUTCMonth()] + "/";
-        if (d.getUTCDate() < 10) {
-            dayNum = MONTHS[d.getUTCDate() - 1];
-        } else {
-            dayNum = d.getUTCDate();
-        }
-        date += dayNum;
-        var name = MONTHS[d.getUTCMonth()] + "-" + dayNum + "-" + d.getUTCFullYear() + " ";
-        for (let j = 0; j < 4; j++) {
-            var curName = name + j*6 + ":00 UTC";
-            var thatDay = {
-                "name": curName,
-                "url": "https://uga-coast-forecasting.s3.amazonaws.com/adcirc_gfs_53k/sapelo2/gfs/" + date + "/" + HOURS[j] + "/adcirc/wnat_53k_v1.0/forecast/base/maxele.tif",
-                "description": date.toString() + " " + HOURS[j] + ":00 model.",
-                "min": 0,
-                "max": 3,
-                "type": "Forecast"
-            };
-
-            output[output.length] = thatDay;
-        }
-        d.setDate(d.getDate() - 1);
-    }
-    return output;
-}
-function getIdalia() {
-    var output = [];
-    for (let i = 0; i < 30; /* NOTICE THIS. I'M PUTTING 30 AS MAX. <- RIGHT HERE */ i++) {
-        var dumCount = ["00","01","02","03","04","05","06","07","08","09"];
-        var count = "0";
-        if (i < 10) {
-            count += dumCount[i];
-        } else {
-            count += i;
-        }
-        var thisAdvisory = {
-            "name": "Advisory " + i,
-            "url": "https://uga-coast-forecasting.s3.amazonaws.com/ga_v01b_nhc_10L/sapelo2/nhc/ADVISORY_" + count + "/adcirc/GA_2023_v01b_chk/forecast/ofcl/maxele.tif",
-            "description": "Advisory " + count,
-            "min": 0,
-            "max": 3,
-            "type": "Idalia"
-        }
-        output.push(thisAdvisory);
-    }
-    return output;
 }

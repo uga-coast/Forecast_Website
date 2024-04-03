@@ -40,7 +40,7 @@ function addTifLayers() {
         function rasterize(link) {
             try {
                 promiseList.push(parseGeoraster(link).then(georaster => {
-                    console.log("georaster:", georaster);
+                    // console.log("georaster:", georaster);
     
                     //    GeoRasterLayer is an extension of GridLayer,
                     //    which means can use GridLayer options like opacity.
@@ -93,7 +93,7 @@ function addTifLayers() {
                     });
     
                     // Add layer to the list for sorting
-                    overLayers.push(new Layer(tiffList[i], "overlay", tifLayer));
+                    overLayers.push(new Layer(tiffList[i], "overlay", tifLayer, addHurricaneLayer(tiffList[i])));
                 }).catch((err) => {
                 }));
             } catch(e) {
