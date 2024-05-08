@@ -28,9 +28,11 @@ function makeOverLayerControl(input) {
         }
         input.layer.addTo(map);
 
-        input.hurricaneLayer.layer.addTo(map);
-        input.hurricaneLayer.line.addTo(map);
-        input.hurricaneLayer.hulls.addTo(map);
+        if (input.hurricaneLayer != null) {
+            input.hurricaneLayer.layer.addTo(map);
+            input.hurricaneLayer.line.addTo(map);
+            input.hurricaneLayer.hulls.addTo(map);
+        }
         
         let zoom = document.getElementById("zoom_" + input.tiff.name);
         // console.log(zoom);
@@ -45,9 +47,11 @@ function makeOverLayerControl(input) {
     button.addEventListener("userChange", function() {
         if (input.showing) {
             map.removeLayer(input.layer);
-            map.removeLayer(input.hurricaneLayer.layer);
-            map.removeLayer(input.hurricaneLayer.line);
-            map.removeLayer(input.hurricaneLayer.hulls);
+            if (input.hurricaneLayer != null) {
+                map.removeLayer(input.hurricaneLayer.layer);
+                map.removeLayer(input.hurricaneLayer.line);
+                map.removeLayer(input.hurricaneLayer.hulls);
+            }
             console.log(input.tiff.name + " turned off");
         }
         input.showing = false;

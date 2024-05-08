@@ -39,34 +39,42 @@ function xmlToJson(xml) {
 	return obj;
 };
 
-function addTifToList(url) {
+function getName(data) {
+    let output = "";
+    output += data.cycle_month;
+    output += "-";
+    output += data.cycle_day;
+    output += "-";
+    output += data.cycle_year;
+    output += " ";
+    output += data.cycle_hour;
+    output += ":00 UTC";
+    return output;
+}
+async function addTifToList(key) {
     let baseUrl = "https://uga-coast-forecasting.s3.amazonaws.com/";
+
+    let newKey = baseUrl + key;
+    console.log(key)
+    let response = await fetch(newKey);
+    let data = await response.json();
+    console.log(data)
+
     let thisAdvisory = {
-        "name": "Default",
-        "url": baseUrl + url,
+        "name": getName(data),
+        "url": data.waterlevel_gtif_url,
         "hurricaneUrl": "Blank",
-        "description": "Default",
+        "description": data.ensemble_member + " " + data.advisory,
         "min": 0,
         "max": 3,
-        "type": "Default"
+        "type": data.simtype,
     }
 
-    thisAdvisory.hurricaneUrl = baseUrl + url.substring(0, url.indexOf("maxele.tif")) + "fort.22";
-    addHurricanePoints(thisAdvisory);
-
-    // console.log(thisAdvisory.hurricaneUrl);
-    if (url.indexOf("adcirc_gfs_53k/sapelo2/gfs/") != -1) {
-        thisAdvisory.type = "Forecast";
-        let pos = url.indexOf("gfs/") + 4;
-        thisAdvisory.name = url.substring(pos + 5, pos + 7) + "-" + url.substring(pos + 8, pos + 10) + "-" + url.substring(pos, pos + 4) +
-        " " + url.substring(pos + 11, pos + 13) + ":00 UTC";
-        thisAdvisory.description = thisAdvisory.name;
-    } else if (url.indexOf("ga_v01b_nhc_10L/sapelo2/nhc/ADVISORY_") != -1) {
-        thisAdvisory.type = "Idalia";
-        let lookup = "ADVISORY_";
-        thisAdvisory.name = "Advisory " + url.substring(url.indexOf(lookup) + lookup.length, url.indexOf(lookup) + lookup.length + 3);
-        thisAdvisory.description = thisAdvisory.name;
+    if (data.advisory != "None") {
+        thisAdvisory.type = "Hurricane";
+        thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
     }
+
     tiffList.push(thisAdvisory);
 }
 
@@ -80,8 +88,9 @@ function getAllTifs() {
     }
 
     let s3 = new AWS.S3({ region: '' });
+    console.log(s3.makeUnauthenticatedRequest('listObjectsRequest'))
 
-    s3.makeUnauthenticatedRequest('getObject', params, function(err, data) {
+    s3.makeUnauthenticatedRequest('getObject', params, async function(err, data) {
         if (err) {
             console.log(err);
         }
@@ -91,11 +100,15 @@ function getAllTifs() {
             let xmlDoc = parser.parseFromString(strout, "text/xml");
             let json = xmlToJson(xmlDoc);
             let contents = json.ListBucketResult.Contents;
+            console.log(contents);
             for (let i = 0; i < contents.length; i++) {
                 let key = contents[i].Key["#text"];
-                if (key.indexOf(".tif") != -1) {
-                    addTifToList(key);
+                if (key.indexOf("metadata.json") != -1) {
+                    await addTifToList(key);
                 }
+            }
+            for (let i = 0; i < newList.length; i++) {
+                await addTifToList(newList[i])
             }
             doNextStep();
         }

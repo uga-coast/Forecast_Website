@@ -34,6 +34,7 @@ function addTifLayers() {
     map.addControl(new fullscreen());
     let promiseList = [];
 
+    console.log(tiffList);
     for (let i = 0; i < tiffList.length; i++) {
         let url_to_geotiff_file = tiffList[i].url;
 
@@ -93,11 +94,11 @@ function addTifLayers() {
                     });
     
                     // Add layer to the list for sorting
-                    overLayers.push(new Layer(tiffList[i], "overlay", tifLayer, addHurricaneLayer(tiffList[i])));
+                    let layer = new Layer(tiffList[i], "overlay", tifLayer, addHurricaneLayer(tiffList[i]));
+                    overLayers.push(layer);
                 }).catch((err) => {
                 }));
             } catch(e) {
-                console.log("owo")
             }
         }
         rasterize(url_to_geotiff_file);
@@ -174,8 +175,13 @@ function makeControl() {
         }
     }
     if (ModelType == "Hurricane") {
-        document.getElementsByClassName("overlayer-button-here")[0].dispatchEvent(new Event("change"));
+        let hurricanes = document.getElementsByClassName("overlayer-button-here");
+        if (hurricanes.length > 0) {
+            hurricanes[0].dispatchEvent(new Event("change"));
+        }
     } else {
+        console.log("TRYING")
+        console.log(base.childNodes[0]);
         base.childNodes[0].dispatchEvent(new Event("change"));
     }
 }
@@ -191,21 +197,21 @@ function drawLayers() {
     document.getElementById("ModelType").addEventListener("change", makeControl);
     document.getElementById("SortType").addEventListener("change", makeControl);
     // LAZY METHOD. PLEASE FIX PROMISES.
-    var currentList = 0;
-    function startMakeControl() {
-        if (overLayers.length != currentList) {
-            makeControl();
-            var list = document.getElementsByClassName("overlayer-button-here");
-            var isOn = false;
-            for (let i = 0; i < list.length; i++) {
-                if (list[i].checked) {
-                    isOn = true;
-                }
-            }
-            if (!isOn) {
-                list[0].dispatchEvent(new Event("change"));
-            }
-            currentList = overLayers.length;
-        }
-    }
+    // var currentList = 0;
+    // function startMakeControl() {
+    //     if (overLayers.length != currentList) {
+    //         makeControl();
+    //         var list = document.getElementsByClassName("overlayer-button-here");
+    //         var isOn = false;
+    //         for (let i = 0; i < list.length; i++) {
+    //             if (list[i].checked) {
+    //                 isOn = true;
+    //             }
+    //         }
+    //         if (!isOn) {
+    //             list[0].dispatchEvent(new Event("change"));
+    //         }
+    //         currentList = overLayers.length;
+    //     }
+    // }
 }
