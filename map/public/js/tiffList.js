@@ -55,24 +55,23 @@ async function addTifToList(key) {
     let baseUrl = "https://uga-coast-forecasting.s3.amazonaws.com/";
 
     let newKey = baseUrl + key;
-    console.log(key)
     let response = await fetch(newKey);
     let data = await response.json();
-    console.log(data)
 
     let thisAdvisory = {
         "name": getName(data),
         "url": data.waterlevel_gtif_url,
         "hurricaneUrl": "Blank",
-        "description": data.ensemble_member + " " + data.advisory,
+        "description": getName(data),
         "min": 0,
         "max": 3,
         "type": data.simtype,
     }
 
     if (data.advisory != "None") {
-        thisAdvisory.type = "Hurricane";
-        thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
+        thisAdvisory.type = data.stormname;
+        let pig = data.waterlevel_gtif_url;
+        thisAdvisory.hurricaneUrl = pig.substring(0, pig.indexOf("maxele.tif")) + "fort.22";
     }
 
     tiffList.push(thisAdvisory);
@@ -88,7 +87,6 @@ function getAllTifs() {
     }
 
     let s3 = new AWS.S3({ region: '' });
-    console.log(s3.makeUnauthenticatedRequest('listObjectsRequest'))
 
     s3.makeUnauthenticatedRequest('getObject', params, async function(err, data) {
         if (err) {
