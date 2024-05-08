@@ -1,6 +1,6 @@
 const RESOLUTION = 64;
 const DISPLAY_TO_URL = [
-    ["Daily Forecast", "Forecast"],
+    ["Daily Forecast", "forecast"],
     ["Hurricane", "Hurricane"]
 ];
 const HURRICANES = ["Idalia"];

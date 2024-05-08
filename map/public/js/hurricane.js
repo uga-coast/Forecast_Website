@@ -52,7 +52,7 @@ function addHurricanePoints(item) {
     );
 }
 
-const HURRICANEERROR = [0, 21.1, 31.3, 41.6, 52.5, 65.3, 78.1, 98.7, 126.2];
+const HURRICANEERROR = [0, 26, 41, 55, 70, 88, 102, 151, 220];
 for (let i = 0; i < 20; i++) {
     if (HURRICANEERROR[i] == null) {
         HURRICANEERROR[i] = HURRICANEERROR[i - 1] + 30;
@@ -76,8 +76,12 @@ let hurrIcon = L.icon({
     shadowAnchor: [0, 0],  // the same for the shadow
     popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
 });
+
 function addHurricaneLayer(item) {
     let points = item.hurricanePoints;
+    if (item.hurricanePoints == null) {
+        return null;
+    }
 
     let hurrLayer = new L.layerGroup();
     let linePoints = [];
