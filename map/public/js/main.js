@@ -3,7 +3,7 @@ async function doAll() {
     if (!started) {
         started = true;
         document.getElementById("version").innerText = VERSION;
-        getAllTifs();
+        await getAllTifs();
     }
 }
 function doNextStep() {

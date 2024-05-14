@@ -78,39 +78,11 @@ async function addTifToList(key) {
     tiffList.push(thisAdvisory);
 }
 
-function getAllTifs() {
-    const AWS = window.AWS;
-
-    let params =
-    {
-        Bucket: "uga-coast-forecasting",
-        Key: "."
+async function getAllTifs() {
+    let file = await fetch("./js/meta.json");
+    let readed = await file.json();
+    for (let i = 0; i < readed.length; i++) {
+        await addTifToList(readed[i])
     }
-
-    let s3 = new AWS.S3({ region: '' });
-    console.log(s3.makeUnauthenticatedRequest('listObjectsRequest'))
-
-    s3.makeUnauthenticatedRequest('getObject', params, async function(err, data) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            let parser = new DOMParser();
-            let strout = data.Body.toString('utf-8');
-            let xmlDoc = parser.parseFromString(strout, "text/xml");
-            let json = xmlToJson(xmlDoc);
-            let contents = json.ListBucketResult.Contents;
-            console.log(contents);
-            for (let i = 0; i < contents.length; i++) {
-                let key = contents[i].Key["#text"];
-                if (key.indexOf("metadata.json") != -1) {
-                    await addTifToList(key);
-                }
-            }
-            for (let i = 0; i < newList.length; i++) {
-                await addTifToList(newList[i])
-            }
-            doNextStep();
-        }
-    });
+    doNextStep();
 }
