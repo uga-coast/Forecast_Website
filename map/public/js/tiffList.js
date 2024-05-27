@@ -58,7 +58,7 @@ async function addTifToList(key) {
     console.log(key)
     let response = await fetch(newKey);
     let data = await response.json();
-    console.log(data)
+    // console.log(data)
 
     let thisAdvisory = {
         "name": getName(data),
@@ -68,18 +68,32 @@ async function addTifToList(key) {
         "min": 0,
         "max": 3,
         "type": data.simtype,
+        "show": false,
+        "date": new Date(),
     }
 
-    if (data.advisory != "None") {
+    let writtenDate = data.cycle_year + "-" + data.cycle_month + "-" + data.cycle_day + "T" + data.cycle_hour + ":00:00";
+    thisAdvisory.date = new Date(writtenDate);
+    thisAdvisory.description += "--" + writtenDate;
+
+    if (data.advisory == "None") {
+        if (data.waterlevel_gtif_url.includes("adcirc_gfs_ga")) {
+            thisAdvisory.show = true;
+        }
+    } else {
+        thisAdvisory.show = true;
+        thisAdvisory.name = "Advisory " + data.advisory;
         thisAdvisory.type = "Hurricane";
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
     }
 
-    tiffList.push(thisAdvisory);
+    if (thisAdvisory.show) {
+        tiffList.push(thisAdvisory);
+    }
 }
 
 async function getAllTifs() {
-    let file = await fetch("./js/meta.json");
+    let file = await fetch("https://uga-coast-forecasting.s3.amazonaws.com/metadata_list.json");
     let readed = await file.json();
     for (let i = 0; i < readed.length; i++) {
         await addTifToList(readed[i])
