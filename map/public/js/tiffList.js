@@ -57,6 +57,7 @@ async function addTifToList(key) {
     let newKey = baseUrl + key;
     let response = await fetch(newKey);
     let data = await response.json();
+    // console.log(data)
 
     let thisAdvisory = {
         "name": getName(data),
@@ -66,49 +67,35 @@ async function addTifToList(key) {
         "min": 0,
         "max": 3,
         "type": data.simtype,
+        "show": false,
+        "date": new Date(),
     }
 
-    if (data.advisory != "None") {
-        thisAdvisory.type = data.stormname;
-        let pig = data.waterlevel_gtif_url;
-        thisAdvisory.hurricaneUrl = pig.substring(0, pig.indexOf("maxele.tif")) + "fort.22";
+    let writtenDate = data.cycle_year + "-" + data.cycle_month + "-" + data.cycle_day + "T" + data.cycle_hour + ":00:00";
+    thisAdvisory.date = new Date(writtenDate);
+    thisAdvisory.description += "--" + writtenDate;
+
+    if (data.advisory == "None") {
+        if (data.waterlevel_gtif_url.includes("adcirc_gfs_ga")) {
+            thisAdvisory.show = true;
+        }
+    } else {
+        thisAdvisory.show = true;
+        thisAdvisory.name = "Advisory " + data.advisory;
+        thisAdvisory.type = "Hurricane";
+        thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
     }
 
-    tiffList.push(thisAdvisory);
+    if (thisAdvisory.show) {
+        tiffList.push(thisAdvisory);
+    }
 }
 
-function getAllTifs() {
-    const AWS = window.AWS;
-
-    let params =
-    {
-        Bucket: "uga-coast-forecasting",
-        Key: "."
+async function getAllTifs() {
+    let file = await fetch("https://uga-coast-forecasting.s3.amazonaws.com/metadata_list.json");
+    let readed = await file.json();
+    for (let i = 0; i < readed.length; i++) {
+        await addTifToList(readed[i])
     }
-
-    let s3 = new AWS.S3({ region: '' });
-
-    s3.makeUnauthenticatedRequest('getObject', params, async function(err, data) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            let parser = new DOMParser();
-            let strout = data.Body.toString('utf-8');
-            let xmlDoc = parser.parseFromString(strout, "text/xml");
-            let json = xmlToJson(xmlDoc);
-            let contents = json.ListBucketResult.Contents;
-            console.log(contents);
-            for (let i = 0; i < contents.length; i++) {
-                let key = contents[i].Key["#text"];
-                if (key.indexOf("metadata.json") != -1) {
-                    await addTifToList(key);
-                }
-            }
-            for (let i = 0; i < newList.length; i++) {
-                await addTifToList(newList[i])
-            }
-            doNextStep();
-        }
-    });
+    doNextStep();
 }
