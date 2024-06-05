@@ -38,10 +38,6 @@ function makeOverLayerControl(input) {
         }
         
         let zoom = document.getElementById("zoom_" + input.tiff.name);
-        // console.log(zoom);
-        setTimeout(function() {
-            zoom.click();
-        }, 1000);
         document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
         document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
         input.showing = true;

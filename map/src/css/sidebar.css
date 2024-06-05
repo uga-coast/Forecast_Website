@@ -14,12 +14,13 @@
     background-color: var(--odyssey);
     color: var(--odyssey-font);
 
-    padding: 5px;
+    padding: 2%;
 }
 #credits a {
-    text-decoration: none;
-    color: var(--odyssey-font)
+    font-size: large;
+    font-weight: 700;
 }
 img {
-    width: 100%;
+    width: 80%;
+    padding: 4% 10% 4% 10%;
 }

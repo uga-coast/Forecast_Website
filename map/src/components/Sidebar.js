@@ -25,7 +25,9 @@ const Sidebar = () => {
                 <hr></hr>
             </div>
             <div id="credits" className="secondary-serif">
-                <img src="logo.png"></img>
+                <img src="logo2.png"></img>
+                <img src="water_logo.png"></img>
+                <br></br>
                 <a href="https://coast.engr.uga.edu/">UGA Coast Website</a>
                 <br></br>
                 <b>Version: </b><text id="version">Loading</text>
