@@ -102,8 +102,9 @@ async function addTifToList(key) {
 async function getAllTifs() {
     let file = await fetch("https://uga-coast-forecasting.s3.amazonaws.com/metadata_list.json");
     let readed = await file.json();
+    let promises = [];
     for (let i = 0; i < readed.length; i++) {
-        await addTifToList(readed[i])
+        promises.push(addTifToList(readed[i]));
     }
-    doNextStep();
+    Promise.all(promises).then(doNextStep)
 }
