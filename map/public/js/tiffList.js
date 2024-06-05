@@ -80,7 +80,9 @@ async function addTifToList(key) {
             thisAdvisory.show = true;
         }
     } else {
-        thisAdvisory.show = true;
+        if (data.waterlevel_gtif_url.includes("_ga/")) {
+            thisAdvisory.show = true;
+        }
         thisAdvisory.name = "Advisory " + data.advisory;
         thisAdvisory.type = "Hurricane";
         thisAdvisory.modelType = data.ensemble_member;
@@ -107,4 +109,4 @@ async function getAllTifs() {
         promises.push(addTifToList(readed[i]));
     }
     Promise.all(promises).then(doNextStep)
-}
+    }

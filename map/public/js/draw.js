@@ -198,22 +198,4 @@ function drawLayers() {
     Promise.all(addTifLayers()).then(makeControl);
     document.getElementById("ModelType").addEventListener("change", makeControl);
     document.getElementById("SortType").addEventListener("change", makeControl);
-    // LAZY METHOD. PLEASE FIX PROMISES.
-    // var currentList = 0;
-    // function startMakeControl() {
-    //     if (overLayers.length != currentList) {
-    //         makeControl();
-    //         var list = document.getElementsByClassName("overlayer-button-here");
-    //         var isOn = false;
-    //         for (let i = 0; i < list.length; i++) {
-    //             if (list[i].checked) {
-    //                 isOn = true;
-    //             }
-    //         }
-    //         if (!isOn) {
-    //             list[0].dispatchEvent(new Event("change"));
-    //         }
-    //         currentList = overLayers.length;
-    //     }
-    // }
 }
