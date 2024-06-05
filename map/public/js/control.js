@@ -1,12 +1,20 @@
+function makeName(input) {
+    let output = "base_" + input.tiff.name;
+    if (input.tiff.type == "Hurricane") {
+        output = input.tiff.hurricane + "_" + output;
+    }
+    return output;
+}
+
 // Overlay layer control with checkbox function
 function makeOverLayerControl(input) {
-    if (document.getElementById("base_" + input.tiff.name) != null) {
-        return document.getElementById("base_" + input.tiff.name);
+    if (document.getElementById(makeName(input)) != null) {
+        return document.getElementById(makeName(input));
     }
     // Base
     var base = document.createElement("div");
     base.classList.add("overLayer");
-    base.id = "base_" + input.tiff.name;
+    base.id = makeName(input);
 
     // The checkbox
     var button = document.createElement("input");

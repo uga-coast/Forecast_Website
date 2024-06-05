@@ -144,6 +144,8 @@ function makeControl() {
     while (base.firstChild) {
         base.removeChild(base.firstChild);
     }
+
+    // Get mode type to display
     let ModelType = "None";
     var TModelType = document.getElementById("ModelType").value;
     for (let i = 0; i < DISPLAY_TO_URL.length; i++) {
@@ -151,6 +153,9 @@ function makeControl() {
             ModelType = DISPLAY_TO_URL[i][1];
         }
     }
+    console.log(ModelType)
+
+    // Hurricane
     if (ModelType == "Hurricane") {
         for (let i = 0; i < HURRICANES.length; i++) {
             let thisH = document.createElement("div");
@@ -163,26 +168,25 @@ function makeControl() {
             base.appendChild(thisH);
         }
     }
+
+    // Add the radio button selectors
     for (let i = 0; i < overLayers.length; i++) {
         if (overLayers[i].tiff.type == ModelType) {
-            var element = makeOverLayerControl(overLayers[i]);
-            base.appendChild(element);
-        } else {
-            if (HURRICANES.includes(overLayers[i].tiff.type) && ModelType == "Hurricane") {
+            if (ModelType == "forecast") {
                 var element = makeOverLayerControl(overLayers[i]);
-                document.getElementById(overLayers[i].tiff.type).appendChild(element);
+                base.appendChild(element);
+            } else if (ModelType == "Hurricane") {
+                var element = makeOverLayerControl(overLayers[i]);
+                console.log(overLayers[i].tiff.hurricane)
+                document.getElementById(overLayers[i].tiff.hurricane).appendChild(element);
             }
         }
     }
-    if (ModelType == "Hurricane") {
-        let hurricanes = document.getElementsByClassName("overlayer-button-here");
-        if (hurricanes.length > 0) {
-            hurricanes[0].dispatchEvent(new Event("change"));
-        }
-    } else {
-        console.log("TRYING")
-        console.log(base.childNodes[0]);
-        base.childNodes[0].dispatchEvent(new Event("change"));
+
+    // Open top tiff
+    let hurricanes = document.getElementsByClassName("overlayer-button-here");
+    if (hurricanes.length > 0) {
+        hurricanes[0].dispatchEvent(new Event("change"));
     }
 }
 
