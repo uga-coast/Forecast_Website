@@ -93,6 +93,9 @@ async function addTifToList(key) {
 
     if (thisAdvisory.show) {
         tiffList.push(thisAdvisory);
+        if (thisAdvisory.type == "Hurricane") {
+            await addHurricanePoints(thisAdvisory);
+        }
     }
 }
 

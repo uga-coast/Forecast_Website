@@ -17,39 +17,39 @@ function drawCenter(lat, lon, time) {
     return output;
 }
 
-function addHurricanePoints(item) {
+async function addHurricanePoints(item) {
     item.hurricanePoints = [];
-    fetch(item.hurricaneUrl).then(r => r.text() ).then(
-        function(t) {
-            let lines = t.split("\n");
-            let message = [];
-            newPoints = [];
-            for (let i = 0; i < lines.length; i++) {
-                message.push(lines[i].split(", "));
-                try {
-                    if (message[i][5]%12 == 0) {
-                        newPoints.push(drawCenter(message[i][6], message[i][7], message[i][5]));
-                    }
-                } catch {
-                    //
-                }
+    let newUrl = item.hurricaneUrl.substring(0, item.hurricaneUrl.indexOf("maxele")) + "fort.22";
+    let ttfile = await fetch(newUrl);
+    let t = await ttfile.text();
+    // console.log(t)
+    let lines = t.split("\n");
+    let message = [];
+    newPoints = [];
+    for (let i = 0; i < lines.length; i++) {
+        message.push(lines[i].split(", "));
+        try {
+            if (message[i][5]%12 == 0) {
+                newPoints.push(drawCenter(message[i][6], message[i][7], message[i][5]));
             }
-            for (let i = 0; i < newPoints.length; i++) {
-                let unique = true;
-                for (let j = 0; j < item.hurricanePoints.length; j++) {
-                    if (item.hurricanePoints[j].time == newPoints[i].time) {
-                        unique = false;
-                        j = item.hurricanePoints.length;
-                    }
-                }
-                if (unique) {
-                    item.hurricanePoints.push(newPoints[i]);
-                }
-            }
-            // console.log(item.name)
-            // console.log(item.hurricanePoints.length)
+        } catch {
+            //
         }
-    );
+    }
+    for (let i = 0; i < newPoints.length; i++) {
+        let unique = true;
+        for (let j = 0; j < item.hurricanePoints.length; j++) {
+            if (item.hurricanePoints[j].time == newPoints[i].time) {
+                unique = false;
+                j = item.hurricanePoints.length;
+            }
+        }
+        if (unique) {
+            item.hurricanePoints.push(newPoints[i]);
+        }
+    }
+    // console.log(item.name)
+    // console.log(item.hurricanePoints.length)
 }
 
 const HURRICANEERROR = [0, 26, 41, 55, 70, 88, 102, 151, 220];
@@ -78,6 +78,9 @@ let hurrIcon = L.icon({
 });
 
 function addHurricaneLayer(item) {
+    // if (item.type == "Hurricane") {
+        // addHurricanePoints(item)
+    // }
     let points = item.hurricanePoints;
     if (item.hurricanePoints == null) {
         return null;

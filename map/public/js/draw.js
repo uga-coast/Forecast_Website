@@ -153,7 +153,6 @@ function makeControl() {
             ModelType = DISPLAY_TO_URL[i][1];
         }
     }
-    console.log(ModelType)
 
     // Hurricane
     if (ModelType == "Hurricane") {
@@ -177,7 +176,6 @@ function makeControl() {
                 base.appendChild(element);
             } else if (ModelType == "Hurricane") {
                 var element = makeOverLayerControl(overLayers[i]);
-                console.log(overLayers[i].tiff.hurricane)
                 document.getElementById(overLayers[i].tiff.hurricane).appendChild(element);
             }
         }
