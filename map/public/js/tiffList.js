@@ -93,6 +93,10 @@ async function addTifToList(key) {
         }
         thisAdvisory.hurricane = data.stormname;
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
+
+        if (thisAdvisory.hurricane == "Nicole") {
+            thisAdvisory.show = false;
+        }
     }
 
     if (thisAdvisory.show) {

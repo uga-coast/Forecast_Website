@@ -156,6 +156,9 @@ function drawPopup(marker, data, layer, time, tiff) {
 async function getPopup(marker, layer, tiff) {
     // Get time
     let time = tiff.date;
+    if (tiff.type == "forecast") {
+        time.setDate(time.getDate());
+    }
     let monthList = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
     let goalTimes = time.getFullYear() + "" + monthList[time.getMonth()] + "" + monthList[time.getDate() - 1];
     // Get URL
