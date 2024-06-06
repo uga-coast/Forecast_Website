@@ -43,8 +43,9 @@ function drawPopup(marker, data, layer, time, tiff) {
         let out = [];
         let arr = tiff.stationData[marker.station];
         for (let i = 0; i < arr.zeta.length; i++) {
+            let tipt = new Date(arr.time_date[i]);
             out.push({
-                "date": new Date(arr.time_date[i]),
+                "date": tipt,
                 "y": arr.zeta[i]
             });
             if (out[i].y < -10) {
@@ -156,16 +157,20 @@ async function getPopup(marker, layer, tiff) {
     // Get URL
     let url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=" + goalTimes + "&range=72&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
     // Get data from NOAA
+    console.log(url);
     let file = await fetch(url);
     let data = await file.json();
     // Draw popup
     drawPopup(marker, data, layer, time, tiff);
 }
 let markerLayer;
+let hurricaneLayer;
 function addMarkers() {
     markerLayer = new L.LayerGroup().addTo(map);
+    hurricaneLayer = new L.LayerGroup().addTo(map);
     let controlLayers = L.control.layers(map._layers[39]).addTo(map);
     controlLayers.addOverlay(markerLayer, "Markers");
+    controlLayers.addOverlay(hurricaneLayer, "Hurricane Cone");
     for (let i = 0; i < MARKERS.length; i++) {
         getPopup(MARKERS[i], markerLayer, new Date());
     }
