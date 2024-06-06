@@ -69,6 +69,8 @@ async function addTifToList(key) {
         "type": data.simtype,
         "show": false,
         "date": new Date(),
+        "stationUrl": data.waterlevel_json_url,
+        "stationData": null,
     }
 
     let writtenDate = data.cycle_year + "-" + data.cycle_month + "-" + data.cycle_day + "T" + data.cycle_hour + ":00:00";
@@ -98,7 +100,15 @@ async function addTifToList(key) {
         if (thisAdvisory.type == "Hurricane") {
             await addHurricanePoints(thisAdvisory);
         }
+        await getMarkerJson(thisAdvisory);
     }
+}
+
+async function getMarkerJson(input) {
+    let url = input.stationUrl;
+    let file = await fetch(url);
+    let data = await file.json();
+    input.stationData = data;
 }
 
 async function getAllTifs() {

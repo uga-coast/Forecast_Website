@@ -30,7 +30,7 @@ function makeOverLayerControl(input) {
         document.getElementById("opacity-slider").value = 1;
         this.checked = true;
 
-        updateMarkers(input.tiff.date);
+        updateMarkers(input.tiff);
 
         var list = document.getElementsByName("Overlayer");
         console.log(list.length);
