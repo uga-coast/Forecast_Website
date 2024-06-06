@@ -47,6 +47,9 @@ function drawPopup(marker, data, layer, time, tiff) {
                 "date": new Date(arr.time_date[i]),
                 "y": arr.zeta[i]
             });
+            if (out[i].y < -10) {
+                out[i].y = null;
+            }
         }
         return out;
     }
