@@ -1,7 +1,7 @@
 const MARKERS = [
     new Marker(8670870),
     new Marker(8721604),
-    new Marker(8636580),
+    // new Marker(8636580),
     new Marker(8679598),
     new Marker(8720030)
 ];
@@ -14,7 +14,7 @@ function drawPopup(marker, data, layer, time, tiff) {
     var base = document.createElement("div");
 
     let label = document.createElement("h3");
-    label.innerText = marker.name + ", Station ID: " + marker.station + " " + time;
+    label.innerText = marker.name + ", Station ID: " + marker.station;
     base.appendChild(label);
 
     var graph = document.createElement("canvas");
@@ -32,8 +32,10 @@ function drawPopup(marker, data, layer, time, tiff) {
     function getNOAAStuff() {
         let out = [];
         for (let i = 0; i < data.data.length; i++) {
+            let tipt = new Date(data.data[i].t);
+            tipt.setHours(tipt.getHours() - 0);
             out.push({
-                "date": new Date(data.data[i].t),
+                "date": tipt,
                 "y": data.data[i].v
             });
         }
@@ -44,6 +46,7 @@ function drawPopup(marker, data, layer, time, tiff) {
         let arr = tiff.stationData[marker.station];
         for (let i = 0; i < arr.zeta.length; i++) {
             let tipt = new Date(arr.time_date[i]);
+            tipt.setHours(tipt.getHours() - 0);
             out.push({
                 "date": tipt,
                 "y": arr.zeta[i]
@@ -115,6 +118,7 @@ function drawPopup(marker, data, layer, time, tiff) {
         new Chart(graph, {
             type: "line",
             options: {
+                spanGaps: true,
                 scales: {
                     xAxes: [{
                         type: 'time',
@@ -157,7 +161,7 @@ async function getPopup(marker, layer, tiff) {
     // Get URL
     let url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=" + goalTimes + "&range=72&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
     // Get data from NOAA
-    console.log(url);
+    // console.log(url);
     let file = await fetch(url);
     let data = await file.json();
     // Draw popup
