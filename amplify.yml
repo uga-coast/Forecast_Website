@@ -1,15 +1,17 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - echo "Starting preBuild phase"
-    build:
-      commands:
-        - echo "Starting build phase"
-  artifacts:
-    baseDirectory: maintenance
-    files:
-      - index.html
-  cache:
-    paths: []
+applications:
+  - appRoot: maintenance
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Starting preBuild phase"
+        build:
+          commands:
+            - echo "Starting build phase"
+      artifacts:
+        baseDirectory: .
+        files:
+          - index.html
+      cache:
+        paths: []
