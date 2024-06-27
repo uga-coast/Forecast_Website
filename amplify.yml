@@ -1,18 +1,15 @@
 version: 1
-applications:
-  - frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm ci
-        build:
-          commands:
-            - npm run build
-      artifacts:
-        baseDirectory: build
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-    appRoot: map
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Starting preBuild phase"
+    build:
+      commands:
+        - echo "Starting build phase"
+  artifacts:
+    baseDirectory: maintenance
+    files:
+      - index.html
+  cache:
+    paths: []
