@@ -46,8 +46,8 @@ function makeOverLayerControl(input) {
         }
         
         let zoom = document.getElementById("zoom_" + input.tiff.name);
-        document.getElementById("minDepth").innerHTML = input.tiff.min + "m";
-        document.getElementById("maxDepth").innerHTML = input.tiff.max + "m";
+        document.getElementById("minDepth").innerHTML = input.tiff.min + "ft";
+        document.getElementById("maxDepth").innerHTML = input.tiff.max + "ft";
         input.showing = true;
         console.log(input.tiff.name + " turned on");
     })

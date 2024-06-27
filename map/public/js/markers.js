@@ -132,7 +132,7 @@ function drawPopup(marker, data, layer, time, tiff) {
                 labels: times,
                 datasets: [
                     {
-                        label: "Water Levels(m)",
+                        label: "Water Levels(ft)",
                         data: staH,
                         fill: false,
                         borderColor: "#0088ff",
@@ -162,7 +162,7 @@ async function getPopup(marker, layer, tiff) {
     let monthList = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
     let goalTimes = time.getFullYear() + "" + monthList[time.getMonth()] + "" + monthList[time.getDate() - 1];
     // Get URL
-    let url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=" + goalTimes + "&range=72&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=metric&application=DataAPI_Sample&format=json";
+    let url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=" + goalTimes + "&range=72&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=english&application=DataAPI_Sample&format=json";
     // Get data from NOAA
     // console.log(url);
     let file = await fetch(url);
