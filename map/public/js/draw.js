@@ -49,25 +49,6 @@ function addTifLayers() {
                     //    http://leafletjs.com/reference-1.2.0.html#gridlayer
     
                     // Colors height appropriately
-                    function colorScale(value) {
-                        var r = 0;
-                        var g = 0;
-                        var b = 0;
-    
-                        if (value < 0.5) { // Blue -> Green
-                            b = 1 - 2*value;
-                            g = 2 * value;
-                        } else if (value < 1) { // Green -> Red
-                            g = 1 - 2*(value - 0.5);
-                            r = 2*(value - 0.5);
-                        } else { // Red
-                            r = 1;
-                        }
-                        function flhex(input) {
-                            return Math.floor(256*input);
-                        }
-                        return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
-                    }
                     function doColors(input) {
                         var min = tiffList[i].min;
                         var max = tiffList[i].max;

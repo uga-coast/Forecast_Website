@@ -11,7 +11,7 @@ const Legend = () => {
             <h3>Legend</h3>
             <div className="scale">
                 <p id="minDepth"></p>
-                <div id="depth">Hush</div>
+                <img id="scale" src="turbo.png"></img>
                 <p id="maxDepth"></p>
             </div>
         </div>

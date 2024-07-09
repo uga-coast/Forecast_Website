@@ -28,8 +28,6 @@
     margin-bottom: 0px;
     font-size: 0.7em;
 }
-#depth {
-    color: #00000000;
-    background: linear-gradient(to right, #0000ff, #00ff00, #ff0000);
-    border: 1px solid var(--arch-black);
+#scale {
+    width: 100%;
 }

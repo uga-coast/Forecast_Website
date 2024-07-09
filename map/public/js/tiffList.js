@@ -65,7 +65,7 @@ async function addTifToList(key) {
         "hurricaneUrl": "Blank",
         "description": getName(data),
         "min": 0,
-        "max": 3,
+        "max": 6,
         "type": data.simtype,
         "show": false,
         "date": new Date(),
@@ -94,9 +94,9 @@ async function addTifToList(key) {
         thisAdvisory.hurricane = data.stormname;
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
 
-        if (thisAdvisory.hurricane == "Nicole") {
-            thisAdvisory.show = false;
-        }
+        // if (thisAdvisory.hurricane == "Nicole") {
+            // thisAdvisory.show = false;
+        // }
     }
 
     if (thisAdvisory.show) {

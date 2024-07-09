@@ -1,6 +1,6 @@
 const MARKERS = [
     new Marker(8670870),
-    new Marker(8721604),
+    // new Marker(8721604),
     // new Marker(8636580),
     new Marker(8679598),
     new Marker(8720030)
@@ -140,7 +140,7 @@ function drawPopup(marker, data, layer, time, tiff) {
                         tension: 0,
                     },
                     {
-                        label: "Predicted Water Levels(m)",
+                        label: "Predicted Water Levels(ft)",
                         data: bilH,
                         fill: false,
                         borderColor: "#ff8800",
