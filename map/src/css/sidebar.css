@@ -1,26 +1,25 @@
 #sidebar {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    resize: horizontal;
-    min-width: 100%;
-}
+    position: absolute;
+    top: 2%;
+    left: 1%;
+    width: 20%;
 
-#credits {
-    margin-top: auto;
-    margin-bottom: 0px;
+    z-index: 2;
+}
+.sidebar-box {
+    background-color: var(--creamery);
+    color: var(--creamery-font);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+
     width: 100%;
-
-    background-color: var(--odyssey);
-    color: var(--odyssey-font);
-
-    padding: 2%;
+    position: relative;
+    display: flex;
 }
-#credits a {
-    font-size: large;
-    font-weight: 700;
+.sidebar-box-contents {
+    width: 100%;
 }
 img {
-    width: 80%;
-    padding: 4% 10% 4% 10%;
+    width: 100%;
 }

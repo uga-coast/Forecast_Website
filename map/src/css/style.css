@@ -10,7 +10,7 @@ body {
     height: 100vh;
 
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr;
 }
 #map {
     z-index: 1;
