@@ -1,7 +1,7 @@
 #sidebar {
     position: absolute;
-    top: 2%;
-    left: 1%;
+    top: 1%;
+    left: 3%;
     width: 20%;
 
     z-index: 2;
@@ -22,4 +22,15 @@
 }
 img {
     width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.closed-dropdown {
+    display: none;
+}
+.tiff-select {
+    white-space: pre;
 }

@@ -18,21 +18,11 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            <div id="controls" className="sidebar-box">
-                <div className="primary-serif">
-                    <select id="ModelType">
-                        <option>Hurricane</option>
-                        <option>Daily Forecast</option>
-                        <option>Archive</option>
-                    </select>
-                    <select id="SortType">
-                        <option>Date</option>
-                        <option>Alphabetical</option>
-                    </select>
-                </div>
-                <hr></hr>
-                <div id="overLayers" className="secondary-sans-serif"></div>
-                <hr></hr>
+            <div id="controls">
+                <select id="tiff-1" className="tiff-select"></select><br></br>
+                <select id="tiff-2" className="closed-dropdown tiff-select"></select><br></br>
+                <select id="tiff-3" className="closed-dropdown tiff-select"></select><br></br>
+                <select id="tiff-4" className="closed-dropdown tiff-select"></select>
             </div>
         </div>
     );

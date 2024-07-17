@@ -71,6 +71,7 @@ async function addTifToList(key) {
         "date": new Date(),
         "stationUrl": data.waterlevel_json_url,
         "stationData": null,
+        "position": ["TYPE", "NAME", "Advisory", "OFCL"],
     }
 
     let writtenDate = data.cycle_year + "-" + data.cycle_month + "-" + data.cycle_day + "T" + data.cycle_hour + ":00:00";
@@ -99,6 +100,19 @@ async function addTifToList(key) {
         // }
     }
 
+    // Sort into filter dropdowns
+    if (thisAdvisory.type == "Hurricane") {
+        thisAdvisory.position[0] = "Hurricane";
+        thisAdvisory.position[1] = thisAdvisory.hurricane;
+        thisAdvisory.position[2] = "Avisory " + data.advisory;
+        thisAdvisory.position[3] = "ofcl";
+    } else {
+        thisAdvisory.position[0] = "Daily Forecast";
+        thisAdvisory.position[1] = data.cycle_month + "/" + data.cycle_year;
+        thisAdvisory.position[2] = data.cycle_day;
+        thisAdvisory.position[3] = data.cycle_hour;
+    }
+
     if (thisAdvisory.show) {
         tiffList.push(thisAdvisory);
         if (thisAdvisory.type == "Hurricane") {
@@ -123,4 +137,4 @@ async function getAllTifs() {
         promises.push(addTifToList(readed[i]));
     }
     Promise.all(promises).then(doNextStep)
-    }
+}
