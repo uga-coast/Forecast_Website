@@ -31,6 +31,7 @@ function addDropdowns() {
             }
             showdrops(nl);
         })
+        showdrops([]);
     }
     function addDrop(input) {
         let met = [];
@@ -42,15 +43,18 @@ function addDropdowns() {
                 }
             }
             if (match) {
-                met.push(tiffList[i]);
+                met.push(overLayers[i]);
             }
         }
         let output = [];
         for (let i = 0; i < met.length; i++) {
-            let nep = met[i].position[input.length];
+            let nep = met[i].tiff.position[input.length];
             if (!output.includes(nep)) {
                 output.push(nep);
             }
+        }
+        if (met.length == 1) {
+            showLayer(met[0]);
         }
         return output;
     }
@@ -86,9 +90,12 @@ function addDropdowns() {
                 }
             }
         }
+
     }
-    showdrops([]);
-    showdrops(["Hurricane"]);
+}
+
+function showLayer(input) {
+    input.layer.addTo(map);
 }
 
 async function doAll() {
@@ -102,7 +109,9 @@ function doNextStep() {
     drawLegend();
     // drawLayers();
     map = mapsPlaceholder[0];
-    Promise.all(addTifLayers()).then(addDropdowns)
-    addMarkers();
+    Promise.all(addTifLayers()).then(function() {
+        addDropdowns()
+    })
+    // addMarkers();
 }
 document.body.addEventListener("beginProcess", doAll);
