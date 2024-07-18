@@ -18,6 +18,7 @@ function colorScale(value) {
     return "rgb(" + flhex(r) + "," + flhex(g) + "," + flhex(b) + ")";
 }
 
+let showing;
 function addDropdowns() {
     console.log(overLayers.length)
     let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4"];
@@ -56,6 +57,18 @@ function addDropdowns() {
         if (met.length == 1) {
             showLayer(met[0]);
         }
+        
+        // Sort
+        for (let i = 0; i < output.length - 1; i++) {
+            for (let j = i + 1; j < output.length; j++) {
+                if (output[i] > output[j]) {
+                    let temp = output[i];
+                    output[i] = output[j];
+                    output[j] = temp;
+                }
+            }
+        }
+        console.log(output);
         return output;
     }
     function showdrops(input) {
@@ -95,7 +108,26 @@ function addDropdowns() {
 }
 
 function showLayer(input) {
+    // Remove
+    if (showing != null) {
+        map.removeLayer(showing.layer);
+        if (showing.hurricaneLayer != null) {
+            hurricaneLayer.removeLayer(showing.hurricaneLayer.layer);
+            hurricaneLayer.removeLayer(showing.hurricaneLayer.line);
+            hurricaneLayer.removeLayer(showing.hurricaneLayer.hulls);
+        }
+    }
+
+    // Reset
+    showing = input;
+
+    // Add
     input.layer.addTo(map);
+    if (input.hurricaneLayer != null) {
+        input.hurricaneLayer.layer.addTo(hurricaneLayer);
+        input.hurricaneLayer.line.addTo(hurricaneLayer);
+        input.hurricaneLayer.hulls.addTo(hurricaneLayer);
+    }
 }
 
 async function doAll() {
@@ -112,6 +144,6 @@ function doNextStep() {
     Promise.all(addTifLayers()).then(function() {
         addDropdowns()
     })
-    // addMarkers();
+    addMarkers();
 }
 document.body.addEventListener("beginProcess", doAll);
