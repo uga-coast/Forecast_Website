@@ -167,8 +167,12 @@ async function getPopup(marker, layer, tiff) {
     // console.log(url);
     let file = await fetch(url);
     let data = await file.json();
-    // Draw popup
-    drawPopup(marker, data, layer, time, tiff);
+    if (data.error == null) {
+        // Draw popup
+        drawPopup(marker, data, layer, time, tiff);
+    } else {
+        console.log(marker.station);
+    }
 }
 let markerLayer;
 let hurricaneLayer;

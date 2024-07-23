@@ -20,8 +20,7 @@ function colorScale(value) {
 
 let showing;
 function addDropdowns() {
-    console.log(overLayers.length)
-    let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4"];
+    let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4","tiff-5"];
     for (let i = 0; i < dropdowns.length; i++) {
         let item = document.getElementById(dropdowns[i]);
         item.addEventListener("change", function() {
@@ -61,14 +60,13 @@ function addDropdowns() {
         // Sort
         for (let i = 0; i < output.length - 1; i++) {
             for (let j = i + 1; j < output.length; j++) {
-                if (output[i] > output[j]) {
+                if (output[i] < output[j]) {
                     let temp = output[i];
                     output[i] = output[j];
                     output[j] = temp;
                 }
             }
         }
-        console.log(output);
         return output;
     }
     function showdrops(input) {
@@ -92,11 +90,15 @@ function addDropdowns() {
                     item.add(def);
 
                     let list = addDrop(input);
-                    for (let j = 0; j < list.length; j++) {
-                        let opt = document.createElement("option");
-                        opt.innerText = list[j];
-                        opt.value = list[j];
-                        item.add(opt);
+                    if (list[0] != undefined) {
+                        for (let j = 0; j < list.length; j++) {
+                            let opt = document.createElement("option");
+                            opt.innerText = list[j];
+                            opt.value = list[j];
+                            item.add(opt);
+                        }
+                    } else {
+                        item.classList.add("closed-dropdown");
                     }
                 } else {
                     item.classList.add("closed-dropdown");
@@ -127,6 +129,8 @@ function showLayer(input) {
         input.hurricaneLayer.layer.addTo(hurricaneLayer);
         input.hurricaneLayer.line.addTo(hurricaneLayer);
         input.hurricaneLayer.hulls.addTo(hurricaneLayer);
+
+        updateMarkers(input.tiff);
     }
 }
 
