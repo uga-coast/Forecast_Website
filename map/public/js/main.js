@@ -30,7 +30,8 @@ function addDropdowns() {
                 nl.push(suspect.value);
             }
             showdrops(nl);
-        })
+        });
+        document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
         showdrops([]);
     }
     function addDrop(input) {
