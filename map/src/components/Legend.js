@@ -10,9 +10,9 @@ const Legend = () => {
         <div id="legend" className="primary-sans-serif">
             <h3>Legend</h3>
             <div className="scale">
-                <p id="minDepth"></p>
+                <p id="minDepth">0ft</p>
                 <img id="scale" src="turbo2.svg"></img>
-                <p id="maxDepth"></p>
+                <p id="maxDepth">9ft</p>
             </div>
         </div>
     );

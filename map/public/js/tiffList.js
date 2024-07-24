@@ -65,7 +65,7 @@ async function addTifToList(key) {
         "hurricaneUrl": "Blank",
         "description": getName(data),
         "min": 0,
-        "max": 6,
+        "max": 9,
         "type": data.simtype,
         "show": false,
         "date": new Date(),
@@ -89,9 +89,6 @@ async function addTifToList(key) {
         thisAdvisory.name = "Advisory " + data.advisory;
         thisAdvisory.type = "Hurricane";
         thisAdvisory.modelType = data.ensemble_member;
-        if (thisAdvisory.modelType != "ofcl") {
-            thisAdvisory.show = false;
-        }
         thisAdvisory.hurricane = data.stormname;
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
 
@@ -105,7 +102,8 @@ async function addTifToList(key) {
         thisAdvisory.position[0] = "Hurricane";
         thisAdvisory.position[1] = thisAdvisory.hurricane;
         thisAdvisory.position[2] = "Avisory " + data.advisory;
-        thisAdvisory.position[3] = "ofcl";
+        thisAdvisory.position[3] = data.ensemble_member;
+        console.log(thisAdvisory.position);
     } else {
         thisAdvisory.position[0] = "Daily Forecast";
         thisAdvisory.position[1] = data.cycle_month + "/" + data.cycle_year;

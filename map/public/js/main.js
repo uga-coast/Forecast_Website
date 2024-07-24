@@ -129,7 +129,9 @@ function showLayer(input) {
     if (input.hurricaneLayer != null) {
         input.hurricaneLayer.layer.addTo(hurricaneLayer);
         input.hurricaneLayer.line.addTo(hurricaneLayer);
-        input.hurricaneLayer.hulls.addTo(hurricaneLayer);
+        if (input.tiff.position.includes("ofcl")) {
+            input.hurricaneLayer.hulls.addTo(hurricaneLayer);
+        }
 
         updateMarkers(input.tiff);
     }
