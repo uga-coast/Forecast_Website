@@ -132,9 +132,8 @@ function showLayer(input) {
         if (input.tiff.position.includes("ofcl")) {
             input.hurricaneLayer.hulls.addTo(hurricaneLayer);
         }
-
-        updateMarkers(input.tiff);
     }
+    updateMarkers(input.tiff);
 }
 
 async function doAll() {

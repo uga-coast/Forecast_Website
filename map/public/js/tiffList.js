@@ -103,7 +103,6 @@ async function addTifToList(key) {
         thisAdvisory.position[1] = thisAdvisory.hurricane;
         thisAdvisory.position[2] = "Avisory " + data.advisory;
         thisAdvisory.position[3] = data.ensemble_member;
-        console.log(thisAdvisory.position);
     } else {
         thisAdvisory.position[0] = "Daily Forecast";
         thisAdvisory.position[1] = data.cycle_month + "/" + data.cycle_year;

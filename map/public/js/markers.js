@@ -188,6 +188,7 @@ function addMarkers() {
 }
 
 function updateMarkers(tiff) {
+    console.log("Updating markers")
     for (let i = 0; i < MARKERS.length; i++) {
         getPopup(MARKERS[i], markerLayer, tiff);
     }
