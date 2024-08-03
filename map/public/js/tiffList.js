@@ -90,6 +90,9 @@ async function addTifToList(key) {
         thisAdvisory.type = "Hurricane";
         thisAdvisory.modelType = data.ensemble_member;
         thisAdvisory.hurricane = data.stormname;
+        if (thisAdvisory.hurricane == "Chris") {
+            thisAdvisory.hurricane = "Debby";
+        }
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
 
         // if (thisAdvisory.hurricane == "Nicole") {
