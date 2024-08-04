@@ -12,7 +12,7 @@ const Legend = () => {
             <div className="scale">
                 <p id="minDepth">0ft</p>
                 <img id="scale" src="turbo2.svg"></img>
-                <p id="maxDepth">9ft</p>
+                <p id="maxDepth">12ft</p>
             </div>
         </div>
     );

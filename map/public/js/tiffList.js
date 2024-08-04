@@ -65,7 +65,7 @@ async function addTifToList(key) {
         "hurricaneUrl": "Blank",
         "description": getName(data),
         "min": 0,
-        "max": 9,
+        "max": 12,
         "type": data.simtype,
         "show": false,
         "date": new Date(),
