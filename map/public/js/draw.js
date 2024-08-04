@@ -60,6 +60,9 @@ function addTifLayers() {
                         }
                         if (eval) {
                             var scale = (input - min)/(max - min);
+                            if (input > max) {
+                                scale = 0.999;
+                            }
                             return colorScale(scale);
                         }
                     }
