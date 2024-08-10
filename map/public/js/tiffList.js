@@ -104,7 +104,7 @@ async function addTifToList(key) {
     if (thisAdvisory.type == "Hurricane") {
         thisAdvisory.position[0] = "Hurricane";
         thisAdvisory.position[1] = thisAdvisory.hurricane;
-        thisAdvisory.position[2] = "Avisory " + data.advisory;
+        thisAdvisory.position[2] = "Advisory " + data.advisory;
         thisAdvisory.position[3] = data.ensemble_member;
     } else {
         thisAdvisory.position[0] = "Daily Forecast";
