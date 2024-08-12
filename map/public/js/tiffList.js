@@ -97,6 +97,7 @@ async function addTifToList(key) {
         console.log(thisAdvisory.hurricane);
         if (thisAdvisory.hurricane == "Unnamed") {
             thisAdvisory.hurricane = "05L";
+            thisAdvisory.max = 8;
             console.log(thisAdvisory)
         }
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
