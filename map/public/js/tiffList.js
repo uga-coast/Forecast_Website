@@ -90,10 +90,20 @@ async function addTifToList(key) {
         thisAdvisory.type = "Hurricane";
         thisAdvisory.modelType = data.ensemble_member;
         thisAdvisory.hurricane = data.stormname;
+
         if (thisAdvisory.hurricane == "Chris") {
             thisAdvisory.hurricane = "Debby";
         }
+        console.log(thisAdvisory.hurricane);
+        if (thisAdvisory.hurricane == "Unnamed") {
+            thisAdvisory.hurricane = "05L";
+            console.log(thisAdvisory)
+        }
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
+
+        if (HURRICANES.includes(thisAdvisory.hurricane)) {
+            thisAdvisory.show = true;
+        }
 
         // if (thisAdvisory.hurricane == "Nicole") {
             // thisAdvisory.show = false;
@@ -124,9 +134,14 @@ async function addTifToList(key) {
 
 async function getMarkerJson(input) {
     let url = input.stationUrl;
-    let file = await fetch(url);
-    let data = await file.json();
-    input.stationData = data;
+    // console.log(url)
+    try {
+        let file = await fetch(url);
+        let data = await file.json();
+        input.stationData = data;
+    } catch {
+        console.log("I am a sad")
+    }
 }
 
 async function getAllTifs() {
