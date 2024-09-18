@@ -117,6 +117,7 @@ function addHurricaneLayer(item) {
     }
 
     let bull = L.polygon(hulls, {
+        fillColor: '#ff0000',
         color: '#ff0000',
         stroke: false,
         fillOpacity: 0.4,

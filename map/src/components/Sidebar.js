@@ -19,6 +19,10 @@ const Sidebar = () => {
             </div>
 
             <div id="controls">
+                <div id="loading">
+                    <h1>Loading tiffs...</h1>
+                </div>
+                <p id="tiff-details">Select a model</p>
                 <select id="tiff-1" className="closed-dropdown tiff-select"></select><br></br>
                 <select id="tiff-2" className="closed-dropdown tiff-select"></select><br></br>
                 <select id="tiff-3" className="closed-dropdown tiff-select"></select><br></br>

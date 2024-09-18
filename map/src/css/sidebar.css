@@ -36,3 +36,19 @@ img {
     padding: 1%;
     margin: 1%;
 }
+
+#loading {
+    position: absolute;
+    background-color: var(--creamery);
+    color: var(--creamery-font);
+    border-radius: 5px;
+}
+
+#tiff-details {
+    background-color: var(--creamery);
+    color: var(--creamery-font);
+    border-radius: 5px;
+    margin: 1px;
+    padding: 6px;
+    display: none;
+}
