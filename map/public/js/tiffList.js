@@ -148,29 +148,9 @@ async function getMarkerJson(input) {
 async function getAllTifs() {
     let file = await fetch("https://uga-coast-forecasting.s3.amazonaws.com/metadata_list.json");
     let readed = await file.json();
-    
-    // Forecast
-    let namesa = [];
-    let namesb = [];
-    for (let i = 0; i < readed.length; i++) {
-        if (readed[i].includes("adcirc_gfs_ga")) {
-            namesa.push(readed[i]);
-        } else {
-            namesb.push(readed[i]);
-        }
-    }
-
     let promises = [];
-    for (let i = 0; i < namesa.length; i++) {
-        promises.push(addTifToList(namesa[i]));
+    for (let i = 0; i < readed.length; i++) {
+        promises.push(addTifToList(readed[i]));
     }
-    Promise.all(promises).then(doNextStep);
-
-    setTimeout(function() {
-        promises = [];
-        for (let i = 0; i < namesb.length; i++) {
-            promises.push(addTifToList(namesb[i]));
-        }
-        Promise.all(promises).then(doSubsequentStep);
-    }, 5000);
+    Promise.all(promises).then(doNextStep)
 }

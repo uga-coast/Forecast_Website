@@ -4,7 +4,7 @@ var overLayers = [];
 let count = 0;
 
 // Adds a geotiff object as a layer
-function addMapDetails() {
+function addTifLayers() {
     // Pane to make it over the base layers
     map.createPane("overlay");
     map.getPane("overlay").style.zIndex = 2;
@@ -32,13 +32,11 @@ function addMapDetails() {
         }
     })
     map.addControl(new fullscreen());
-}
-function addTifLayers(inputList) {
     let promiseList = [];
 
-    console.log(inputList);
-    for (let i = 0; i < inputList.length; i++) {
-        let url_to_geotiff_file = inputList[i].url;
+    console.log(tiffList);
+    for (let i = 0; i < tiffList.length; i++) {
+        let url_to_geotiff_file = tiffList[i].url;
 
         function rasterize(link) {
             try {
@@ -52,8 +50,8 @@ function addTifLayers(inputList) {
     
                     // Colors height appropriately
                     function doColors(input) {
-                        var min = inputList[i].min;
-                        var max = inputList[i].max;
+                        var min = tiffList[i].min;
+                        var max = tiffList[i].max;
                         var eval;
                         if (min < max) {
                             eval = (input > min);
@@ -80,7 +78,7 @@ function addTifLayers(inputList) {
                     });
     
                     // Add layer to the list for sorting
-                    let layer = new Layer(inputList[i], "overlay", tifLayer, addHurricaneLayer(inputList[i]));
+                    let layer = new Layer(tiffList[i], "overlay", tifLayer, addHurricaneLayer(tiffList[i]));
                     overLayers.push(layer);
                 }).catch((err) => {
                 }));

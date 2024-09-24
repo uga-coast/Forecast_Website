@@ -19,7 +19,7 @@ function colorScale(value) {
 }
 
 let showing;
-function addDropdowns(first) {
+function addDropdowns() {
     let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4","tiff-5"];
     for (let i = 0; i < dropdowns.length; i++) {
         let item = document.getElementById(dropdowns[i]);
@@ -32,28 +32,8 @@ function addDropdowns(first) {
             showdrops(nl);
         });
         document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
-    }
-    if (!first) {
-        let dad = document.getElementById("tiff-1");
-        let son = document.createElement("option");
-        son.value = "Hurricane";
-        son.innerText = "Hurricane";
-        dad.appendChild(son);
-    } else {
         showdrops([]);
-        for (let i = 0; i < dropdowns.length; i++) {
-            let papa = document.getElementById(dropdowns[i]);
-            papa.value = papa.childNodes[1].value;
-
-            let nl = [];
-            for (let j = 0; j <= i; j++) {
-                let suspect = document.getElementById(dropdowns[j]);
-                nl.push(suspect.value);
-            }
-            showdrops(nl);
-        }
     }
-
     function addDrop(input) {
         let met = [];
         for (let i = 0; i < overLayers.length; i++) {
@@ -126,6 +106,7 @@ function addDropdowns(first) {
                 }
             }
         }
+
     }
 }
 
@@ -146,7 +127,6 @@ function showLayer(input) {
     // Add
     input.layer.addTo(map);
     console.log(input)
-    document.getElementById("tiff-details").innerText = input.tiff.description;
     document.getElementById("minDepth").innerText = input.tiff.min + "ft";
     document.getElementById("maxDepth").innerText = input.tiff.max + "ft";
     if (input.hurricaneLayer != null) {
@@ -166,37 +146,13 @@ async function doAll() {
         await getAllTifs();
     }
 }
-
-let drawn = [];
 function doNextStep() {
     drawLegend();
     // drawLayers();
     map = mapsPlaceholder[0];
-    addMapDetails();
-    Promise.all(addTifLayers(tiffList)).then(function() {
-        for (let i = 0; i < tiffList.length; i++) {
-            drawn.push(tiffList[i].url);
-        }
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("tiff-details").style.display = "block";
-        addDropdowns(true);
-        console.log("AAAA")
+    Promise.all(addTifLayers()).then(function() {
+        addDropdowns()
     })
     addMarkers();
-}
-
-function doSubsequentStep() {
-    let undrawn = [];
-    for (let i = 0; i < tiffList.length; i++) {
-        if (!drawn.includes(tiffList[i].url)) {
-            undrawn.push(tiffList[i]);
-        }
-    }
-
-    Promise.all(addTifLayers(undrawn)).then(function() {
-        addDropdowns(false);
-        // document.getElementById("tiff-details").innerText = "I DID IT";
-        console.log("BBBBBB");
-    })
 }
 document.body.addEventListener("beginProcess", doAll);

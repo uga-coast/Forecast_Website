@@ -1,4 +1,4 @@
-const RESOLUTION = 128;
+const RESOLUTION = 64;
 const DISPLAY_TO_URL = [
     ["Daily Forecast", "forecast"],
     ["Hurricane", "Hurricane"]
