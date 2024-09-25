@@ -3,8 +3,7 @@ var map;
 var overLayers = [];
 let count = 0;
 
-// Adds a geotiff object as a layer
-function addTifLayers() {
+function addMap() {
     // Pane to make it over the base layers
     map.createPane("overlay");
     map.getPane("overlay").style.zIndex = 2;
@@ -31,8 +30,48 @@ function addTifLayers() {
             return button;
         }
     })
-    let promiseList = [];
+}
 
+async function drawFirstTime(inputTiff) {
+    let url_to_geotiff_file = inputTiff.tiff.url;
+    let georaster = await parseGeoraster(url_to_geotiff_file);
+    // Colors height appropriately
+    function doColors(input) {
+        let min = inputTiff.tiff.min;
+        let max = inputTiff.tiff.max;
+        let eval;
+        if (min < max) {
+            eval = (input > min);
+        } else {
+            eval = (input < min);
+        }
+        if (eval) {
+            let scale = (input - min)/(max - min);
+            if (input > max) {
+                scale = 0.999;
+            }
+            return colorScale(scale);
+        }
+    }
+
+    // Create the layer
+    var tifLayer = new GeoRasterLayer({
+        attribution: "Planet",
+        georaster: georaster,
+        resolution: RESOLUTION,
+        pane: "overlay",
+        opacity: 0.75,
+        pixelValuesToColorFn: values => doColors(values[0])
+    });
+
+    // Add layer to the list for sorting
+    inputTiff.layer = tifLayer;
+}
+
+// Adds a geotiff object as a layer
+function addTifLayers() {
+    addMap();
+    let promiseList = [];
     console.log(tiffList);
     for (let i = 0; i < tiffList.length; i++) {
         let url_to_geotiff_file = tiffList[i].url;

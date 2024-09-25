@@ -94,11 +94,11 @@ async function addTifToList(key) {
         if (thisAdvisory.hurricane == "Chris") {
             thisAdvisory.hurricane = "Debby";
         }
-        console.log(thisAdvisory.hurricane);
+        // console.log(thisAdvisory.hurricane);
         if (thisAdvisory.hurricane == "Unnamed") {
             thisAdvisory.hurricane = "05L";
             thisAdvisory.max = 8;
-            console.log(thisAdvisory)
+            // console.log(thisAdvisory)
         }
         thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
 
@@ -152,5 +152,5 @@ async function getAllTifs() {
     for (let i = 0; i < readed.length; i++) {
         promises.push(addTifToList(readed[i]));
     }
-    Promise.all(promises).then(doNextStep)
+    Promise.all(promises).then(prepareItems);
 }

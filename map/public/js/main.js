@@ -92,7 +92,7 @@ function addDropdowns() {
     }
 }
 
-function showLayer(input) {
+async function showLayer(input) {
     // Remove
     if (showing != null) {
         map.removeLayer(showing.layer);
@@ -105,6 +105,10 @@ function showLayer(input) {
 
     // Reset
     showing = input;
+
+    if (input.layer == undefined) {
+        await drawFirstTime(input);
+    }
 
     // Add
     input.layer.addTo(map);
@@ -128,6 +132,22 @@ async function doAll() {
         await getAllTifs();
     }
 }
+
+function prepareItems() {
+    map = mapsPlaceholder[0];
+    addMap();
+    drawLegend();
+
+    overLayers = [];
+    for (let i = 0; i < tiffList.length; i++) {
+        let layer = new Layer(tiffList[i], "overlay", undefined, addHurricaneLayer(tiffList[i]));
+        overLayers.push(layer);
+    }
+
+    addDropdowns();
+    addMarkers();
+}
+
 function doNextStep() {
     drawLegend();
     // drawLayers();
@@ -137,4 +157,5 @@ function doNextStep() {
     })
     addMarkers();
 }
+
 document.body.addEventListener("beginProcess", doAll);
