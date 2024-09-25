@@ -50,16 +50,16 @@ function addTifLayers() {
     
                     // Colors height appropriately
                     function doColors(input) {
-                        var min = tiffList[i].min;
-                        var max = tiffList[i].max;
-                        var eval;
+                        let min = tiffList[i].min;
+                        let max = tiffList[i].max;
+                        let eval;
                         if (min < max) {
                             eval = (input > min);
                         } else {
                             eval = (input < min);
                         }
                         if (eval) {
-                            var scale = (input - min)/(max - min);
+                            let scale = (input - min)/(max - min);
                             if (input > max) {
                                 scale = 0.999;
                             }
