@@ -5,6 +5,18 @@ const MARKERS = [
     // new Marker(8679598),
     new Marker(8720030)
 ];
+
+let markIcon = L.icon({
+    iconUrl: "marker.png",
+    shadowUrl: 'marker.png',
+
+    iconSize:     [40, 40], // size of the icon
+    shadowSize:   [0, 0], // size of the shadow
+    iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location
+    shadowAnchor: [0, 0],  // the same for the shadow
+    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+});
+
 function drawPopup(marker, data, layer, time, tiff) {
     // Meta Data
     marker.lat = data.metadata.lat;
@@ -22,7 +34,8 @@ function drawPopup(marker, data, layer, time, tiff) {
     graph.height = 200;
     base.appendChild(graph);
 
-    var aM = new L.Marker([marker.lat, marker.lon]);
+
+    var aM = new L.Marker([marker.lat, marker.lon], {icon: markIcon});
     
     aM.bindPopup(base, {
         minWidth: 600
