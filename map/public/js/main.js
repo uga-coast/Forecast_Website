@@ -134,9 +134,7 @@ async function doAll() {
 }
 
 function prepareItems() {
-    map = mapsPlaceholder[0];
-    addMap();
-    drawLegend();
+    prepare();
 
     overLayers = [];
     for (let i = 0; i < tiffList.length; i++) {
@@ -149,9 +147,6 @@ function prepareItems() {
 }
 
 function doNextStep() {
-    drawLegend();
-    // drawLayers();
-    map = mapsPlaceholder[0];
     Promise.all(addTifLayers()).then(function() {
         addDropdowns()
     })
