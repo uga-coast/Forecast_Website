@@ -12,9 +12,11 @@ const Sidebar = () => {
                 <div className="sidebar-box-contents">
                     <img src="logo2.png"></img>
                     <img src="water_logo.png"></img>
-                    <a href="https://coast.engr.uga.edu/">UGA Coast Website</a>
-                    <br></br>
-                    <b>Version: </b><text id="version">Loading</text>
+                </div>
+                <a href="https://coast.engr.uga.edu/">UGA Coast Website</a>
+                <div id="version-container">
+                    <b id="version-label">Version:</b>
+                    <text id="version">Loading</text>
                 </div>
             </div>
 
