@@ -112,9 +112,8 @@ async function showLayer(input) {
 
     // Add
     input.layer.addTo(map);
-    console.log(input)
-    document.getElementById("minDepth").innerText = input.tiff.min + "ft";
-    document.getElementById("maxDepth").innerText = input.tiff.max + "ft";
+    console.log(input);
+    updateMinMax(input.tiff.min, input.tiff.max);
     if (input.hurricaneLayer != null) {
         input.hurricaneLayer.layer.addTo(hurricaneLayer);
         input.hurricaneLayer.line.addTo(hurricaneLayer);

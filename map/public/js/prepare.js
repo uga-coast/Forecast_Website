@@ -3,6 +3,7 @@ function prepare() {
     addMap();
     drawBaseLayers();
     drawLegend();
+    handleExpand();
 }
 
 function drawBaseLayers() {
@@ -48,9 +49,10 @@ function drawBaseLayers() {
             })
         }
     ]
-    let base = document.getElementById("layer-controls");
+    let base = document.getElementById("base-layer-controls");
     for (let i = 0; i < baseLayers.length; i++) {
         let boxxy = document.createElement("div");
+        boxxy.classList.add("layer-control-button");
         let radio = document.createElement("input");
         radio.type = "radio";
         radio.name = "Base-Layer";
@@ -70,6 +72,8 @@ function drawBaseLayers() {
             }
             map.addLayer(baseLayers[i].layer);
         }
+        radio.style.cursor = "inherit";
+        label.style.cursor = "inherit";
         base.appendChild(boxxy);
         if (baseLayers[i].default) {
             boxxy.click();
@@ -78,9 +82,10 @@ function drawBaseLayers() {
 }
 
 function prepareOverlays(overlays) {
-    let base = document.getElementById("layer-controls");
+    let base = document.getElementById("over-layer-controls");
     for (let i = 0; i < overlays.length; i++) {
         let boxxy = document.createElement("div");
+        boxxy.classList.add("layer-control-button");
         let check = document.createElement("input");
         check.type = "checkbox";
         check.name = overlays.name;
@@ -102,6 +107,8 @@ function prepareOverlays(overlays) {
                 map.removeLayer(overlays[i].layer);
             }
         }
+        check.style.cursor = "inherit";
+        label.style.cursor = "inherit";
         base.appendChild(boxxy);
         check.click();
     }
@@ -115,4 +122,35 @@ function drawLegend() {
         console.log(opacThingO);
         opacThingO.style.opacity = e.target.value;
     }
+}
+
+function updateMinMax(min, max) {
+    document.getElementById("minDepth").innerText = min + "ft";
+    document.getElementById("maxDepth").innerText = max + "ft";
+}
+
+function handleExpand() {
+    let button = document.getElementById("expand-legend");
+    let children = ["legend-layer-controls", "legend", "opacity-controls"];
+    let expand = true;
+    button.addEventListener("click", function() {
+        if (expand) {
+            // collapse
+            for (let i = 0; i < children.length; i++) {
+                document.getElementById(children[i]).style.display = "none";
+            }
+            button.innerText = "+";
+            button.style.position = "relative";
+            document.getElementById("legend-collapse-title").style.display = "block";
+        } else {
+            // expand
+            for (let i = 0; i < children.length; i++) {
+                document.getElementById(children[i]).style.display = "block";
+            }
+            button.innerText = "-";
+            button.style.position = "absolute";
+            document.getElementById("legend-collapse-title").style.display = "none";
+        }
+        expand = !expand;
+    })
 }

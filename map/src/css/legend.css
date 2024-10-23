@@ -12,13 +12,21 @@
     border: 2px solid var(--arch-black);
     z-index: 2;
 }
+
 #br-controls h3 {
     margin-top: 0px;
+    margin-bottom: 0.5em;
+    text-align: center;
 }
 .scale {
     width: 100%;
     display: grid;
     grid-template-columns: 8% 84% 8%;
+}
+#scale {
+    background-image: url("turbo2.svg");
+    background-size: cover;
+    height: 2em;
 }
 .scale p:last-child {
     margin-left: auto;
@@ -30,4 +38,26 @@
 }
 #scale {
     width: 100%;
+}
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.layer-control-button {
+    user-select: none;
+    cursor: pointer;
+}
+
+#expand-legend {
+    position: absolute;
+    float: right;
+    font-size: 1.3em;
+    font-weight: bold;
+    top: 2px;
+    right: 1rem;
+    cursor: pointer;
+}
+#legend-collapse-title {
+    display: none;
+    float: left;
 }
