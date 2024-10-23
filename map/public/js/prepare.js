@@ -48,7 +48,7 @@ function drawBaseLayers() {
             })
         }
     ]
-    let base = document.getElementById("legend");
+    let base = document.getElementById("layer-controls");
     for (let i = 0; i < baseLayers.length; i++) {
         let boxxy = document.createElement("div");
         let radio = document.createElement("input");
@@ -74,5 +74,45 @@ function drawBaseLayers() {
         if (baseLayers[i].default) {
             boxxy.click();
         }
+    }
+}
+
+function prepareOverlays(overlays) {
+    let base = document.getElementById("layer-controls");
+    for (let i = 0; i < overlays.length; i++) {
+        let boxxy = document.createElement("div");
+        let check = document.createElement("input");
+        check.type = "checkbox";
+        check.name = overlays.name;
+        check.id = overlays[i].name;
+        boxxy.appendChild(check);
+        let label = document.createElement("label");
+        label.for = check.id;
+        label.innerText = overlays[i].name;
+        boxxy.appendChild(label);
+        boxxy.addEventListener("click", function(event) {
+            if (event.srcElement != check) {
+                check.click();
+            }
+        })
+        check.onchange = function() {
+            if (check.checked) {
+                map.addLayer(overlays[i].layer);
+            } else {
+                map.removeLayer(overlays[i].layer);
+            }
+        }
+        base.appendChild(boxxy);
+        check.click();
+    }
+}
+
+function drawLegend() {
+    // Opacity
+    let opac = document.getElementById("opacity-slider");
+    opac.onchange = function(e) {
+        let opacThingO = document.getElementsByClassName("leaflet-tile-container")[document.getElementsByClassName("leaflet-tile-container").length - 1];
+        console.log(opacThingO);
+        opacThingO.style.opacity = e.target.value;
     }
 }

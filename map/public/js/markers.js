@@ -192,9 +192,19 @@ let hurricaneLayer;
 function addMarkers() {
     markerLayer = new L.LayerGroup().addTo(map);
     hurricaneLayer = new L.LayerGroup().addTo(map);
-    let controlLayers = L.control.layers(map._layers[39]).addTo(map);
-    controlLayers.addOverlay(markerLayer, "Markers");
-    controlLayers.addOverlay(hurricaneLayer, "Hurricane Cone");
+    // let controlLayers = L.control.layers(map._layers[39]).addTo(map);
+    prepareOverlays([
+        {
+            name: "Markers",
+            layer: markerLayer
+        },
+        {
+            name: "Hurricane Cone",
+            layer: hurricaneLayer
+        }
+    ])
+    // controlLayers.addOverlay(markerLayer, "Markers");
+    // controlLayers.addOverlay(hurricaneLayer, "Hurricane Cone");
     for (let i = 0; i < MARKERS.length; i++) {
         getPopup(MARKERS[i], markerLayer, new Date());
     }
