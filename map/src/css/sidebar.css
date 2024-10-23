@@ -5,6 +5,7 @@
     width: 25%;
 
     z-index: 2;
+    pointer-events: none;
 }
 .sidebar-box {
     background-color: var(--creamery);
@@ -15,6 +16,7 @@
 
     width: 100%;
     position: relative;
+    pointer-events: auto;
 }
 .sidebar-box-contents {
     width: 100%;
@@ -37,11 +39,15 @@ img {
     display: none;
 }
 
-.closed-dropdown {
-    display: none;
-}
 .tiff-select {
+    pointer-events: auto;
     white-space: pre;
     padding: 1%;
     margin: 1%;
+    cursor: pointer;
+    display: block;
+}
+.closed-dropdown {
+    display: none;
+    pointer-events: none;
 }

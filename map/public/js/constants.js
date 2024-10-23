@@ -4,4 +4,4 @@ const DISPLAY_TO_URL = [
     ["Hurricane", "Hurricane"]
 ];
 const HURRICANES = ["Beryl","Debby","Idalia","Nicole","Ian","05L"];
-const VERSION = "1.0.9";
+const VERSION = "1.0.10";

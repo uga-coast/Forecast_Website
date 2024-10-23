@@ -112,6 +112,7 @@ async function showLayer(input) {
 
     // Add
     input.layer.addTo(map);
+    document.getElementById("tiff-name").innerText = input.tiff.description;
     console.log(input);
     updateMinMax(input.tiff.min, input.tiff.max);
     if (input.hurricaneLayer != null) {

@@ -18,13 +18,16 @@ const Sidebar = () => {
                     <b id="version-label">Version:</b>
                     <text id="version">Loading</text>
                 </div>
+                <hr></hr>
+                <div>
+                    <text id="tiff-name">Select a tiff to start</text>
+                </div>
             </div>
-
             <div id="controls">
-                <select id="tiff-1" className="closed-dropdown tiff-select"></select><br></br>
-                <select id="tiff-2" className="closed-dropdown tiff-select"></select><br></br>
-                <select id="tiff-3" className="closed-dropdown tiff-select"></select><br></br>
-                <select id="tiff-4" className="closed-dropdown tiff-select"></select><br></br>
+                <select id="tiff-1" className="closed-dropdown tiff-select"></select>
+                <select id="tiff-2" className="closed-dropdown tiff-select"></select>
+                <select id="tiff-3" className="closed-dropdown tiff-select"></select>
+                <select id="tiff-4" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-5" className="closed-dropdown tiff-select"></select>
             </div>
         </div>
