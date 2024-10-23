@@ -53,8 +53,9 @@
     float: right;
     font-size: 1.3em;
     font-weight: bold;
-    top: 2px;
-    right: 1rem;
+    padding: 0.4rem 1rem;
+    top: 0px;
+    right: 0px;
     cursor: pointer;
 }
 #legend-collapse-title {
