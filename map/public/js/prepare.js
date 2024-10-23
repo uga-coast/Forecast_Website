@@ -117,10 +117,10 @@ function prepareOverlays(overlays) {
 function drawLegend() {
     // Opacity
     let opac = document.getElementById("opacity-slider");
+    opac.value = 0.7;
     opac.onchange = function(e) {
-        let opacThingO = document.getElementsByClassName("leaflet-tile-container")[document.getElementsByClassName("leaflet-tile-container").length - 1];
-        console.log(opacThingO);
-        opacThingO.style.opacity = e.target.value;
+        let target = showing.layer;
+        target.setOpacity(e.target.value);
     }
 }
 

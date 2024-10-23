@@ -39,7 +39,7 @@ async function drawFirstTime(inputTiff) {
         georaster: georaster,
         resolution: RESOLUTION,
         pane: "overlay",
-        opacity: 0.75,
+        opacity: document.getElementById("opacity-slider").value,
         pixelValuesToColorFn: values => doColors(values[0])
     });
 
