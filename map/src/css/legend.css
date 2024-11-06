@@ -21,22 +21,14 @@
 .scale {
     width: 100%;
     display: grid;
-    grid-template-columns: 8% 84% 8%;
+    grid-template-columns: 12% 1fr 12%;
 }
 #scale {
     width: 100%;
     height: 2em;
 }
-.scale p:last-child {
-    margin-left: auto;
-}
-.scale p {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    font-size: 0.7em;
-}
-#scale {
-    width: 100%;
+.scale input {
+    margin: 2px 4px;
 }
 .two-column {
     display: grid;

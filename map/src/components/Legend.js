@@ -20,11 +20,11 @@ const Legend = () => {
                 <hr></hr>
             </div>
             <div id="legend">
-                <h3>Legend</h3>
+                <h3>Legend (ft)</h3>
                 <div className="scale">
-                    <p id="minDepth">0ft</p>
+                    <input id="minDepth" autoComplete="off" />
                     <canvas id="scale" width={256} height={32}></canvas>
-                    <p id="maxDepth">12ft</p>
+                    <input id="maxDepth" autoComplete="off" />
                 </div>
                 <hr></hr>
             </div>

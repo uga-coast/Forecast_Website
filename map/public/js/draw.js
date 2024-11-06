@@ -11,13 +11,19 @@ function addMap() {
     console.log(map);
 }
 
-async function drawFirstTime(inputTiff) {
+async function drawFirstTime(inputTiff, customMinMax) {
     let url_to_geotiff_file = inputTiff.tiff.url;
     let georaster = await parseGeoraster(url_to_geotiff_file);
     // Colors height appropriately
     function doColors(input) {
         let min = inputTiff.tiff.min;
         let max = inputTiff.tiff.max;
+        if (customMinMax) {
+            let minboy = document.getElementById("minDepth");
+            let maxboy = document.getElementById("maxDepth");
+            min = parseFloat(minboy.value);
+            max = parseFloat(maxboy.value);
+        }
         let eval;
         if (min < max) {
             eval = (input > min);
@@ -27,7 +33,7 @@ async function drawFirstTime(inputTiff) {
         if (eval) {
             let scale = (input - min)/(max - min);
             if (input > max) {
-                scale = 0.999;
+                scale = 1;
             }
             return colorScale(scale);
         }
@@ -45,6 +51,10 @@ async function drawFirstTime(inputTiff) {
 
     // Add layer to the list for sorting
     inputTiff.layer = tifLayer;
+    inputTiff.rendered = true;
+    if (customMinMax) {
+        inputTiff.rendered = false;
+    }
 }
 
 // Adds a geotiff object as a layer

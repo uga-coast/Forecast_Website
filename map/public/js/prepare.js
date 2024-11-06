@@ -146,11 +146,24 @@ function drawLegend() {
         ctx.lineTo(i*width/dividers, height);
         ctx.stroke();
     }
+
+    // Reactive legend
+    updateMinMax(0, 12);
+    let minboy = document.getElementById("minDepth");
+    let maxboy = document.getElementById("maxDepth");
+    let redraw = async function(event) {
+        let neb = event.target.value;
+        if (!isNaN(parseFloat(neb))) {
+            await showLayer(showing, true);
+        }
+    }
+    minboy.addEventListener("change", function(event) {redraw(event)});
+    maxboy.addEventListener("change", function(event) {redraw(event)});
 }
 
 function updateMinMax(min, max) {
-    document.getElementById("minDepth").innerText = min + "ft";
-    document.getElementById("maxDepth").innerText = max + "ft";
+    document.getElementById("minDepth").value = min;
+    document.getElementById("maxDepth").value = max;
 }
 
 function handleExpand() {

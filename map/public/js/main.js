@@ -37,7 +37,7 @@ function addDropdowns() {
             }
         }
         if (met.length == 1) {
-            showLayer(met[0]);
+            showLayer(met[0], false);
         }
         
         // Sort
@@ -92,7 +92,7 @@ function addDropdowns() {
     }
 }
 
-async function showLayer(input) {
+async function showLayer(input, customMinMax) {
     // Remove
     if (showing != null) {
         map.removeLayer(showing.layer);
@@ -106,15 +106,17 @@ async function showLayer(input) {
     // Reset
     showing = input;
 
-    if (input.layer == undefined) {
-        await drawFirstTime(input);
+    if (input.rendered == false || customMinMax) {
+        await drawFirstTime(input, customMinMax);
     }
 
     // Add
     input.layer.addTo(map);
     document.getElementById("tiff-name").innerText = input.tiff.description;
     console.log(input);
-    updateMinMax(input.tiff.min, input.tiff.max);
+    if (!customMinMax) {
+        updateMinMax(input.tiff.min, input.tiff.max);
+    }
     if (input.hurricaneLayer != null) {
         input.hurricaneLayer.layer.addTo(hurricaneLayer);
         input.hurricaneLayer.line.addTo(hurricaneLayer);
