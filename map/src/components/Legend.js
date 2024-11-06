@@ -23,7 +23,7 @@ const Legend = () => {
                 <h3>Legend</h3>
                 <div className="scale">
                     <p id="minDepth">0ft</p>
-                    <div id="scale"></div>
+                    <canvas id="scale" width={256} height={32}></canvas>
                     <p id="maxDepth">12ft</p>
                 </div>
                 <hr></hr>

@@ -122,6 +122,30 @@ function drawLegend() {
         let target = showing.layer;
         target.setOpacity(e.target.value);
     }
+
+    // Scale
+    let c = document.getElementById("scale");
+    let width = c.width;
+    let height = c.height;
+    let ctx = c.getContext("2d");
+    ctx.lineWidth = 2;
+    for (let i = 0; i < width; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i,0);
+        ctx.lineTo(i,height);
+        ctx.strokeStyle = colorScale(i/width);
+        ctx.stroke();
+    }
+    // Scale dividers
+    let dividers = 4;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#000000";
+    for (let i = 1; i < dividers; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i*width/dividers, 0);
+        ctx.lineTo(i*width/dividers, height);
+        ctx.stroke();
+    }
 }
 
 function updateMinMax(min, max) {
