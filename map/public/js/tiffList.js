@@ -67,27 +67,58 @@ async function addTifToList(key) {
         "min": 0,
         "max": 9,
         "type": data.simtype,
-        "show": false,
+        "show": true,
         "date": new Date(),
         "stationUrl": data.waterlevel_json_url,
         "stationData": null,
         "position": ["TYPE", "NAME", "Advisory", "OFCL"],
     }
+    console.log(thisAdvisory.type);
+    // console.log(thisAdvisory);
 
     let writtenDate = data.cycle_year + "-" + data.cycle_month + "-" + data.cycle_day + "T" + data.cycle_hour + ":00:00";
     thisAdvisory.date = new Date(writtenDate);
     thisAdvisory.description += "--" + writtenDate;
 
-    if (data.advisory == "None") {
-        if (data.waterlevel_gtif_url.includes("adcirc_gfs_ga")) {
-            thisAdvisory.show = true;
-        }
-    } else {
-        if (data.waterlevel_gtif_url.includes("_ga/")) {
-            thisAdvisory.show = true;
-        }
+    // if (data.advisory == "None") {
+        // if (data.waterlevel_gtif_url.includes("adcirc_gfs_ga")) {
+            // thisAdvisory.show = true;
+        // }
+    // } else {
+        // if (data.waterlevel_gtif_url.includes("_ga/")) {
+            // thisAdvisory.show = true;
+        // }
+        // thisAdvisory.name = "Advisory " + data.advisory;
+        // thisAdvisory.type = "Hurricane";
+        // thisAdvisory.modelType = data.ensemble_member;
+        // thisAdvisory.hurricane = data.stormname;
+
+        // if (thisAdvisory.hurricane == "Chris") {
+        //     thisAdvisory.hurricane = "Debby";
+        // }
+        // // console.log(thisAdvisory.hurricane);
+        // if (thisAdvisory.hurricane == "Unnamed") {
+        //     thisAdvisory.hurricane = "05L";
+        //     thisAdvisory.max = 8;
+        //     // console.log(thisAdvisory)
+        // }
+        // thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
+
+        // if (HURRICANES.includes(thisAdvisory.hurricane)) {
+        //     thisAdvisory.show = true;
+        // }
+
+        // if (thisAdvisory.hurricane == "Nicole") {
+            // thisAdvisory.show = false;
+        // }
+    // }
+    if (data.stormname != "Unnamed") {
+        thisAdvisory.type = "hurricane";
+    }
+
+    // Sort into filter dropdowns
+    if (thisAdvisory.type == "hurricane") {
         thisAdvisory.name = "Advisory " + data.advisory;
-        thisAdvisory.type = "Hurricane";
         thisAdvisory.modelType = data.ensemble_member;
         thisAdvisory.hurricane = data.stormname;
 
@@ -106,13 +137,6 @@ async function addTifToList(key) {
             thisAdvisory.show = true;
         }
 
-        // if (thisAdvisory.hurricane == "Nicole") {
-            // thisAdvisory.show = false;
-        // }
-    }
-
-    // Sort into filter dropdowns
-    if (thisAdvisory.type == "Hurricane") {
         thisAdvisory.position[0] = "Hurricane";
         thisAdvisory.position[1] = thisAdvisory.hurricane;
         thisAdvisory.position[2] = "Advisory " + data.advisory;
@@ -122,11 +146,12 @@ async function addTifToList(key) {
         thisAdvisory.position[1] = data.cycle_month + "/" + data.cycle_year;
         thisAdvisory.position[2] = data.cycle_day;
         thisAdvisory.position[3] = data.cycle_hour;
+        // console.log("OWOWOWOO")
     }
 
     if (thisAdvisory.show) {
         tiffList.push(thisAdvisory);
-        if (thisAdvisory.type == "Hurricane") {
+        if (thisAdvisory.type == "hurricane") {
             await addHurricanePoints(thisAdvisory);
         }
         await getMarkerJson(thisAdvisory);
@@ -141,13 +166,14 @@ async function getMarkerJson(input) {
         let data = await file.json();
         input.stationData = data;
     } catch {
-        console.log("I am a sad")
+        console.log("I am a sad");
     }
 }
 
 async function getAllTifs() {
     let file = await fetch("https://uga-coast-forecasting.s3.amazonaws.com/metadata_list.json");
     let readed = await file.json();
+    // console.log(readed);
     let promises = [];
     for (let i = 0; i < readed.length; i++) {
         promises.push(addTifToList(readed[i]));

@@ -96,6 +96,10 @@ async function showLayer(input, customMinMax) {
     // Remove
     if (showing != null) {
         map.removeLayer(showing.layer);
+        for (let i = 0; i < clickPointObject.markers.length; i++) {
+            clickPointObject.markers[i].remove();
+        }
+        clickPointObject.markers = [];
         if (showing.hurricaneLayer != null) {
             hurricaneLayer.removeLayer(showing.hurricaneLayer.layer);
             hurricaneLayer.removeLayer(showing.hurricaneLayer.line);
@@ -132,6 +136,7 @@ async function doAll() {
         started = true;
         document.getElementById("version").innerText = VERSION;
         await getAllTifs();
+        console.log(tiffList);
     }
 }
 
@@ -150,7 +155,7 @@ function prepareItems() {
 
 function doNextStep() {
     Promise.all(addTifLayers()).then(function() {
-        addDropdowns()
+        addDropdowns();
     })
     addMarkers();
 }

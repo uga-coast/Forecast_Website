@@ -1,5 +1,9 @@
 function prepare() {
     map = mapsPlaceholder[0];
+    // map.on('click', function(evt) {
+        // var latlng = map.mouseEventToLatLng(evt.originalEvent);
+        // alert(geoblaze.identify(georaster, [latlng.lng, latlng.lat]));
+    // });
     addMap();
     drawBaseLayers();
     drawLegend();

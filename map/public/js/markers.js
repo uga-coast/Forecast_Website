@@ -195,7 +195,7 @@ function addMarkers() {
     // let controlLayers = L.control.layers(map._layers[39]).addTo(map);
     prepareOverlays([
         {
-            name: "Markers",
+            name: "NOAA Stations",
             layer: markerLayer
         },
         {
