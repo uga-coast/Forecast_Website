@@ -33,24 +33,39 @@ async function clickPoint(event) {
         image = await file.getImage();
         clickPointObject.image = image;
     }
+    console.log(clickPointObject.url_to_geotiff_file);
+    console.log(file);
+    console.log(image);
+
+    let res = await image.getResolution();
+    console.log(res);
+    let sam = await image.getSamplesPerPixel();
+    console.log(sam);
+    let piss = await image.getOrigin();
+    console.log(piss);
+    console.log(image.getTileHeight());
 
     const bbox = image.getBoundingBox();
+    console.log(bbox);
     const pixelWidth = image.getWidth();
+    console.log(pixelWidth);
     const pixelHeight = image.getHeight();
     const bboxWidth = bbox[ 2 ] - bbox[ 0 ];
+    console.log(bboxWidth);
     const bboxHeight = bbox[ 3 ] - bbox[ 1 ];
 
     const widthPct = (latlng.lng - bbox[ 0 ] ) / bboxWidth;
     const heightPct = (latlng.lat - bbox[ 1 ] ) / bboxHeight;
-    const xPx = Math.floor( pixelWidth * widthPct );
-    const yPx = Math.floor( pixelHeight * ( 1 - heightPct ) );
+    const xPx = Math.floor( pixelWidth * 0.5 );
+    const yPx = Math.floor( pixelHeight * 0.5 );
 
     const window = [ xPx, yPx, xPx + 1, yPx + 1 ];
     const data = await image.readRasters({ window });
+    console.log(data);
 
     let height = data[0][0];
 
-    // console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater elevation: " + height);
+    console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater elevation: " + height);
     let popup = L.popup([latlng.lat, latlng.lng],
         {
             // closeOnClick: false,

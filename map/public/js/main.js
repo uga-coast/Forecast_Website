@@ -93,6 +93,7 @@ function addDropdowns() {
 }
 
 async function showLayer(input, customMinMax) {
+    console.log(input);
     // Remove
     if (showing != null) {
         map.removeLayer(showing.layer);

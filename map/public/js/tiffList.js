@@ -112,7 +112,7 @@ async function addTifToList(key) {
             // thisAdvisory.show = false;
         // }
     // }
-    if (data.stormname != "Unnamed") {
+    if (data.stormid != "none") {
         thisAdvisory.type = "hurricane";
     }
 
