@@ -20,7 +20,7 @@ function addMap() {
     console.log(map);
 }
 
-async function clickPoint(event) {
+async function clickPoint(event, bounds) {
     let latlng = map.mouseEventToLatLng(event.originalEvent);
 
     let file = clickPointObject.file;
@@ -33,35 +33,25 @@ async function clickPoint(event) {
         image = await file.getImage();
         clickPointObject.image = image;
     }
-    console.log(clickPointObject.url_to_geotiff_file);
-    console.log(file);
-    console.log(image);
-
-    let res = await image.getResolution();
-    console.log(res);
-    let sam = await image.getSamplesPerPixel();
-    console.log(sam);
-    let piss = await image.getOrigin();
-    console.log(piss);
-    console.log(image.getTileHeight());
 
     const bbox = image.getBoundingBox();
-    console.log(bbox);
+
     const pixelWidth = image.getWidth();
-    console.log(pixelWidth);
     const pixelHeight = image.getHeight();
-    const bboxWidth = bbox[ 2 ] - bbox[ 0 ];
-    console.log(bboxWidth);
-    const bboxHeight = bbox[ 3 ] - bbox[ 1 ];
 
-    const widthPct = (latlng.lng - bbox[ 0 ] ) / bboxWidth;
-    const heightPct = (latlng.lat - bbox[ 1 ] ) / bboxHeight;
-    const xPx = Math.floor( pixelWidth * 0.5 );
-    const yPx = Math.floor( pixelHeight * 0.5 );
+    let obox = [bounds._southWest.lng, bounds._southWest.lat, bounds._northEast.lng, bounds._northEast.lat];
+    let xpos = (latlng.lng - obox[0])/(obox[2] - obox[0]);
+    let ypos = 1 - ((latlng.lat - obox[1])/(obox[3] - obox[1]));
 
-    const window = [ xPx, yPx, xPx + 1, yPx + 1 ];
-    const data = await image.readRasters({ window });
-    console.log(data);
+    const xPx = Math.floor( pixelWidth*xpos + 0.5);
+    const yPx = Math.floor( pixelHeight*ypos + 0.5);
+
+    const data = await image.readRasters({
+        window: [xPx, yPx, xPx + 30, yPx + 1],
+        width: 1,
+        height: 1,
+        fillValue: -20,
+    });
 
     let height = data[0][0];
 
@@ -74,10 +64,6 @@ async function clickPoint(event) {
         })
         .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
     popup.addTo(map);
-    // let marker = L.marker([latlng.lat, latlng.lng], {
-        // opacity: 0,
-    // }).addTo(map).bindPopup(popup).openPopup();
-    // clickPointObject.markers.push(marker);
 }
 
 async function drawFirstTime(inputTiff, customMinMax) {
@@ -118,9 +104,11 @@ async function drawFirstTime(inputTiff, customMinMax) {
         pixelValuesToColorFn: values => doColors(values[0])
     });
 
+    inputTiff.layer = tifLayer;
+    const bounds = tifLayer.getBounds();
     if (!clickPointObject.active) {
         map.on('click', async function(evt) {
-            clickPoint(evt);
+            clickPoint(evt, bounds);
         });
     }
     clickPointObject.url_to_geotiff_file = url_to_geotiff_file;
@@ -129,7 +117,6 @@ async function drawFirstTime(inputTiff, customMinMax) {
     clickPointObject.active = true;
 
     // Add layer to the list for sorting
-    inputTiff.layer = tifLayer;
     inputTiff.rendered = true;
     if (customMinMax) {
         inputTiff.rendered = false;
