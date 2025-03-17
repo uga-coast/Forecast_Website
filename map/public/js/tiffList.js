@@ -152,7 +152,22 @@ async function addTifToList(key) {
     if (thisAdvisory.show) {
         tiffList.push(thisAdvisory);
         if (thisAdvisory.type == "hurricane") {
-            await addHurricanePoints(thisAdvisory);
+            // await addHurricanePoints(thisAdvisory);
+            let newUrl = thisAdvisory.url.substring(0, thisAdvisory.url.indexOf("maxele"));
+            // let track = data.trackfile;
+            // let cone = data.conefilefile;
+            
+            // let trackUrl = newUrl + track;
+            // let coneUrl = newUrl + cone;
+
+            var myStyle = {
+                "color": "#ff7800",
+                "weight": 5,
+                "opacity": 0.65
+            };
+            // let coney = await fetch(newUrl + "cone.geojson");
+            // let cone = await json(coney);
+            // console.log(cone);
         }
         await getMarkerJson(thisAdvisory);
     }

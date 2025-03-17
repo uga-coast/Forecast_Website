@@ -21,6 +21,7 @@ function addMap() {
 }
 
 async function clickPoint(event, bounds) {
+    return; //TEMPORARY
     let latlng = map.mouseEventToLatLng(event.originalEvent);
 
     let file = clickPointObject.file;
