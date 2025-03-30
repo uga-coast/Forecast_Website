@@ -172,7 +172,9 @@ function addTifLayers() {
                     });
     
                     // Add layer to the list for sorting
-                    let layer = new Layer(tiffList[i], "overlay", tifLayer, addHurricaneLayer(tiffList[i]));
+                    console.log("OWOW");
+                    console.log(tiffList[i].tiff.hurricaneLayer);
+                    let layer = new Layer(tiffList[i], "overlay", tifLayer, tiffList[i].tiff.hurricaneLayer);
                     overLayers.push(layer);
                 }).catch((err) => {
                 }));

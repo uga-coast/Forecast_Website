@@ -80,38 +80,6 @@ async function addTifToList(key) {
     thisAdvisory.date = new Date(writtenDate);
     thisAdvisory.description += "--" + writtenDate;
 
-    // if (data.advisory == "None") {
-        // if (data.waterlevel_gtif_url.includes("adcirc_gfs_ga")) {
-            // thisAdvisory.show = true;
-        // }
-    // } else {
-        // if (data.waterlevel_gtif_url.includes("_ga/")) {
-            // thisAdvisory.show = true;
-        // }
-        // thisAdvisory.name = "Advisory " + data.advisory;
-        // thisAdvisory.type = "Hurricane";
-        // thisAdvisory.modelType = data.ensemble_member;
-        // thisAdvisory.hurricane = data.stormname;
-
-        // if (thisAdvisory.hurricane == "Chris") {
-        //     thisAdvisory.hurricane = "Debby";
-        // }
-        // // console.log(thisAdvisory.hurricane);
-        // if (thisAdvisory.hurricane == "Unnamed") {
-        //     thisAdvisory.hurricane = "05L";
-        //     thisAdvisory.max = 8;
-        //     // console.log(thisAdvisory)
-        // }
-        // thisAdvisory.hurricaneUrl = data.waterlevel_gtif_url;
-
-        // if (HURRICANES.includes(thisAdvisory.hurricane)) {
-        //     thisAdvisory.show = true;
-        // }
-
-        // if (thisAdvisory.hurricane == "Nicole") {
-            // thisAdvisory.show = false;
-        // }
-    // }
     if (data.stormid != "none") {
         thisAdvisory.type = "hurricane";
     }
@@ -150,26 +118,32 @@ async function addTifToList(key) {
     }
 
     if (thisAdvisory.show) {
-        tiffList.push(thisAdvisory);
         if (thisAdvisory.type == "hurricane") {
-            // await addHurricanePoints(thisAdvisory);
             let newUrl = thisAdvisory.url.substring(0, thisAdvisory.url.indexOf("maxele"));
-            // let track = data.trackfile;
-            // let cone = data.conefilefile;
-            
-            // let trackUrl = newUrl + track;
-            // let coneUrl = newUrl + cone;
 
-            var myStyle = {
-                "color": "#ff7800",
-                "weight": 5,
-                "opacity": 0.65
-            };
-            // let coney = await fetch(newUrl + "cone.geojson");
-            // let cone = await json(coney);
-            // console.log(cone);
+            try {
+                let trackfile = await fetch(newUrl + "storm_track.json");
+                let track = await trackfile.json();
+
+                let conefile;
+                let cone;
+                if (data.ensemble_member == "ofcl") {
+                    conefile = await fetch(newUrl + "cone.geojson");
+                    cone = await conefile.json();
+                } else {
+                    let type = data.ensemble_member;
+                    let parentUrl = newUrl.substring(0, newUrl.indexOf(type)) + "ofcl/";
+                    conefile = await fetch(parentUrl + "cone.geojson");
+                    cone = await conefile.json();
+                }
+
+                thisAdvisory.hurricaneLayer = drawMultiPolygon(track, cone);
+            } catch (e) {
+                //
+            }
         }
         await getMarkerJson(thisAdvisory);
+        tiffList.push(thisAdvisory);
     }
 }
 

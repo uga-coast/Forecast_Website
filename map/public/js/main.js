@@ -118,16 +118,14 @@ async function showLayer(input, customMinMax) {
     // Add
     input.layer.addTo(map);
     document.getElementById("tiff-name").innerText = input.tiff.description;
-    console.log(input);
     if (!customMinMax) {
         updateMinMax(input.tiff.min, input.tiff.max);
     }
-    if (input.hurricaneLayer != null) {
-        input.hurricaneLayer.layer.addTo(hurricaneLayer);
-        input.hurricaneLayer.line.addTo(hurricaneLayer);
-        if (input.tiff.position.includes("ofcl")) {
-            input.hurricaneLayer.hulls.addTo(hurricaneLayer);
-        }
+
+    if (input.tiff.hurricaneLayer != null) {
+        input.tiff.hurricaneLayer.layer.addTo(hurricaneLayer);
+        input.tiff.hurricaneLayer.line.addTo(hurricaneLayer);
+        input.tiff.hurricaneLayer.hulls.addTo(hurricaneLayer);
     }
     updateMarkers(input.tiff);
 }
@@ -146,7 +144,7 @@ function prepareItems() {
 
     overLayers = [];
     for (let i = 0; i < tiffList.length; i++) {
-        let layer = new Layer(tiffList[i], "overlay", undefined, addHurricaneLayer(tiffList[i]));
+        let layer = new Layer(tiffList[i], "overlay", undefined, tiffList[i].hurricaneLayer);
         overLayers.push(layer);
     }
 
