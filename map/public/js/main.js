@@ -102,9 +102,11 @@ async function showLayer(input, customMinMax) {
         }
         clickPointObject.markers = [];
         if (showing.hurricaneLayer != null) {
-            hurricaneLayer.removeLayer(showing.hurricaneLayer.layer);
-            hurricaneLayer.removeLayer(showing.hurricaneLayer.line);
+            hurricaneLayer.removeLayer(showing.hurricaneLayer.hurrLayer);
             hurricaneLayer.removeLayer(showing.hurricaneLayer.hulls);
+
+            trackLayer.removeLayer(showing.hurricaneLayer.tracLayer);
+            trackLayer.removeLayer(showing.hurricaneLayer.line);
         }
     }
 
@@ -123,9 +125,11 @@ async function showLayer(input, customMinMax) {
     }
 
     if (input.tiff.hurricaneLayer != null) {
-        input.tiff.hurricaneLayer.layer.addTo(hurricaneLayer);
-        input.tiff.hurricaneLayer.line.addTo(hurricaneLayer);
+        input.tiff.hurricaneLayer.hurrLayer.addTo(hurricaneLayer);
         input.tiff.hurricaneLayer.hulls.addTo(hurricaneLayer);
+
+        input.tiff.hurricaneLayer.tracLayer.addTo(trackLayer);
+        input.tiff.hurricaneLayer.line.addTo(trackLayer);
     }
     updateMarkers(input.tiff);
 }

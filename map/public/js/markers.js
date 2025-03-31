@@ -189,9 +189,11 @@ async function getPopup(marker, layer, tiff) {
 }
 let markerLayer;
 let hurricaneLayer;
+let trackLayer;
 function addMarkers() {
     markerLayer = new L.LayerGroup().addTo(map);
     hurricaneLayer = new L.LayerGroup().addTo(map);
+    trackLayer = new L.LayerGroup().addTo(map);
     // let controlLayers = L.control.layers(map._layers[39]).addTo(map);
     prepareOverlays([
         {
@@ -201,6 +203,10 @@ function addMarkers() {
         {
             name: "Hurricane Cone",
             layer: hurricaneLayer
+        },
+        {
+            name: "Hurricane Track",
+            layer: trackLayer
         }
     ])
     // controlLayers.addOverlay(markerLayer, "Markers");
