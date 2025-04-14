@@ -21,21 +21,40 @@ function drawMultiPolygon(stormtrack, geojson) {
     let tracLayer = new L.layerGroup();
 
     let shapes = [];
-    for (let i = 0; i < geojson.coordinates.length; i++) {
-        let list = [];
-        for (let j = 0; j < geojson.coordinates[i].length; j++) {
-            let coord = geojson.coordinates[i][j];
-            let x = coord[1];
-            let y = coord[0];
-            list.push([x, y]);
+    if (geojson.type == "Polygon") {
+        for (let i = 0; i < geojson.coordinates.length; i++) {
+            let list = [];
+            for (let j = 0; j < geojson.coordinates[i].length; j++) {
+                let coord = geojson.coordinates[i][j];
+                let x = coord[1];
+                let y = coord[0];
+                list.push([x, y]);
+            }
+            let shape = L.polygon(list, {
+                color: '#ff0000',
+                stroke: true,
+                fillOpacity: 0.0,
+                fillRule: "nonzero",
+            });
+            shapes.push(shape);
         }
-        let shape = L.polygon(list, {
-            color: '#ff0000',
-            stroke: true,
-            fillOpacity: 0.0,
-            fillRule: "nonzero",
-        });
-        shapes.push(shape);
+    } else if (geojson.type == "MultiPolygon") {
+        for (let i = 0; i < geojson.coordinates.length; i++) {
+            let list = [];
+            for (let j = 0; j < geojson.coordinates[i][0].length; j++) {
+                let coord = geojson.coordinates[i][0][j];
+                let x = coord[1];
+                let y = coord[0];
+                list.push([x, y]);
+            }
+            let shape = L.polygon(list, {
+                color: '#ff0000',
+                stroke: true,
+                fillOpacity: 0.0,
+                fillRule: "nonzero",
+            });
+            shapes.push(shape);
+        }
     }
 
     let linePoints = [];
@@ -51,10 +70,9 @@ function drawMultiPolygon(stormtrack, geojson) {
         weight: 3
     });
     
-
     let output = {
         "hurrLayer": hurrLayer,
-        "hulls": shapes[0],
+        "hulls": shapes,
         "tracLayer": tracLayer,
         "line": line,
     };

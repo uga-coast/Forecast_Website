@@ -103,7 +103,7 @@ async function showLayer(input, customMinMax) {
         clickPointObject.markers = [];
         if (showing.hurricaneLayer != null) {
             hurricaneLayer.removeLayer(showing.hurricaneLayer.hurrLayer);
-            hurricaneLayer.removeLayer(showing.hurricaneLayer.hulls);
+            hurricaneLayer.removeLayer(showing.hurricaneLayer.hulls[0]);
 
             trackLayer.removeLayer(showing.hurricaneLayer.tracLayer);
             trackLayer.removeLayer(showing.hurricaneLayer.line);
@@ -126,7 +126,8 @@ async function showLayer(input, customMinMax) {
 
     if (input.tiff.hurricaneLayer != null) {
         input.tiff.hurricaneLayer.hurrLayer.addTo(hurricaneLayer);
-        input.tiff.hurricaneLayer.hulls.addTo(hurricaneLayer);
+        console.log(input.tiff.hurricaneLayer.hulls);
+        input.tiff.hurricaneLayer.hulls[0].addTo(hurricaneLayer);
 
         input.tiff.hurricaneLayer.tracLayer.addTo(trackLayer);
         input.tiff.hurricaneLayer.line.addTo(trackLayer);
