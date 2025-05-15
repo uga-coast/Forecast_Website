@@ -4,7 +4,7 @@
     justify-content: space-between;
     gap: 10px;
     padding: 10px;
-    background-color: #c8d8eb;
+    background-color: #d6d2c4;
     width: 100%;
     border-radius: 8px;
     margin: 10px 0;
@@ -14,13 +14,13 @@
     text-align: center;
     min-width: 80px;
     padding: 10px 16px;
-    font-family: 'Georgia', serif;
-    font-size: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
     font-weight: bold;
     border: none;
     border-radius: 12px;
-    background-color: #9ea2a2;
-    color: #333;
+    background-color: #000000;
+    color: #FFFFFF;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -28,6 +28,6 @@
     background-color: #ddd;
 }
 .tab.active {
-    background-color: #333;
+    background-color: #ba0c2f;
     color: white;
 }
