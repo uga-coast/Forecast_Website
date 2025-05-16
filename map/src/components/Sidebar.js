@@ -29,7 +29,8 @@ const Sidebar = () => {
             </div>
             <div id="controls">
                 <TabButton HorDF={forecastType} setHorDF={setForecastType} />
-                {/* BEFORE: <select id="tiff-1" className="closed-dropdown tiff-select"></select> */}
+                {/* Keeping id tiff-1 to trigger dropdown chain */}
+                <select id="tiff-1" className="closed-dropdown tiff-select"></select> 
                 <select id="tiff-2" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-3" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-4" className="closed-dropdown tiff-select"></select>
