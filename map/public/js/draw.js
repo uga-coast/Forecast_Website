@@ -66,7 +66,35 @@ async function clickPoint(event, bounds) {
                 // autoClose: false,
                 autoPan: false,
             })
-            .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
+            // BEFORE:
+            // .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
+            // END BEFORE: Now 6/21 change here:
+            
+            // Adding more data to hurricane markers
+            .setContent((() => {
+                // Get the hurricane data
+                let hurricaneItem = tiffList.find(item => item.trackData);
+                // This is the old data displayed: Lat/Long & Water Elevation
+                let bretContent = "(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88";
+
+                // Adding more data - check if it exists
+                if (hurricaneItem && hurricaneItem.trackData && hurricaneItem.trackData.features) {
+                    // Find first track point as a test
+                    let firstPoint = hurricaneItem.trackData.features[0];
+                    if (firstPoint && firstPoint.properties) {
+                        return bretContent + "<br><br><strong>Hurricane Test:</strong><br>" +
+                        "Storm: " + hurricaneItem.hurricane + "<br>" +
+                        "First point wind: " + Math.round(firstPoint.properties.max_wind_speed_mph) + " mph<br>" +
+                        "First point pressure: " + Math.round(firstPoint.properties.minimum_sea_level_pressure_mb) + " mb";
+                    } // if
+                } // if
+                return bretContent + "<br><br>No hurricane data available";
+            } // outer function
+
+            ) // second layer parentheses
+
+            ); // setContent
+            // END 6/21 change
         popup.addTo(map);
     }
 }
