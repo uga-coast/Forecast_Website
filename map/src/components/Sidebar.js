@@ -5,11 +5,8 @@ import { LayersControl } from "react-leaflet/LayersControl";
 import { Pane } from "react-leaflet/Pane";
 import { useMap } from "react-leaflet/hooks";
 import { useState } from 'react'
-import TabButton from './TabButton'
 
 const Sidebar = () => {
-    // useState for Hurricane or Daily Forecast tab button
-    const[forecastType, setForecastType] = useState('hurricane');
     return (
         <div id="sidebar">
             <div id="credits" className="sidebar-box secondary-serif">
@@ -28,8 +25,6 @@ const Sidebar = () => {
                 </div>
             </div>
             <div id="controls">
-                <TabButton HorDF={forecastType} setHorDF={setForecastType} />
-                {/* Keeping id tiff-1 to trigger dropdown chain */}
                 <select id="tiff-1" className="closed-dropdown tiff-select"></select> 
                 <select id="tiff-2" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-3" className="closed-dropdown tiff-select"></select>
