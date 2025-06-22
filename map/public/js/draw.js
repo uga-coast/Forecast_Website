@@ -66,16 +66,12 @@ async function clickPoint(event, bounds) {
                 // autoClose: false,
                 autoPan: false,
             })
-            // BEFORE:
-            // .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
-            // END BEFORE: Now 6/21 change here:
-            
             // Adding more data to hurricane markers - pop up
             .setContent((() => {
-                // Get the hurricane data
-                let hurricaneItem = tiffList.find(item => item.trackData);
+                // Get the hurricane data if selected: hurricane advisory from dropdowns
+                let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
                 // This is the old data displayed: Lat/Long & Water Elevation
-                let bretContent = "(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88 <br>";
+                let bretContent = "Location: (" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88 <br>";
 
                 // Adding more data to hurricane marker pop up - check if it exists
                 if (hurricaneItem && hurricaneItem.trackData && hurricaneItem.trackData.features) {
@@ -100,7 +96,7 @@ async function clickPoint(event, bounds) {
                         return bretContent +
                         "Date: " + new Date(closestPoint.properties.time_utc).toLocaleDateString() + " " + new Date(closestPoint.properties.time_utc).toLocaleTimeString() + "<br>" +
                         "Storm: " + hurricaneItem.hurricane + "<br>" +
-                        "Max Wind Speed: " + closestPoint.properties.max_wind_speed_mph + " mph<br>" +
+                        "Max Wind Speed: " + (Math.round(100*closestPoint.properties.max_wind_speed_mph)/100) + " mph<br>" +
                         "Min Pressure: " + closestPoint.properties.minimum_sea_level_pressure_mb + " mb";
                     } // if
                     
