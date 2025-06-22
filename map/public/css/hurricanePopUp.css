@@ -1,1 +1,13 @@
 /* Styling for hurricane marker pop up in draw.js */
+.leaflet-popup-content {
+    background-color: #C8D8EB;
+    font-family: Georgia, serif;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+}
+.popup-label {
+    font-weight: bold;
+    font-family: Georgia, serif;
+    color: black;
+}

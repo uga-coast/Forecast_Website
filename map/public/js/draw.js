@@ -59,7 +59,7 @@ async function clickPoint(event, bounds) {
     if (isNaN(height) || height == -99999) {
         //
     } else {
-        console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater elevation: " + height);
+        console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater Elevation: " + height);
         let popup = L.popup([latlng.lat, latlng.lng],
             {
                 // closeOnClick: false,
@@ -71,7 +71,7 @@ async function clickPoint(event, bounds) {
                 // Get the hurricane data if selected: hurricane advisory from dropdowns
                 let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
                 // This is the old data displayed: Lat/Long & Water Elevation
-                let bretContent = "Location: (" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88 <br>";
+                let bretContent = "Location: (" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water Elevation: " + (Math.round(100*height)/100) + " ft NAVD88 <br>";
 
                 // Adding more data to hurricane marker pop up - check if it exists
                 if (hurricaneItem && hurricaneItem.trackData && hurricaneItem.trackData.features) {
