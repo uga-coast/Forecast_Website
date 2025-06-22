@@ -70,24 +70,42 @@ async function clickPoint(event, bounds) {
             // .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
             // END BEFORE: Now 6/21 change here:
             
-            // Adding more data to hurricane markers
+            // Adding more data to hurricane markers - pop up
             .setContent((() => {
                 // Get the hurricane data
                 let hurricaneItem = tiffList.find(item => item.trackData);
                 // This is the old data displayed: Lat/Long & Water Elevation
-                let bretContent = "(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88";
+                let bretContent = "(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88 <br>";
 
-                // Adding more data - check if it exists
+                // Adding more data to hurricane marker pop up - check if it exists
                 if (hurricaneItem && hurricaneItem.trackData && hurricaneItem.trackData.features) {
-                    // Find first track point as a test
-                    let firstPoint = hurricaneItem.trackData.features[0];
-                    if (firstPoint && firstPoint.properties) {
-                        return bretContent + "<br><br><strong>Hurricane Test:</strong><br>" +
+                    let closestPoint = null; // Will store closest hurricane track point
+                    let minDistance = Number.MAX_VALUE; // Set to large # so that first track point always selected initially
+
+                    // Loop thru every point in hurricane track to find closest hurricane track point to user click
+                    for (let feature of hurricaneItem.trackData.features) {
+                        let trackLat = feature.geometry.coordinates[1]; // Hurricane track point latitude
+                        let trackLng = feature.geometry.coordinates[0]; // Hurricane track point longitude
+                        // Calculate distance from user click to hurricane point
+                        let distance = Math.sqrt(Math.pow(latlng.lat - trackLat, 2) + Math.pow(latlng.lng - trackLng, 2));
+                        // Check if current hurricane track point is closest 
+                        if (distance < minDistance ) {
+                            minDistance = distance;
+                            // Save current hurricane track point as closest point to user click
+                            closestPoint = feature;
+                        } // if
+                    } // for
+                    // Check if closest point exists - display closest point's data
+                    if (closestPoint && closestPoint.properties) {
+                        return bretContent +
+                        "Date: " + new Date(closestPoint.properties.time_utc).toLocaleDateString() + " " + new Date(closestPoint.properties.time_utc).toLocaleTimeString() + "<br>" +
                         "Storm: " + hurricaneItem.hurricane + "<br>" +
-                        "First point wind: " + Math.round(firstPoint.properties.max_wind_speed_mph) + " mph<br>" +
-                        "First point pressure: " + Math.round(firstPoint.properties.minimum_sea_level_pressure_mb) + " mb";
+                        "Max Wind Speed: " + closestPoint.properties.max_wind_speed_mph + " mph<br>" +
+                        "Min Pressure: " + closestPoint.properties.minimum_sea_level_pressure_mb + " mb";
                     } // if
+                    
                 } // if
+                // If no hurricane data available - show original data: Lat/Long & Water Elevation
                 return bretContent + "<br><br>No hurricane data available";
             } // outer function
 

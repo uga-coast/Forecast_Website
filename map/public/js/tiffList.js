@@ -125,7 +125,7 @@ async function addTifToList(key) {
                 let trackfile = await fetch(newUrl + "storm_track.json");
                 let track = await trackfile.json();
                 
-                // ADDED HERE 6/21: Storing hurricane track data
+                // ADDED HERE 6/21: Storing hurricane track data in each advisory object
                 thisAdvisory.trackData = track;
                 // DONE
 
