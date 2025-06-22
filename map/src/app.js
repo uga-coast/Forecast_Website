@@ -11,6 +11,7 @@ import "./css/style.css";
 import "./css/legend.css";
 import "./css/sidebar.css";
 import "./css/controls.css";
+import "./css/hurricanePopUp.css";
 
 import Sidebar from "./components/Sidebar";
 import Map from "./components/Map";
