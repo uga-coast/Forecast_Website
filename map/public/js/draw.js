@@ -92,9 +92,9 @@ async function clickPoint(event, bounds) {
                             // Save current hurricane track point as closest point to user click
                             closestPoint = feature;
                         } // if
-                    } // for 
-                    // Check if closest point exists - display closest point's data: Location, Water Elevation, Date, Storm, Max Wind Speed, Min Pressure
-                    if (closestPoint && closestPoint.properties) {
+                    } // for
+                    // Check if closest point exists to hurricane marker only & display: Location, Water Elevation, Date, Storm, Max Wind Speed, Min Pressure
+                    if (closestPoint && closestPoint.properties && minDistance < 0.1) {
                         return bretContent +
                         `<span class="popup-label">Date:</span> ${new Date(closestPoint.properties.time_utc).toLocaleDateString()} ${new Date(closestPoint.properties.time_utc).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>` +
                         `<span class="popup-label">Storm:</span> ${hurricaneItem.hurricane}<br>` +
@@ -103,8 +103,8 @@ async function clickPoint(event, bounds) {
                     } // if
                     
                 } // if
-                // If no hurricane data available - show original data: Lat/Long & Water Elevation (if on daily forecast or no popup shows for some reason)
-                return bretContent + "<br><br>No hurricane data available";
+                // Non-hurricane marker: Lat/Long & Water Elevation
+                return bretContent;
             })); // setContent
         popup.addTo(map);
     }
