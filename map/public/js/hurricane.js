@@ -8,14 +8,41 @@ for (let i = 0; i < 20; i++) {
 // Changing the color of the hurricane icon based on Saffir-Simpson scale
 // BTW: because of the unique icon - 7 differently colored images must be used instead of just changing a color property
 function getSaffirColor(windspeed) {
-    if (windspeed < 34) return '../hurricaneIcons/tropDep.png';
-    if (windspeed < 64) return '../hurricaneIcons/tropStorm.png';
-    if (windspeed < 83) return '../hurricaneIcons/cat1.png';
-    if (windspeed < 96) return '../hurricaneIcons/cat2.png';
-    if (windspeed < 113) return '../hurricaneIcons/cat3.png';
-    if (windspeed < 137) return '../hurricaneIcons/cat4.png';
-    return '../hurricaneIcons/cat5.png';
+    if (windspeed <= 38) {
+        return '../hurricaneIcons/tropDep.png';
+    } else if (windspeed >=39 && windspeed <= 73) {
+        return '../hurricaneIcons/tropStorm.png';
+    } else if (windspeed >=74 && windspeed <= 95) {
+        return '../hurricaneIcons/cat1.png';
+    } else if (windspeed >=96 && windspeed <= 110) {
+        return '../hurricaneIcons/cat2.png';
+    } else if (windspeed >=111 && windspeed <= 129) {
+        return '../hurricaneIcons/cat3.png';
+    } else if(windspeed >=130 && windspeed <= 156) {
+        return '../hurricaneIcons/cat4.png';
+    } else {
+         return '../hurricaneIcons/cat5.png';
+    } // if 
 } // getSaffirColor
+
+// Get the Saffir-Simpson scale category name to display in pop-up on hurricane marker hover
+function getSaffirCategory(windspeed) {
+    if (windspeed <= 38) {
+        return 'Tropical Depression';
+    } else if (windspeed >=39 && windspeed <= 73) {
+        return 'Tropical Storm';
+    } else if (windspeed >=74 && windspeed <= 95) {
+        return 'Category 1';
+    } else if (windspeed >=96 && windspeed <= 110) {
+        return 'Category 2';
+    } else if (windspeed >=111 && windspeed <= 129) {
+        return 'Category 3';
+    } else if(windspeed >=130 && windspeed <= 156) {
+        return 'Category 4';
+    } else {
+         return 'Category 5';
+    } // if 
+} // getSaffirCategory
 
 function drawMultiPolygon(stormtrack, geojson) {
     let hurrLayer = new L.layerGroup();
@@ -68,9 +95,13 @@ function drawMultiPolygon(stormtrack, geojson) {
         linePoints.push([point[1], point[0]]);
 
         // Get wind speed for Saffir-Simpson scale
-        let windSpeed = feature.properties.max_wind_speed_mph;
+        let windSpeed = Math.round(100*feature.properties.max_wind_speed_mph)/100; 
+  
         // Get hurricane marker png file w/ specific color
         let iconUrl = getSaffirColor(windSpeed);
+
+        // Get hurricane marker category 
+        let cat = getSaffirCategory(windSpeed);
 
         // Create hurricane icon based on Saffir-Simpson scale & colored marker
         let hurrIcon = L.icon({
@@ -96,6 +127,7 @@ function drawMultiPolygon(stormtrack, geojson) {
                 <span class="popup-label">Date:</span> ${new Date(feature.properties.time_utc).toLocaleDateString()} ${new Date(feature.properties.time_utc).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
                 <span class="popup-label">Storm:</span> ${hurricaneItem ? hurricaneItem.hurricane : 'Unknown'}<br>
                 <span class="popup-label">Max Wind Speed:</span> ${Math.round(100*feature.properties.max_wind_speed_mph)/100} mph<br>
+                <span class="popup-label">Category:</span> ${getSaffirCategory(Math.round(100*feature.properties.max_wind_speed_mph)/100)}<br>
                 <span class="popup-label">Min Pressure:</span> ${Math.round(100*feature.properties.minimum_sea_level_pressure_mb)/100} mb`; // popupContent 
             
             let popup = L.popup([latlng.lat, latlng.lng], {
