@@ -5,16 +5,17 @@ for (let i = 0; i < 20; i++) {
     }
 }
 
-let hurrIcon = L.icon({
-    iconUrl: "hurricane.png",
-    shadowUrl: 'hurricane.png',
-
-    iconSize:     [20, 20], // size of the icon
-    shadowSize:   [0, 0], // size of the shadow
-    iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
-    shadowAnchor: [0, 0],  // the same for the shadow
-    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-});
+// Changing the color of the hurricane icon based on Saffir-Simpson scale
+// BTW: because of the unique icon - 7 differently colored images must be used instead of just changing a color property
+function getSaffirColor(windspeed) {
+    if (windspeed < 34) return '../hurricaneIcons/tropDep.png';
+    if (windspeed < 64) return '../hurricaneIcons/tropStorm.png';
+    if (windspeed < 83) return '../hurricaneIcons/cat1.png';
+    if (windspeed < 96) return '../hurricaneIcons/cat2.png';
+    if (windspeed < 113) return '../hurricaneIcons/cat3.png';
+    if (windspeed < 137) return '../hurricaneIcons/cat4.png';
+    return '../hurricaneIcons/cat5.png';
+} // getSaffirColor
 
 function drawMultiPolygon(stormtrack, geojson) {
     let hurrLayer = new L.layerGroup();
@@ -66,6 +67,21 @@ function drawMultiPolygon(stormtrack, geojson) {
         // Bret code 
         linePoints.push([point[1], point[0]]);
 
+        // Get wind speed for Saffir-Simpson scale
+        let windSpeed = feature.properties.max_wind_speed_mph;
+        // Get hurricane marker png file w/ specific color
+        let iconUrl = getSaffirColor(windSpeed);
+
+        // Create hurricane icon based on Saffir-Simpson scale & colored marker
+        let hurrIcon = L.icon({
+            iconUrl: iconUrl,
+            shadowUrl: iconUrl,
+            iconSize:     [20, 20], 
+            shadowSize:   [0, 0],
+            iconAnchor:   [10, 10],
+            shadowAnchor: [0, 0],
+            popupAnchor:  [0, 0]
+        }); // hurrIcon
         let marker = new L.marker([point[1], point[0]], {icon: hurrIcon});
 
         // Added event listener to record on hover for each hurricane marker - then display popup
