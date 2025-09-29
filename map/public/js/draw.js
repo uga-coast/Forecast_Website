@@ -66,44 +66,14 @@ async function clickPoint(event, bounds) {
                 // autoClose: false,
                 autoPan: false,
             })
-            // Adding more data to hurricane markers - pop up
+            // Adding more data to pop-up when clicking directly on hurricane markers - will NOT display if not on marker
             .setContent((() => {
-                // Get the hurricane data if selected: hurricane advisory from dropdowns
+                // Get the hurricane data if selected
                 let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
-                // This is the old data displayed: Lat/Long & Water Elevation
-                let bretContent = `
-                    <span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
-                    <span class="popup-label">Water Elevation:</span> ${Math.round(100*height)/100} ft NAVD88<br>
-                `; // bretContent
-                // Adding more data to hurricane marker pop up - check if it exists
-                if (hurricaneItem && hurricaneItem.trackData && hurricaneItem.trackData.features) {
-                    let closestPoint = null; // Will store closest hurricane track point
-                    let minDistance = Number.MAX_VALUE; // Set to large # so that first track point always selected initially
-
-                    // Loop thru every point in hurricane track to find closest hurricane track point to user click
-                    for (let feature of hurricaneItem.trackData.features) {
-                        let trackLat = feature.geometry.coordinates[1]; // Hurricane track point latitude
-                        let trackLng = feature.geometry.coordinates[0]; // Hurricane track point longitude
-                        // Calculate distance from user click to hurricane point
-                        let distance = Math.sqrt(Math.pow(latlng.lat - trackLat, 2) + Math.pow(latlng.lng - trackLng, 2));
-                        // Check if current hurricane track point is closest 
-                        if (distance < minDistance ) {
-                            minDistance = distance;
-                            // Save current hurricane track point as closest point to user click
-                            closestPoint = feature;
-                        } // if
-                    } // for
-                    // Check if closest point exists to hurricane marker only & display: Location, Water Elevation, Date, Storm, Max Wind Speed, Min Pressure
-                    if (closestPoint && closestPoint.properties && minDistance < 0.1) {
-                        return bretContent +
-                        `<span class="popup-label">Date:</span> ${new Date(closestPoint.properties.time_utc).toLocaleDateString()} ${new Date(closestPoint.properties.time_utc).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>` +
-                        `<span class="popup-label">Storm:</span> ${hurricaneItem.hurricane}<br>` +
-                        `<span class="popup-label">Max Wind Speed:</span> ${Math.round(100*closestPoint.properties.max_wind_speed_mph)/100} mph<br>` +
-                        `<span class="popup-label">Min Pressure:</span> ${Math.round(100*closestPoint.properties.minimum_sea_level_pressure_mb)/100} mb`;
-                    } // if
-                    
-                } // if
-                // Non-hurricane marker: Lat/Long & Water Elevation
+                // This is the old/default data displayed: Lat/Long & Water Elevation
+                let bretContent = 
+                    `<span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
+                    <span class="popup-label">Water Elevation:</span> ${Math.round(100*height)/100} ft NAVD88<br>`; // bretContent
                 return bretContent;
             })); // setContent
         popup.addTo(map);

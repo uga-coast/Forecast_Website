@@ -60,9 +60,47 @@ function drawMultiPolygon(stormtrack, geojson) {
     let linePoints = [];
     for (let i = 0; i < stormtrack.features.length; i++) {
         let point = stormtrack.features[i].geometry.coordinates;
+        // Added feature variable to track hurricane data in order to record on hover of hurricane markers
+        let feature = stormtrack.features[i];
+
+        // Bret code 
         linePoints.push([point[1], point[0]]);
 
         let marker = new L.marker([point[1], point[0]], {icon: hurrIcon});
+
+        // Added event listener to record on hover for each hurricane marker - then display popup
+        marker.on('mouseover', function(e) {
+            let latlng = e.latlng;
+            
+            // Get hurricane track data 
+            let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
+            
+            // Create popup content with Location, Date, Storm, Max Wind Speed, Min Pressure 
+            let popupContent = `<span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
+                <span class="popup-label">Date:</span> ${new Date(feature.properties.time_utc).toLocaleDateString()} ${new Date(feature.properties.time_utc).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+                <span class="popup-label">Storm:</span> ${hurricaneItem ? hurricaneItem.hurricane : 'Unknown'}<br>
+                <span class="popup-label">Max Wind Speed:</span> ${Math.round(100*feature.properties.max_wind_speed_mph)/100} mph<br>
+                <span class="popup-label">Min Pressure:</span> ${Math.round(100*feature.properties.minimum_sea_level_pressure_mb)/100} mb`; // popupContent 
+            
+            let popup = L.popup([latlng.lat, latlng.lng], {
+                autoPan: false,
+                autoClose: true, 
+                closeOnClick: false
+            }).setContent(popupContent); // popup
+            
+            popup.addTo(map);
+        });
+
+        // Close Leaflet popup with hurricane data so map does not get cluttered 
+        marker.on('mouseout', function(e) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Popup) {
+                    map.removeLayer(layer);
+                } // if 
+            }); // MAP
+        }); // on mouseout
+        
+        // Bret code: 
         marker.addTo(tracLayer);
     }
     let line = L.polyline(linePoints, {
