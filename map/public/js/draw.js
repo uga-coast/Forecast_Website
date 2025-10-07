@@ -59,7 +59,7 @@ async function clickPoint(event, bounds) {
     if (isNaN(height) || height == -99999) {
         //
     } else {
-        console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater Elevation: " + height);
+        console.log("User clicked at (" + latlng.lng + "E, " + latlng.lat + "N)\nWater elevation: " + height);
         let popup = L.popup([latlng.lat, latlng.lng],
             {
                 // closeOnClick: false,
