@@ -1,9 +1,0 @@
-/* Code to style popup drawn in markers.js */
-<style> 
-.custom-popup .leaflet-popup-tip, .custom-popup .leaflet-content-wrapper {
-    background: #C8D8EB;
-    color: #000000;
-    font-family: "Merriweather", sans-serif;
-};
-</style>
-<div class="custom-popup" id="map"> </div>
