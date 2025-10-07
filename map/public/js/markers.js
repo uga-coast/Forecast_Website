@@ -177,9 +177,9 @@ async function getPopup(marker, layer, tiff) {
     // Get URL
     let url = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=" + goalTimes + "&range=72&station=" + marker.station + "&product=water_level&datum=NAVD&time_zone=gmt&units=english&application=DataAPI_Sample&format=json";
     // Get data from NOAA
-    // console.log(url);
     let file = await fetch(url);
     let data = await file.json();
+    console.log(data.rest);
     if (data.error == null) {
         // Draw popup
         drawPopup(marker, data, layer, time, tiff);
