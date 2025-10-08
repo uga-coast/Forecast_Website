@@ -5,16 +5,44 @@ for (let i = 0; i < 20; i++) {
     }
 }
 
-let hurrIcon = L.icon({
-    iconUrl: "hurricane.png",
-    shadowUrl: 'hurricane.png',
+// Changing the color of the hurricane icon based on Saffir-Simpson scale
+// BTW: because of the unique icon - 7 differently colored images must be used instead of just changing a color property
+function getSaffirColor(windspeed) {
+    if (windspeed <= 38) {
+        return '../hurricaneIcons/tropDep.png';
+    } else if (windspeed >=39 && windspeed <= 73) {
+        return '../hurricaneIcons/tropStorm.png';
+    } else if (windspeed >=74 && windspeed <= 95) {
+        return '../hurricaneIcons/cat1.png';
+    } else if (windspeed >=96 && windspeed <= 110) {
+        return '../hurricaneIcons/cat2.png';
+    } else if (windspeed >=111 && windspeed <= 129) {
+        return '../hurricaneIcons/cat3.png';
+    } else if(windspeed >=130 && windspeed <= 156) {
+        return '../hurricaneIcons/cat4.png';
+    } else {
+         return '../hurricaneIcons/cat5.png';
+    } // if 
+} // getSaffirColor
 
-    iconSize:     [20, 20], // size of the icon
-    shadowSize:   [0, 0], // size of the shadow
-    iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
-    shadowAnchor: [0, 0],  // the same for the shadow
-    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-});
+// Get the Saffir-Simpson scale category name to display in pop-up on hurricane marker hover
+function getSaffirCategory(windspeed) {
+    if (windspeed <= 38) {
+        return 'Tropical Depression';
+    } else if (windspeed >=39 && windspeed <= 73) {
+        return 'Tropical Storm';
+    } else if (windspeed >=74 && windspeed <= 95) {
+        return 'Category 1';
+    } else if (windspeed >=96 && windspeed <= 110) {
+        return 'Category 2';
+    } else if (windspeed >=111 && windspeed <= 129) {
+        return 'Category 3';
+    } else if(windspeed >=130 && windspeed <= 156) {
+        return 'Category 4';
+    } else {
+         return 'Category 5';
+    } // if 
+} // getSaffirCategory
 
 function drawMultiPolygon(stormtrack, geojson) {
     let hurrLayer = new L.layerGroup();
@@ -60,9 +88,67 @@ function drawMultiPolygon(stormtrack, geojson) {
     let linePoints = [];
     for (let i = 0; i < stormtrack.features.length; i++) {
         let point = stormtrack.features[i].geometry.coordinates;
+        // Added feature variable to track hurricane data in order to record on hover of hurricane markers
+        let feature = stormtrack.features[i];
+
+        // Bret code 
         linePoints.push([point[1], point[0]]);
 
+        // Get wind speed for Saffir-Simpson scale
+        let windSpeed = Math.round(100*feature.properties.max_wind_speed_mph)/100; 
+  
+        // Get hurricane marker png file w/ specific color
+        let iconUrl = getSaffirColor(windSpeed);
+
+        // Get hurricane marker category 
+        let cat = getSaffirCategory(windSpeed);
+
+        // Create hurricane icon based on Saffir-Simpson scale & colored marker
+        let hurrIcon = L.icon({
+            iconUrl: iconUrl,
+            shadowUrl: iconUrl,
+            iconSize:     [20, 20], 
+            shadowSize:   [0, 0],
+            iconAnchor:   [10, 10],
+            shadowAnchor: [0, 0],
+            popupAnchor:  [0, 0]
+        }); // hurrIcon
         let marker = new L.marker([point[1], point[0]], {icon: hurrIcon});
+
+        // Added event listener to record on hover for each hurricane marker - then display popup
+        marker.on('mouseover', function(e) {
+            let latlng = e.latlng;
+            
+            // Get hurricane track data 
+            let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
+            
+            // Create popup content with Location, Date, Storm, Max Wind Speed, Min Pressure 
+            let popupContent = `<span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
+                <span class="popup-label">Date:</span> ${new Date(feature.properties.time_utc).toLocaleDateString()} ${new Date(feature.properties.time_utc).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}<br>
+                <span class="popup-label">Storm:</span> ${hurricaneItem ? hurricaneItem.hurricane : 'Unknown'}<br>
+                <span class="popup-label">Max Wind Speed:</span> ${Math.round(100*feature.properties.max_wind_speed_mph)/100} mph<br>
+                <span class="popup-label">Category:</span> ${getSaffirCategory(Math.round(100*feature.properties.max_wind_speed_mph)/100)}<br>
+                <span class="popup-label">Min Pressure:</span> ${Math.round(100*feature.properties.minimum_sea_level_pressure_mb)/100} mb`; // popupContent 
+            
+            let popup = L.popup([latlng.lat, latlng.lng], {
+                autoPan: false,
+                autoClose: true, 
+                closeOnClick: false
+            }).setContent(popupContent); // popup
+            
+            popup.addTo(map);
+        });
+
+        // Close Leaflet popup with hurricane data so map does not get cluttered 
+        marker.on('mouseout', function(e) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Popup) {
+                    map.removeLayer(layer);
+                } // if 
+            }); // MAP
+        }); // on mouseout
+        
+        // Bret code: 
         marker.addTo(tracLayer);
     }
     let line = L.polyline(linePoints, {

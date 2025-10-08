@@ -66,7 +66,16 @@ async function clickPoint(event, bounds) {
                 // autoClose: false,
                 autoPan: false,
             })
-            .setContent("(" + (Math.round(100*latlng.lng)/100) + ", " + (Math.round(100*latlng.lat)/100) + ")<br>Water elevation: " + (Math.round(100*height)/100) + " ft NAVD88");
+            // Adding more data to pop-up when clicking directly on hurricane markers - will NOT display if not on marker
+            .setContent((() => {
+                // Get the hurricane data if selected
+                let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
+                // This is the old/default data displayed: Lat/Long & Water Elevation
+                let bretContent = 
+                    `<span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
+                    <span class="popup-label">Water Elevation:</span> ${Math.round(100*height)/100} ft NAVD88<br>`; // bretContent
+                return bretContent;
+            })); // setContent
         popup.addTo(map);
     }
 }
