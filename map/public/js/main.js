@@ -155,6 +155,15 @@ function prepareItems() {
 
     addDropdowns();
     addMarkers();
+
+    // Automatically render most recent Daily Forecast by retrieving the DF info as a list and finding most recent DF item out of DF list
+    let dailyForecastList = overLayers.filter(layer => layer.tiff.type != "hurricane");
+    // Find most recent date out of the DF list 
+    dailyForecastList.sort((a, b) => b.tiff.date - a.tiff.date);
+    // Render most recent DF 
+    if (dailyForecastList.length > 0) {
+        showLayer(dailyForecastList[0], false);
+    } // if
 }
 
 function doNextStep() {
