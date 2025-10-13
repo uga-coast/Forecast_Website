@@ -27,6 +27,7 @@ const CalendarInput = () => {
     const [date, changeDate] = useState(new Date());
     const [mode, setMode] = useState(null);
     const [selectedStorm, setStorm] = useState(null);
+    const [hDates, setHDates] = useState([]);
 
     // Handle mode changes from user based on H or DF selection
     useEffect(() => {
@@ -68,6 +69,19 @@ const CalendarInput = () => {
         return () => {
             document.body.removeEventListener('stormSelected', handleStormSelected);
         }; // return
+    }, []); // useEffect
+
+    // Listen to retrieve H advisory dates based on user selection of storm
+    useEffect(() => {
+        const handleHData = (e) => {
+            console.log("Hurricane data received:", e.detail);
+            setHDates(e.detail.dates);
+        }; // handleHData
+
+        document.body.addEventListener('hurricaneData', handleHData);
+        return () => {
+            document.body.removeEventListener('hurricaneData', handleHData);
+        };
     }, []); // useEffect
 
     return (

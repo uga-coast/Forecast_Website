@@ -223,6 +223,28 @@ function prepareItems() {
             showLayer(DFmatch, false);
         } // if
     }); // event-listener 
+
+    // Event listener for storm selection & storm's advisory dates
+    document.body.addEventListener('stormSelected', function(e) {
+        let selectedStorm = e.detail.storm;
+        
+        // Find all hurricane layers for this storm
+        let stormAdvisories = overLayers.filter(layer => {
+            return layer.tiff.type === "hurricane" && layer.tiff.hurricane === selectedStorm;
+        }); // stormAdvisories 
+        
+        // Extract unique dates from advisories
+        let advisoryDates = stormAdvisories.map(layer => ({
+            date: layer.tiff.date,
+            advisory: layer.tiff.name,
+            tracks: layer.tiff.modelType
+        })); // advisoryDates 
+        
+        // Dispatch event to communicate with Calendar component 
+        document.body.dispatchEvent(new CustomEvent('hurricaneData', {
+            detail: {dates: advisoryDates, storm: selectedStorm}
+        }));
+    });
 }
 
 function doNextStep() {
