@@ -2,7 +2,9 @@ var started = false;
 
 let showing;
 function addDropdowns() {
+    console.log("Running addDropdowns"); 
     let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4","tiff-5"];
+
     for (let i = 0; i < dropdowns.length; i++) {
         let item = document.getElementById(dropdowns[i]);
         item.addEventListener("change", function() {
@@ -13,6 +15,7 @@ function addDropdowns() {
             }
             showdrops(nl);
         });
+        
         document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
         showdrops([]);
     }
@@ -152,8 +155,8 @@ function prepareItems() {
         let layer = new Layer(tiffList[i], "overlay", undefined, tiffList[i].hurricaneLayer);
         overLayers.push(layer);
     }
-
-    addDropdowns();
+    // Ensuring that cascading menu works only after dropdowns exist in DOM
+    setTimeout(() => addDropdowns(), 0);
     addMarkers();
 }
 
