@@ -12,11 +12,20 @@ function addDropdowns() {
                 let value = this.value;
                 if (value === "Hurricane" || value === "Daily Forecast") {
                     document.body.dispatchEvent(new CustomEvent('modeChange', {detail: {mode: value}}));
-                    // Hide previous Bret cascading dropdowns
-                    for (let j = 1; j < dropdowns.length; j++) {
-                        document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
-                    } // for
-                    return;
+                    // Update for difference between H and DF modes
+                    if (value === "Daily Forecast") {
+                        // Hide previous Bret cascading dropdowns
+                        for (let j = 1; j < dropdowns.length; j++) {
+                            document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
+                        } // for
+                        return;
+                    } else if(value === "Hurricane") {
+                        // Keep storm dropdown selection
+                        for (let j = 2; j < dropdowns.length; j++) {
+                            document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
+                        } // for 
+                    } // if 
+                    
                 } // if 
             } // if
 
@@ -32,6 +41,17 @@ function addDropdowns() {
         document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
         showdrops([]);
     }
+
+    // Add event listener for tiff-2 (storm selection) for H mode
+    document.getElementById("tiff-2").addEventListener("change", function() {
+        let mode = document.getElementById("tiff-1").value;
+        if (mode === "Hurricane") {
+            let selectedStorm = this.value;
+            // Dispatch event with selected storm by user 
+            document.body.dispatchEvent(new CustomEvent('stormSelected', {detail: {storm: selectedStorm}}));
+        } // if
+    }); // event-listener for tiff-2 (H storm)
+
     function addDrop(input) {
         let met = [];
         for (let i = 0; i < overLayers.length; i++) {
@@ -53,7 +73,11 @@ function addDropdowns() {
             }
         }
         if (met.length == 1) {
-            showLayer(met[0], false);
+            // Do NOT auto-load in H mode
+            let mode = document.getElementById("tiff-1").value;
+            if (mode != "Hurricane") {
+                showLayer(met[0], false);
+            } // if
         }
         
         // Sort

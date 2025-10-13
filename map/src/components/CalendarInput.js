@@ -26,6 +26,7 @@ import "react-calendar/dist/Calendar.css";
 const CalendarInput = () => {
     const [date, changeDate] = useState(new Date());
     const [mode, setMode] = useState(null);
+    const [selectedStorm, setStorm] = useState(null);
 
     // Handle mode changes from user based on H or DF selection
     useEffect(() => {
@@ -55,6 +56,19 @@ const CalendarInput = () => {
             document.body.dispatchEvent(new CustomEvent('dateSelected', {detail: {date: selectedDate}}));
         } // if
     }; // handleDateChange
+
+    // Handle storm change from user input for tiff-2 selecting the storm in H mode
+    useEffect(() => {
+        const handleStormSelected = (e) => {
+            console.log("Storm selected:", e.detail.storm);
+            setStorm(e.detail.storm);
+        }; // handleStormSelected
+
+        document.body.addEventListener('stormSelected', handleStormSelected);
+        return () => {
+            document.body.removeEventListener('stormSelected', handleStormSelected);
+        }; // return
+    }, []); // useEffect
 
     return (
         <div style={{zIndex: 9999, position: 'relative', background: 'white', padding: '10px'}}>
