@@ -84,11 +84,46 @@ const CalendarInput = () => {
         };
     }, []); // useEffect
 
+    // Pre-set the calendar to the advisory dates based on storm selected - not current date 
+    useEffect(() => {
+        if (hDates.length > 0) {
+            // Set calendar to show the first advisory date for selected storm
+            const firstAdvisoryDate = new Date(hDates[0].date);
+            changeDate(firstAdvisoryDate);
+            console.log("Calendar set to:", firstAdvisoryDate);
+        } // if 
+    }, [hDates]); // useEffect 
+
     return (
         <div style={{zIndex: 9999, position: 'relative', background: 'white', padding: '10px'}}>
             <p>Current mode: {mode || "none"}</p>
             <p>Current date: {date.toString()}</p>
-            <Calendar onChange={handleDateChange} value={date} style={{pointerEvents: 'auto'}}/>
+            <Calendar onChange={handleDateChange} value={date} style={{pointerEvents: 'auto'}}
+                tileContent={({date, view}) => {
+                    // Only customize day tiles (not month/year)
+                    if (view !== 'month') return null;
+                    
+                    // Check if this date has a hurricane advisory
+                    if (mode === "Hurricane" && hDates.length > 0) {
+                        const hasAdvisory = hDates.some(hDate => {
+                            const d = new Date(hDate.date);
+                            return d.getFullYear() === date.getFullYear() &&
+                                d.getMonth() === date.getMonth() &&
+                                d.getDate() === date.getDate();
+                        }); // hasAdvisory 
+                        
+                        // Display hurricane icon for advisory dates 
+                        if (hasAdvisory) {
+                            return (
+                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5px'}}>
+                                    <img src="hurricane.png" alt="hurricane" style={{width: '20px', height: '20px'}} />
+                                </div>
+                            );
+                        } // if 
+                    } // if 
+                    return null;
+                }} // tileContent
+            />
         </div>
     ); // return
 
