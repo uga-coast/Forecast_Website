@@ -180,6 +180,25 @@ function prepareItems() {
     if (dailyForecastList.length > 0) {
         showLayer(dailyForecastList[0], false);
     } // if
+
+    // Event listener for user selecting date in Calendar component
+    document.body.addEventListener('dateSelected', function(e) {
+        let selectedDate = e.detail.date;
+
+        // Find DF match for user selected date
+        let DFmatch = overLayers.find(layer => {
+            if (layer.tiff.type !== "hurricane") {
+                // Compare dates (year, month, day, hour)
+                let layerDate = layer.tiff.date;
+                return layerDate.getFullYear() === selectedDate.getFullYear() && layerDate.getMonth() === selectedDate.getMonth() && layerDate.getDate() === selectedDate.getDate(); // return
+            } // if 
+            return false;
+        }); // DF match
+        
+        if (DFmatch) {
+            showLayer(DFmatch, false);
+        } // if
+    }); // event-listener 
 }
 
 function doNextStep() {

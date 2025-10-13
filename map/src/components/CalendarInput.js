@@ -43,9 +43,24 @@ const CalendarInput = () => {
         }; // return
     }, []); // useEffect
 
+    // Handle date change from user input for DF rendered
+    const handleDateChange = (selectedDate) => {
+        // Debug
+        console.log("Date clicked:", selectedDate);
+
+        changeDate(selectedDate);
+
+        // Dispatch event if in DF mode only
+        if (mode === "Daily Forecast") {
+            document.body.dispatchEvent(new CustomEvent('dateSelected', {detail: {date: selectedDate}}));
+        } // if
+    }; // handleDateChange
+
     return (
-        <div className="basic">
-            <Calendar onChange={changeDate} showWeekNumbers value={date} />
+        <div style={{zIndex: 9999, position: 'relative', background: 'white', padding: '10px'}}>
+            <p>Current mode: {mode || "none"}</p>
+            <p>Current date: {date.toString()}</p>
+            <Calendar onChange={handleDateChange} value={date} style={{pointerEvents: 'auto'}}/>
         </div>
     ); // return
 

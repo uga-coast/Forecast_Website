@@ -167,6 +167,11 @@ function drawPopup(marker, data, layer, time, tiff) {
     drawChart();
 }
 async function getPopup(marker, layer, tiff) {
+    // Adding code so that tiff.date is not undefined
+    if (!tiff || !tiff.date) {
+        console.log("Invalid date for marker:", marker.station);
+        return;
+    } // if 
     // Get time
     let time = tiff.date;
     if (tiff.type == "forecast") {
