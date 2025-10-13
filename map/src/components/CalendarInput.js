@@ -19,11 +19,29 @@
 // Select month.
 // Select date. 
 // Select time (00, 06, 12, 18)
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import "react-calendar/dist/Calendar.css";
 
 const CalendarInput = () => {
     const [date, changeDate] = useState(new Date());
+    const [mode, setMode] = useState(null);
+
+    // Handle mode changes from user based on H or DF selection
+    useEffect(() => {
+        const handleModeChange = (e) => {
+            // Check
+            console.log("Mode changed to: ", e.detail.mode);
+
+            setMode(e.detail.mode);
+        }; // handleModeChange
+
+        document.body.addEventListener('modeChange', handleModeChange);
+
+        return () => {
+            document.body.removeEventListener('modeChange', handleModeChange);
+        }; // return
+    }, []); // useEffect
 
     return (
         <div className="basic">

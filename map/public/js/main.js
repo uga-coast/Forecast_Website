@@ -5,14 +5,30 @@ function addDropdowns() {
     let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4","tiff-5"];
     for (let i = 0; i < dropdowns.length; i++) {
         let item = document.getElementById(dropdowns[i]);
+        // Event listener for tiff-1 from Bret: Hurricane vs. Daily Forecast
         item.addEventListener("change", function() {
+            // Dispatching React custom event based on H or DF selection to communicate with Calendar component
+            if (i === 0) {
+                let value = this.value;
+                if (value === "Hurricane" || value === "Daily Forecast") {
+                    document.body.dispatchEvent(new CustomEvent('modeChange', {detail: {mode: value}}));
+                    // Hide previous Bret cascading dropdowns
+                    for (let j = 1; j < dropdowns.length; j++) {
+                        document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
+                    } // for
+                    return;
+                } // if 
+            } // if
+
+            // Bret code before:
             let nl = [];
             for (let j = 0; j <= i; j++) {
                 let suspect = document.getElementById(dropdowns[j]);
                 nl.push(suspect.value);
             }
             showdrops(nl);
-        });
+            // Bret code before ends. 
+        }); // event-listener for tiff-1 (H or DF)
         document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
         showdrops([]);
     }
