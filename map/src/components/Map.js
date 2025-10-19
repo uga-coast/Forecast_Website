@@ -35,7 +35,7 @@ const Map = () => {
 					position: "absolute",
 					bottom: 16,
 					left: 16,
-					zIndex: 1000,
+					zIndex: 9999999,
 				}}
 				onClick={handleFullscreen}
 				aria-label="Toggle fullscreen"

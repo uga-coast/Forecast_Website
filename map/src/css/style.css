@@ -41,3 +41,65 @@ body {
 .opacity-slider {
     width: 100%;
 }
+
+/* Chart.js legend styling for thin lines */
+.chartjs-legend-item {
+    position: relative;
+}
+
+.chartjs-legend-item canvas {
+    border: none !important;
+    background: transparent !important;
+}
+
+.chartjs-legend-item .chartjs-legend-line {
+    width: 20px !important;
+    height: 1px !important;
+    border: none !important;
+    background: currentColor !important;
+    display: inline-block !important;
+}
+
+/* Custom popup styling to appear in front */
+.custom-popup {
+    z-index: 999999 !important;
+    position: relative !important;
+}
+
+.leaflet-popup {
+    z-index: 999999 !important;
+}
+
+.leaflet-popup-pane {
+    z-index: 999999 !important;
+}
+
+.leaflet-popup-content-wrapper {
+    z-index: 999999 !important;
+}
+
+.leaflet-popup-tip {
+    z-index: 999999 !important;
+}
+
+/* Ensure popup content is above everything */
+.leaflet-popup-content {
+    z-index: 999999 !important;
+    position: relative !important;
+}
+
+/* Additional popup containers */
+.leaflet-popup-container {
+    z-index: 999999 !important;
+}
+
+/* Make sure any chart containers in popups are also on top */
+.leaflet-popup canvas {
+    z-index: 999999 !important;
+}
+
+/* Ensure fullscreen button is always clickable */
+.fullscreen-button {
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
+}
