@@ -4,6 +4,7 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { LayersControl } from "react-leaflet/LayersControl";
 import { Pane } from "react-leaflet/Pane";
 import { useMap } from "react-leaflet/hooks";
+import { useState } from 'react'
 
 const Sidebar = () => {
     return (
@@ -24,7 +25,7 @@ const Sidebar = () => {
                 </div>
             </div>
             <div id="controls">
-                <select id="tiff-1" className="closed-dropdown tiff-select"></select>
+                <select id="tiff-1" className="closed-dropdown tiff-select"></select> 
                 <select id="tiff-2" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-3" className="closed-dropdown tiff-select"></select>
                 <select id="tiff-4" className="closed-dropdown tiff-select"></select>
