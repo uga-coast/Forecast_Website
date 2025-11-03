@@ -31,15 +31,33 @@ function drawPopup(marker, data, layer, time, tiff) {
 
     var graph = document.createElement("canvas");
     graph.width = 300;
-    graph.height = 200;
+    graph.height = 150;
     base.appendChild(graph);
 
 
     var aM = new L.Marker([marker.lat, marker.lon], {icon: markIcon});
     
     aM.bindPopup(base, {
-        minWidth: 600
+        minWidth: 600,
+        className: 'custom-popup'
     }).openPopup();
+    
+    // Force the popup to appear on top
+    setTimeout(() => {
+        const popup = document.querySelector('.leaflet-popup');
+        const popupPane = document.querySelector('.leaflet-popup-pane');
+        const popupWrapper = document.querySelector('.leaflet-popup-content-wrapper');
+        
+        if (popup) {
+            popup.style.zIndex = '999999';
+        }
+        if (popupPane) {
+            popupPane.style.zIndex = '999999';
+        }
+        if (popupWrapper) {
+            popupWrapper.style.zIndex = '999999';
+        }
+    }, 100);
     aM.addTo(layer);
 
     function getNOAAStuff() {
@@ -132,11 +150,36 @@ function drawPopup(marker, data, layer, time, tiff) {
             type: "line",
             options: {
                 spanGaps: true,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += parseFloat(tooltipItem.yLabel).toFixed(2);
+                            return label;
+                        }
+                    }
+                },
                 scales: {
                     xAxes: [{
                         type: 'time',
                         time: {
                             unit: "day"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Water Levels (ft)'
                         }
                     }]
                 }
@@ -163,6 +206,58 @@ function drawPopup(marker, data, layer, time, tiff) {
                 ]
             }
         });
+        
+        // Create custom legend with actual lines
+        setTimeout(() => {
+            const legend = document.createElement('div');
+            legend.style.display = 'flex';
+            legend.style.justifyContent = 'center';
+            legend.style.gap = '20px';
+            
+            // Black line legend
+            const blackLineContainer = document.createElement('div');
+            blackLineContainer.style.display = 'flex';
+            blackLineContainer.style.alignItems = 'center';
+            blackLineContainer.style.gap = '5px';
+            
+            const blackLine = document.createElement('div');
+            blackLine.style.width = '20px';
+            blackLine.style.height = '2px';
+            blackLine.style.backgroundColor = '#000000';
+            blackLine.style.border = 'none';
+            
+            const blackLabel = document.createElement('span');
+            blackLabel.textContent = 'Water Levels(ft)';
+            blackLabel.style.fontSize = '12px';
+            
+            blackLineContainer.appendChild(blackLine);
+            blackLineContainer.appendChild(blackLabel);
+            
+            // Red line legend
+            const redLineContainer = document.createElement('div');
+            redLineContainer.style.display = 'flex';
+            redLineContainer.style.alignItems = 'center';
+            redLineContainer.style.gap = '5px';
+            
+            const redLine = document.createElement('div');
+            redLine.style.width = '20px';
+            redLine.style.height = '2px';
+            redLine.style.backgroundColor = '#BA0C2F';
+            redLine.style.border = 'none';
+            
+            const redLabel = document.createElement('span');
+            redLabel.textContent = 'Predicted Water Levels(ft)';
+            redLabel.style.fontSize = '12px';
+            
+            redLineContainer.appendChild(redLine);
+            redLineContainer.appendChild(redLabel);
+            
+            legend.appendChild(blackLineContainer);
+            legend.appendChild(redLineContainer);
+            
+            // Insert legend right after the title
+            base.insertBefore(legend, graph);
+        }, 100);
     }
     drawChart();
 }
