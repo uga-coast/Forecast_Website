@@ -229,7 +229,7 @@ function prepareItems() {
         let selectedDate = e.detail.date;
         let dateStr = selectedDate.toLocaleDateString();
         
-        // Create pop up to inforn no DF data available for selected date 
+        // Create pop up to inform no DF data available for selected date 
         let center = map.getCenter();
         L.popup()
             .setLatLng(center)
