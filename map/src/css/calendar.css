@@ -1,0 +1,82 @@
+/* Calendar Styling */
+.react-calendar {
+    width: 100%;
+    max-width: 320px;
+    min-width: 250px;
+    background: white;
+    border: 1px solid var(--stegeman);
+    font-family: "Merriweather Sans", sans-serif;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 0.85em;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+}
+
+.react-calendar__navigation button {
+    min-width: 50px;
+    height: 40px;
+    background: var(--bulldog-red);
+    color: var(--bulldog-red-font);
+    font-family: "Oswald", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.react-calendar__navigation button:enabled:hover {
+    background: var(--glory-glory);
+}
+
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.75em;
+    color: var(--arch-black);
+}
+
+.react-calendar__tile {
+    padding: 10px;
+    background: none;
+    text-align: center;
+    font-family: "Merriweather", serif;
+    border-radius: 3px;
+    border: none;
+}
+
+.react-calendar__tile:enabled:hover {
+    background-color: var(--odyssey) !important;
+    cursor: pointer;
+}
+
+.react-calendar__tile--now {
+    background: var(--lake-herrick) !important;
+    color: white;
+}
+
+.react-calendar__tile--active {
+    background: var(--olympic) !important;
+    color: var(--olympic-font);
+}
+
+.react-calendar__tile.has-forecast {
+    color: var(--bulldog-red) !important;
+    font-weight: bold;
+    background: none !important;
+}
+
+.react-calendar__tile.has-forecast:hover {
+    background-color: var(--odyssey) !important;
+    color: var(--arch-black);
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: inherit;
+}

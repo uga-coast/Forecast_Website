@@ -13,19 +13,13 @@ function addDropdowns() {
                 if (value === "Hurricane" || value === "Daily Forecast") {
                     document.body.dispatchEvent(new CustomEvent('modeChange', {detail: {mode: value}}));
                     // Update for difference between H and DF modes
-                    if (value === "Daily Forecast") {
-                        // Hide previous Bret cascading dropdowns
-                        for (let j = 1; j < dropdowns.length; j++) {
-                            document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
-                        } // for
+                   if (value === "Daily Forecast") {
+                    // Hide all cascading dropdowns for Daily Forecast
+                    for (let j = 1; j < dropdowns.length; j++) {
+                        document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
+                    } // for 
                         return;
-                    } else if(value === "Hurricane") {
-                        // Keep storm dropdown selection
-                        for (let j = 2; j < dropdowns.length; j++) {
-                            document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
-                        } // for 
-                    } // if 
-                    
+                    } // if  
                 } // if 
             } // if
 
@@ -41,16 +35,6 @@ function addDropdowns() {
         document.getElementById(dropdowns[0]).classList.remove("closed-dropdown");
         showdrops([]);
     }
-
-    // Add event listener for tiff-2 (storm selection) for H mode
-    document.getElementById("tiff-2").addEventListener("change", function() {
-        let mode = document.getElementById("tiff-1").value;
-        if (mode === "Hurricane") {
-            let selectedStorm = this.value;
-            // Dispatch event with selected storm by user 
-            document.body.dispatchEvent(new CustomEvent('stormSelected', {detail: {storm: selectedStorm}}));
-        } // if
-    }); // event-listener for tiff-2 (H storm)
 
     function addDrop(input) {
         let met = [];
@@ -73,11 +57,7 @@ function addDropdowns() {
             }
         }
         if (met.length == 1) {
-            // Do NOT auto-load in H mode
-            let mode = document.getElementById("tiff-1").value;
-            if (mode != "Hurricane") {
-                showLayer(met[0], false);
-            } // if
+            showLayer(met[0], false);
         }
         
         // Sort
@@ -208,6 +188,8 @@ function prepareItems() {
     // Event listener for user selecting date in Calendar component
     document.body.addEventListener('dateSelected', function(e) {
         let selectedDate = e.detail.date;
+        // Close any open popups
+        map.closePopup();
 
         // Find DF match for user selected date
         let DFmatch = overLayers.find(layer => {
@@ -224,27 +206,34 @@ function prepareItems() {
         } // if
     }); // event-listener 
 
-    // Event listener for storm selection & storm's advisory dates
-    document.body.addEventListener('stormSelected', function(e) {
-        let selectedStorm = e.detail.storm;
+    // Event listener for DF dates to Calendar when DF selected
+    document.body.addEventListener('modeChange', function(e) {
+        if (e.detail.mode === "Daily Forecast") {
+            // Get all DF dates
+            let dailyForecasts = overLayers.filter(layer => layer.tiff.type !== "hurricane");
+            
+            // Extract unique dates
+            let availableDates = dailyForecasts.map(layer => layer.tiff.date);
+            
+            // Send to Calendar component 
+            document.body.dispatchEvent(new CustomEvent('dailyForecastDates', {
+                detail: {dates: availableDates}
+            }));
+        } // if 
+    }); // event-listener
+
+    // Event listener for no DF data available for selected date
+    document.body.addEventListener('noDataPopup', function(e) {
+        let selectedDate = e.detail.date;
+        let dateStr = selectedDate.toLocaleDateString();
         
-        // Find all hurricane layers for this storm
-        let stormAdvisories = overLayers.filter(layer => {
-            return layer.tiff.type === "hurricane" && layer.tiff.hurricane === selectedStorm;
-        }); // stormAdvisories 
-        
-        // Extract unique dates from advisories
-        let advisoryDates = stormAdvisories.map(layer => ({
-            date: layer.tiff.date,
-            advisory: layer.tiff.name,
-            tracks: layer.tiff.modelType
-        })); // advisoryDates 
-        
-        // Dispatch event to communicate with Calendar component 
-        document.body.dispatchEvent(new CustomEvent('hurricaneData', {
-            detail: {dates: advisoryDates, storm: selectedStorm}
-        }));
-    });
+        // Create pop up to inforn no DF data available for selected date 
+        let center = map.getCenter();
+        L.popup()
+            .setLatLng(center)
+            .setContent(`<div style="text-align: center; font-family: Merriweather, serif;"><strong>No Data Available</strong><br>No Daily Forecast data for ${dateStr}</div>`)
+            .openOn(map);
+    }); // event-listener 
 }
 
 function doNextStep() {
