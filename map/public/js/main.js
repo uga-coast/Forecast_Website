@@ -2,7 +2,9 @@ var started = false;
 
 let showing;
 function addDropdowns() {
+    console.log("Running addDropdowns"); 
     let dropdowns = ["tiff-1","tiff-2","tiff-3","tiff-4","tiff-5"];
+
     for (let i = 0; i < dropdowns.length; i++) {
         let item = document.getElementById(dropdowns[i]);
         // Event listener for tiff-1 from Bret: Hurricane vs. Daily Forecast
@@ -172,8 +174,8 @@ function prepareItems() {
         let layer = new Layer(tiffList[i], "overlay", undefined, tiffList[i].hurricaneLayer);
         overLayers.push(layer);
     }
-
-    addDropdowns();
+    // Ensuring that cascading menu works only after dropdowns exist in DOM
+    setTimeout(() => addDropdowns(), 0);
     addMarkers();
 
     // Automatically render most recent Daily Forecast by retrieving the DF info as a list and finding most recent DF item out of DF list
