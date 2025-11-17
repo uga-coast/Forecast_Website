@@ -120,7 +120,7 @@ function drawMultiPolygon(stormtrack, geojson) {
             let latlng = e.latlng;
             
             // Get hurricane track data 
-            let hurricaneItem = showing && showing.tiff && showing.tiff.trackData ? showing.tiff : null;
+            let hurricaneItem = showing && showing.tiff ? showing.tiff : null;
             
             // Create popup content with Location, Date, Storm, Max Wind Speed, Min Pressure 
             let popupContent = `<span class="popup-label">Location:</span> (${Math.round(100*latlng.lng)/100}, ${Math.round(100*latlng.lat)/100})<br>
