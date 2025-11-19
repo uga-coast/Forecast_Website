@@ -239,7 +239,7 @@ function prepareItems() {
             } // while
             // Add placeholder for default load on cycle 
             let def = document.createElement("option");
-            def.innerText = "Select time (UTC)";
+            def.innerText = "Select";
             def.value = "NONE";
             def.selected = true;
             def.disabled = true;
@@ -250,7 +250,7 @@ function prepareItems() {
                 let hour = match.tiff.date.getHours();
                 let hourStr = hour.toString().padStart(2, '0');
                 let opt = document.createElement("option");
-                opt.innerText = hourStr + ":00";
+                opt.innerText = hourStr;
                 opt.value = hourStr;
                 opt.dataset.layerIndex = overLayers.indexOf(match);
                 tiff4.add(opt);
