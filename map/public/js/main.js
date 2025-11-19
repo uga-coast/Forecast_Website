@@ -15,15 +15,35 @@ function addDropdowns() {
                 if (value === "Hurricane" || value === "Daily Forecast") {
                     document.body.dispatchEvent(new CustomEvent('modeChange', {detail: {mode: value}}));
                     // Update for difference between H and DF modes
-                   if (value === "Daily Forecast") {
-                    // Hide all cascading dropdowns for Daily Forecast
-                    for (let j = 1; j < dropdowns.length; j++) {
-                        document.getElementById(dropdowns[j]).classList.add("closed-dropdown");
-                    } // for 
+                    if (value === "Daily Forecast") {
+                        // Hide all cascading dropdowns except cycle for DF
+                        document.getElementById("tiff-2").classList.add("closed-dropdown");
+                        document.getElementById("tiff-3").classList.add("closed-dropdown");
+                        document.getElementById("tiff-5").classList.add("closed-dropdown");
+                        // Clear other dropdowns of options so they don't appear
+                        while (tiff2.options.length > 0) {
+                            tiff2.remove(0);
+                        } // while
+                        while (tiff3.options.length > 0) {
+                            tiff3.remove(0);
+                        } // while
+                        while (tiff5.options.length > 0) {
+                            tiff5.remove(0);
+                        } // while
+                        // Clear and hide cycle dropdown until user clicks date on calendar
+                        document.getElementById("tiff-4").classList.add("closed-dropdown");
                         return;
                     } // if  
                 } // if 
             } // if
+
+            // Prevent cascading dropdown when selecting forecast cycle in DF mode
+            if (i === 3) {
+                let mode = document.getElementById("tiff-1").value;
+                if (mode === "Daily Forecast") {
+                    return; // Do not run showdrops for forecast dropdown
+                } // if 
+            } // if 
 
             // Bret code before:
             let nl = [];
@@ -189,12 +209,13 @@ function prepareItems() {
 
     // Event listener for user selecting date in Calendar component
     document.body.addEventListener('dateSelected', function(e) {
+        console.log("dateSelected event received:", e.detail.date);
         let selectedDate = e.detail.date;
         // Close any open popups
         map.closePopup();
 
-        // Find DF match for user selected date
-        let DFmatch = overLayers.find(layer => {
+        // Find all DF match for user selected date - including different DF cycles
+        let DFmatches = overLayers.filter(layer => {
             if (layer.tiff.type !== "hurricane") {
                 // Compare dates (year, month, day, hour)
                 let layerDate = layer.tiff.date;
@@ -202,9 +223,38 @@ function prepareItems() {
             } // if 
             return false;
         }); // DF match
+
+        // Check 
+        console.log("DFmatches found:", DFmatches.length);
         
-        if (DFmatch) {
-            showLayer(DFmatch, false);
+        if (DFmatches.length > 0) {
+            // Check
+            console.log("Populating tiff-4 dropdown"); 
+            // Populate DF cycle dropdown with available DF cycles for selected date
+            let tiff4 = document.getElementById("tiff-4");
+            tiff4.classList.remove("closed-dropdown");
+            // Clear existing options
+            while (tiff4.options.length > 0) {
+                tiff4.remove(0);
+            } // while
+            // Add placeholder for default load on cycle 
+            let def = document.createElement("option");
+            def.innerText = "Select";
+            def.value = "NONE";
+            def.selected = true;
+            def.disabled = true;
+            def.hidden = true;
+            tiff4.add(def);
+            // Add time options for DF cycle 
+            DFmatches.forEach(match => {
+                let hour = match.tiff.date.getHours();
+                let hourStr = hour.toString().padStart(2, '0');
+                let opt = document.createElement("option");
+                opt.innerText = hourStr;
+                opt.value = hourStr;
+                opt.dataset.layerIndex = overLayers.indexOf(match);
+                tiff4.add(opt);
+            }); // DFmatches
         } // if
     }); // event-listener 
 
@@ -213,10 +263,8 @@ function prepareItems() {
         if (e.detail.mode === "Daily Forecast") {
             // Get all DF dates
             let dailyForecasts = overLayers.filter(layer => layer.tiff.type !== "hurricane");
-            
             // Extract unique dates
             let availableDates = dailyForecasts.map(layer => layer.tiff.date);
-            
             // Send to Calendar component 
             document.body.dispatchEvent(new CustomEvent('dailyForecastDates', {
                 detail: {dates: availableDates}
@@ -236,6 +284,15 @@ function prepareItems() {
             .setContent(`<div style="text-align: center; font-family: Merriweather, serif;"><strong>No Data Available</strong><br>No Daily Forecast data for ${dateStr}</div>`)
             .openOn(map);
     }); // event-listener 
+
+    // Event-listener for time/cycle selection for DF
+    document.getElementById("tiff-4").addEventListener("change", function() {
+        let selectedIndex = this.options[this.selectedIndex].dataset.layerIndex;
+        if (selectedIndex) {
+            let layer = overLayers[selectedIndex];
+            showLayer(layer, false);
+        } // if 
+    }); // event-listener
 }
 
 function doNextStep() {

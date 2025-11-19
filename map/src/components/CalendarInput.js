@@ -1,7 +1,8 @@
 // CalendarInput.js - exports Calendar component
-// Renders Hurricane or Daily Forecast - on DF selection, renders Calendar component.
+// On Daily Forecast selection, renders Calendar component.
 // Red days are days with DF data available. Click days - pop up will display for days with no DF data available. 
 // DF data (Location + Water Elev)
+// Forecast cycle dropdown will display after clicking a valid red day. 
 
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
@@ -48,7 +49,7 @@ const CalendarInput = () => {
             } else {
                 document.body.dispatchEvent(new CustomEvent('noDataPopup', {detail: {date: selectedDate}}));
             } // if 
-        }
+        } // if 
     }; // handleDateChange
 
     // Handle DF dates
@@ -89,7 +90,6 @@ const CalendarInput = () => {
             />
         </div>
     ); // return 
-
 }; // CalendarInput
 
 export default CalendarInput; 
