@@ -2,7 +2,7 @@
 .react-calendar {
     width: 100%;
     max-width: 320px;
-    min-width: 250px;
+    min-width: 200px;
     background: white;
     border: 1px solid var(--stegeman);
     font-family: "Merriweather Sans", sans-serif;
@@ -13,18 +13,20 @@
 
 .react-calendar__navigation {
     display: flex;
-    height: 44px;
-    margin-bottom: 10px;
+    height: auto;
+    min-height: 2.75em;
+    margin-bottom: 0.625em;
     flex-wrap: nowrap;
 }
 
 .react-calendar__navigation button {
-    min-width: 50px;
-    height: 40px;
+    min-width: 2.5em;
+    height: auto;
+    padding: 0.625em 0.875em;
     background: var(--bulldog-red);
     color: var(--bulldog-red-font);
     font-family: "Oswald", sans-serif;
-    font-size: 14px;
+    font-size: 1em;
     font-weight: bold;
     border: none;
     border-radius: 3px;
