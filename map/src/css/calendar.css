@@ -8,7 +8,7 @@
     font-family: "Merriweather Sans", sans-serif;
     border-radius: 5px;
     padding: 8px;
-    font-size: 0.85em;
+    font-size: 1rem;
 }
 
 .react-calendar__navigation {
@@ -26,7 +26,7 @@
     background: var(--bulldog-red);
     color: var(--bulldog-red-font);
     font-family: "Oswald", sans-serif;
-    font-size: 1em;
+    font-size: 1rem;
     font-weight: bold;
     border: none;
     border-radius: 3px;
