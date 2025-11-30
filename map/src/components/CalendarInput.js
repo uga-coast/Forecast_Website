@@ -13,6 +13,7 @@ const CalendarInput = () => {
     const [date, changeDate] = useState(new Date());
     const [mode, setMode] = useState(null);
     const [availableDates, setAvailableDates] = useState([]);
+    const [isCalOpen, setIsCalOpen] = useState(true);
 
     // Handle mode changes from user based on H or DF selection
     useEffect(() => {
@@ -72,24 +73,55 @@ const CalendarInput = () => {
 
 
     return (
-        <div style={{position: 'relative', zIndex: 10000, pointerEvents: 'auto'}} onClick={(e) => {e.stopPropagation();}}
-            >
-            <Calendar 
-                onChange={handleDateChange} 
-                value={date}
-                tileClassName={({date, view}) => {
-                    if (view !== 'month') return null;
-                    const hasData = availableDates.some(availDate => {
-                        const d = new Date(availDate);
-                        return d.getFullYear() === date.getFullYear() &&
-                            d.getMonth() === date.getMonth() &&
-                            d.getDate() === date.getDate();
-                    });
-                    return hasData ? 'has-forecast' : null;
+        <div style={{position: 'relative', zIndex: 10000, pointerEvents: 'auto'}} onClick={(e) => {e.stopPropagagation();}}>
+            <button onClick={() => setIsCalOpen(!isCalOpen)}
+                style={{
+                    padding: '1% 2%',
+                    margin: '1%',
+                    background: '#d6d2c4', 
+                    color: '#000000',
+                    border: '1px solid #cccccc',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontFamily: 'Oswald, sans-serif',
+                    fontSize: '1rem',
+                    fontWeight: 'normal',
+                    display: 'block',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background 0.2s ease'
                 }}
-            />
+                onMouseEnter={(e) => {e.target.style.background ='#c8d8eB';}}
+                onMouseLeave={(e) => {e.target.style.background = '#d6d2c4';}}
+                >
+                {isCalOpen ? '▲ Hide Calendar' : '▼ Show Calendar'}
+            </button>
+            
+            <div style={{
+                maxHeight: isCalOpen ? '500px' : '0',
+                opacity: isCalOpen ? 1 : 0,
+                overflow: 'hidden',
+                transition: 'max-height 0.5s ease, opacity 0.5s ease'
+            }}>
+                <Calendar 
+                    onChange={handleDateChange} 
+                    value={date}
+                    prev2Label={null}
+                    next2Label={null}
+                    tileClassName={({date, view}) => {
+                        if (view !== 'month') return null;
+                        const hasData = availableDates.some(availDate => {
+                            const d = new Date(availDate);
+                            return d.getFullYear() === date.getFullYear() &&
+                                d.getMonth() === date.getMonth() &&
+                                d.getDate() === date.getDate();
+                        });
+                        return hasData ? 'has-forecast' : null;
+                    }}
+                />
+            </div>
         </div>
-    ); // return 
+    ); // return
 }; // CalendarInput
 
 export default CalendarInput; 
