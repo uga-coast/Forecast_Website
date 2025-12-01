@@ -245,6 +245,8 @@ function prepareItems() {
             def.disabled = true;
             def.hidden = true;
             tiff4.add(def);
+            // Ensure the cycle options are in ascending order: 00, 06, 12, 18
+            DFmatches.sort((a, b) => a.tiff.date.getHours() - b.tiff.date.getHours());
             // Add time options for DF cycle 
             DFmatches.forEach(match => {
                 let hour = match.tiff.date.getHours();
