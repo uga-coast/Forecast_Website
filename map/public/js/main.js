@@ -161,10 +161,18 @@ async function showLayer(input, customMinMax) {
 
     // Add
     input.layer.addTo(map);
-    document.getElementById("tiff-name").innerText = input.tiff.description;
+
+    // Fixing duplicate date
+    const dateInput = input.tiff.date;
+    const mm = (dateInput.getUTCMonth() + 1).toString().padStart(2, "0");
+    const dd = dateInput.getUTCDate().toString().padStart(2, "0");
+    const yyyy = dateInput.getUTCFullYear();
+    const hour = dateInput.getHours().toString().padStart(2, "0");
+    document.getElementById("tiff-name").innerText = dateInput ? `${mm}-${dd}-${yyyy} ${hour}:00 UTC` : input.tiff.description;
+
     if (!customMinMax) {
         updateMinMax(input.tiff.min, input.tiff.max);
-    }
+    } // if 
 
     if (input.tiff.hurricaneLayer != null) {
         input.tiff.hurricaneLayer.hurrLayer.addTo(hurricaneLayer);

@@ -18,11 +18,11 @@ const Sidebar = () => {
                 <a href="https://coast.engr.uga.edu/">UGA Coast Website</a>
                 <div id="version-container">
                     <b id="version-label">Version:</b>
-                    <text id="version">Loading</text>
+                    <span id="version">Loading</span>
                 </div>
                 <hr></hr>
                 <div>
-                    <text id="tiff-name">Select a tiff to start</text>
+                    <span id="tiff-name">Select a tiff to start</span>
                 </div>
             </div>
             <div id="controls">
